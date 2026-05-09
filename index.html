@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"/>
@@ -792,101 +791,39 @@
         Desenvolvimento local → "http://127.0.0.1:8000"
         Produção / deploy     → "https://sua-api.seu-dominio.com"
     ══════════════════════════════════════════════════════════════════════════ */
-  const API_BASE = "https://xdisquete.onrender.com";
-
-  /* ── Loader visual ── */
-  function showLoader(msg = "Conectando ao BigQuery…") {
-    document.getElementById('content').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;
-                  justify-content:center;height:60vh;gap:1rem;">
-        <div style="width:36px;height:36px;border:3px solid var(--border2);
-                    border-top-color:var(--purple);border-radius:50%;
-                    animation:spin .8s linear infinite;"></div>
-        <div style="font-size:.78rem;color:var(--muted2);">${msg}</div>
-      </div>
-      <style>@keyframes spin{to{transform:rotate(360deg)}}
-  @media(max-width:768px){
-    #app{
-      flex-direction:column;
-      height:auto;
-      min-height:100vh;
-    }
-
-    #sidebar{
-      width:100%;
-      min-width:100%;
-      border-right:none;
-      border-bottom:1px solid var(--border);
-      max-height:none;
-    }
-
-    #topbar{
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      padding:1rem;
-      gap:.6rem;
-    }
-
-    #content{
-      padding:1rem;
-    }
-
-    .stat-grid,
-    .stat-grid-4,
-    .stat-grid-5,
-    .chart-row-12,
-    .chart-row-3,
-    .chart-row-2,
-    .filter-row,
-    .gauges-row{
-      grid-template-columns:1fr !important;
-    }
-
-    .emp-header{
-      flex-direction:column;
-      align-items:flex-start;
-      gap:1rem;
-    }
-
-    .nav-tabs{
-      overflow-x:auto;
-      width:100%;
-      padding-bottom:.4rem;
-    }
-
-    .nav-tab{
-      flex-shrink:0;
-    }
-
-    table{
-      min-width:720px;
-    }
-  }
-
-</style>`;
-  }
-
-  function showError(msg) {
-    document.getElementById('content').innerHTML = `
-      <div style="display:flex;flex-direction:column;align-items:center;
-                  justify-content:center;height:60vh;gap:.8rem;">
-        <div style="font-size:2rem;">⚠️</div>
-        <div style="font-size:.9rem;font-weight:700;color:var(--red);">Erro ao carregar dados</div>
-        <div style="font-size:.75rem;color:var(--muted2);max-width:420px;text-align:center;">${msg}</div>
-        <button onclick="initApp()" style="margin-top:.5rem;background:var(--purple);color:#fff;
-          border:none;border-radius:8px;padding:.45rem 1.2rem;font-family:var(--font);
-          font-size:.78rem;cursor:pointer;">Tentar novamente</button>
-      </div>`;
-  }
-
-  /* ── Normaliza o retorno do /recomendacoes → mesmo schema do dashboard ── 
-    A API retorna: { empresa: {...}, recomendacao: {...} }
-    O dashboard espera um objeto plano com todos os campos juntos.           */
-  function normalizar(item) {
-    const emp = item.empresa  || {};
+  function showLoader(msg = "Carregando dados…") {
+  document.getElementById('content').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;
+                justify-content:center;height:60vh;gap:1rem;">
+      <div style="width:36px;height:36px;border:3px solid var(--border2);
+                  border-top-color:var(--purple);border-radius:50%;
+                  animation:spin .8s linear infinite;"></div>
+      <div style="font-size:.78rem;color:var(--muted2);">${msg}</div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
+}
+ 
+function showError(msg) {
+  document.getElementById('content').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;
+                justify-content:center;height:60vh;gap:.8rem;">
+      <div style="font-size:2rem;">⚠️</div>
+      <div style="font-size:.9rem;font-weight:700;color:var(--red);">Erro ao carregar dados</div>
+      <div style="font-size:.75rem;color:var(--muted2);max-width:420px;text-align:center;">${msg}</div>
+      <button onclick="initApp()" style="margin-top:.5rem;background:var(--purple);color:#fff;
+        border:none;border-radius:8px;padding:.45rem 1.2rem;font-family:var(--font);
+        font-size:.78rem;cursor:pointer;">Tentar novamente</button>
+    </div>`;
+}
+ 
+/* ── normalizar: mesmo schema de antes (compatibilidade total) ── */
+function normalizar(item) {
+  /* Suporta tanto o formato antigo {empresa, recomendacao}
+     quanto o novo formato plano gerado pelo exportar_para_json.py */
+  if (item.empresa || item.recomendacao) {
+    const emp = item.empresa      || {};
     const rec = item.recomendacao || {};
     return {
-      /* campos de EmpresaIndicadores */
       id_cnpj:                        emp.id_cnpj                        || '',
       uf:                             emp.uf                             || '',
       cd_cnae_prin:                   emp.cd_cnae_prin                   || '',
@@ -896,7 +833,6 @@
       media_atraso_dias:              emp.media_atraso_dias              || 0,
       sacado_indice_liquidez_1m:      emp.sacado_indice_liquidez_1m      || 0,
       share_vl_inad_pag_bol_6_a_15d:  emp.share_vl_inad_pag_bol_6_a_15d || 0,
-      /* campos de FIDCRecomendacao */
       score_final:                    rec.score_final                    || 0,
       sinal:                          rec.sinal                          || 'vermelho',
       label:                          rec.label                          || '',
@@ -907,44 +843,67 @@
       taxa_mercado_referencia:        rec.taxa_mercado_referencia        || 0,
     };
   }
-
-  /* ── Carrega a carteira completa via GET /recomendacoes ── */
-  async function carregarCarteira(limit = 5000) {
-    const url = `${API_BASE}/recomendacoes?limit=${limit}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status} — ${await res.text()}`);
-    const data = await res.json();          // array de RecomendacaoResponse
-    return data.map(normalizar);
-  }
-
-  /* ── Carrega uma empresa específica via GET /recomendacao/{cnpj} ── */
-  async function carregarEmpresa(cnpj) {
-    /* O CNPJ pode ter pontuação (ex: 12.345.678/0001-99).
-      Codifica para evitar problemas de roteamento na URL.  */
-    const url = `${API_BASE}/recomendacao/${encodeURIComponent(cnpj)}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const item = await res.json();          // RecomendacaoResponse
-    return normalizar(item);
-  }
-
-  /* ── Carrega dados de simulação consolidada via GET /gold/simulacao ── */
-  async function carregarSimulacao() {
-    try {
-      const res = await fetch(`${API_BASE}/gold/simulacao`);
-      if (!res.ok) return {};
-      return await res.json();
-    } catch(e) { return {}; }
-  }
-
-  /* ── Carrega aging via GET /gold/aging ── */
-  async function carregarAging() {
-    try {
-      const res = await fetch(`${API_BASE}/gold/aging`);
-      if (!res.ok) return [];
-      return await res.json();
-    } catch(e) { return []; }
-  }
+  /* Formato plano (gerado pelo exportar_para_json.py) */
+  return {
+    id_cnpj:                        item.id_cnpj                        || '',
+    uf:                             item.uf                             || '',
+    cd_cnae_prin:                   item.cd_cnae_prin                   || '',
+    descricao_cnae:                 item.descricao_cnae                 || '',
+    setor_resumo:                   item.setor_resumo                   || item.descricao_cnae || '',
+    setor:                          item.setor_resumo                   || item.descricao_cnae || '',
+    media_atraso_dias:              item.media_atraso_dias              || 0,
+    sacado_indice_liquidez_1m:      item.sacado_indice_liquidez_1m      || 0,
+    share_vl_inad_pag_bol_6_a_15d:  item.share_vl_inad_pag_bol_6_a_15d || 0,
+    score_final:                    item.score_final                    || 0,
+    sinal:                          item.sinal                          || 'vermelho',
+    label:                          item.label                          || '',
+    retorno_esperado:               item.retorno_esperado               || '—',
+    score_capacidade_pagamento:     item.score_capacidade_pagamento     || 0,
+    score_historico_pagamento:      item.score_historico_pagamento      || 0,
+    score_concentracao_risco:       item.score_concentracao_risco       || 0,
+    taxa_mercado_referencia:        item.taxa_mercado_referencia        || 0,
+  };
+}
+ 
+/* ── Carrega a carteira completa do JSON estático ── */
+async function carregarCarteira() {
+  const res = await fetch('./dados/recomendacoes.json');
+  if (!res.ok) throw new Error(`Não foi possível carregar recomendacoes.json (HTTP ${res.status})`);
+  const data = await res.json();
+  return data.map(normalizar);
+}
+ 
+/* ── Carrega uma empresa específica do cache local ── */
+async function carregarEmpresa(cnpj) {
+  /* Tenta usar o cache do STATE antes de recarregar o arquivo inteiro */
+  const cached = STATE.df.find(d => d.id_cnpj === cnpj);
+  if (cached) return cached;
+  /* Fallback: recarrega o JSON e busca */
+  const res = await fetch('./dados/recomendacoes.json');
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const data = await res.json();
+  const item = data.find(d => (d.id_cnpj || d.empresa?.id_cnpj) === cnpj);
+  if (!item) throw new Error('Empresa não encontrada no arquivo JSON.');
+  return normalizar(item);
+}
+ 
+/* ── Carrega simulação do JSON estático ── */
+async function carregarSimulacao() {
+  try {
+    const res = await fetch('./dados/simulacao.json');
+    if (!res.ok) return {};
+    return await res.json();
+  } catch(e) { return {}; }
+}
+ 
+/* ── Carrega aging do JSON estático ── */
+async function carregarAging() {
+  try {
+    const res = await fetch('./dados/aging.json');
+    if (!res.ok) return [];
+    return await res.json();
+  } catch(e) { return []; }
+}
 
   /* ── Cores ── */
   const COR_SINAL = {verde:'#34d399', amarelo:'#fbbf24', vermelho:'#f87171'};
