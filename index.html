@@ -430,13 +430,13 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
     <img alt="KYC" class="logo-light" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH8AgGDAsLDAsKCwwNEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFBT/wAALCABAAEABAREA/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAgMGB//EACkQAAIBAwQBBAMBAQAAAAAAAAECAwQFERIhBhMxUWFxIkGBFCOR/9oACAEBAAA/ANyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUuS5KlbynFfbVqOMY+L5v+EHT5GNeXSqbrdFSrGXb2cnhf2VFjjLbk9CnPJXG9OnFSWezk8bPVc9SqoqV0VipPuuWP5OMY/6uQAAAAAAAAHH8I4/ZRzLy3Xy5R7p1VJNf4pOvR+pHvbSwv8ASTR43R/X0mIlhOaFWWMf7jJZAAAAAAAAABxXz5Z9o8vZJPWWCWtVP6Uq1nqdVTtZ4T7s5jcxX3iu8VdU5RpwpU49KX+3LZXPy5XGSjGFOM4NR7Yx4SuY++O/YvL9w7xMbCIjqGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" style="max-width:200px;width:100%;display:block;margin:0 auto;border-radius:6px;"/>
     <span class="badge">KYC 360° · Nuclea FIDC</span>
   </div>
-  <div class="login-title">Bem-vindo de volta 👋</div>
-  <div class="login-sub">Feito pelo Grupo X-Disquete · FIAP</div>
+  <div class="login-title">Bem-vindo👋</div>
+  <div class="login-sub">Feito por X-Disquete · FIAP</div>
   <label class="lbl">Usuário</label>
-  <input autocomplete="off" id="inp-user" placeholder="Ex: RM123456" type="text"/>
+  <input autocomplete="off" id="inp-user" placeholder="Ex: Convidado" type="text"/>
   <label class="lbl">Senha</label>
-  <input autocomplete="off" id="inp-pass" placeholder="••••••" type="password"/>
-  <button class="login-btn" onclick="doLogin()" type="button">Acessar o Dashboard →</button>
+  <input autocomplete="off" id="inp-pass" placeholder="convidado" type="password"/>
+  <button class="login-btn" onclick="doLogin()" type="button">Acessar o Dashboard</button>
   <div class="login-err" id="login-err"></div>
   <div class="login-footer">Problemas com o login? Contate o administrador</div>
   <button class="theme-pill" id="theme-btn-login" onclick="toggleTheme()" type="button">🌙 Dark</button>
@@ -540,16 +540,10 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
         Setor vs Mercado
       </button>
     </div>
-
     <div class="topbar-right">
-      <div class="search-wrap">
-        <i class="ti ti-search search-icon"></i>
-        <input class="search-inp" placeholder="Buscar empresa..." type="text" readonly/>
       </div>
-      <div class="tb-btn" title="Notificações"><i class="ti ti-bell"></i><span class="notif-dot"></span></div>
       <button class="tb-btn" id="theme-btn" onclick="toggleTheme()" title="Tema" type="button"><i class="ti ti-moon"></i></button>
       <div class="tb-btn" onclick="initApp()" title="Atualizar"><i class="ti ti-refresh"></i></div>
-      <div class="tb-avatar" title="Usuário">GS</div>
       <div class="tb-user">
         <div class="name">👨🏾‍💻 <span id="tb-username"></span></div>
         <div class="time" id="tb-time"></div>
@@ -572,9 +566,9 @@ const USERS = {
   "RM568514":{"password":"568514","name":"Guilherme"},
   "RM567338":{"password":"567338","name":"Isabela"},
   "RM568569":{"password":"568569","name":"Pedro"},
-  "Convidado":{"password":"123456",name":"Convidado"},
   "RM568479":{"password":"568479","name":"Yasmin"},
-};
+  "Convidado":{"password":"123456",name":"Convidado"},
+  };
 
 let STATE = {
   auth:false, userName:'', page:'overview',
@@ -826,7 +820,7 @@ function setSBCNPJ(){
 /* ════════════════════════════════════════
    NAVIGATION
 ════════════════════════════════════════ */
-const PAGE_LABELS={overview:'Default Dashboard',empresa:'Análise de Empresa',setor:'Análise do Setor',mercado:'Setor vs Mercado'};
+const PAGE_LABELS={overview:'Overview Dashboard',empresa:'Análise de Empresa',setor:'Análise do Setor',mercado:'Setor vs Mercado'};
 
 function goPage(p){
   if(STATE.page==='overview')STATE.xf={sinal:null,uf:null,setor:null};
@@ -840,7 +834,7 @@ function goPage(p){
 }
 
 function updateSidebarHint(){
-  const hints={overview:'Filtre para atualizar os gráficos',empresa:'Selecione um CNPJ',setor:'Selecione um Setor',mercado:'Selecione um Setor para comparar'};
+  const hints={overview:'Filtre para atualizar os gráficos',empresa:'Selecione ums Empresa',setor:'Selecione um Setor',mercado:'Selecione um Setor para comparar'};
   const hintEl=document.getElementById('sb-hint');if(hintEl)hintEl.textContent=hints[STATE.page]||'';
   const empBlock=document.getElementById('sb-empresa-block');
   if(empBlock)empBlock.style.display=STATE.page==='mercado'?'none':'block';
@@ -858,11 +852,6 @@ function updateSidebarHint(){
     if(filtrosAtivos.length){sbAF.style.display='block';sbAFL.innerHTML=filtrosAtivos.map(f=>`<div style="display:flex;align-items:center;gap:.3rem;"><span style="color:var(--acc);font-size:.6rem;">▸</span>${f}</div>`).join('');}
     else{sbAF.style.display='none';}
   }
-  // badge alertas
-  const alertas=STATE.dfFiltered.filter(d=>d.sinal==='vermelho').length;
-  const badgeEl=document.getElementById('badge-alertas');
-  if(badgeEl)badgeEl.textContent=alertas;
-}
 
 /* ════════════════════════════════════════
    RENDER
@@ -903,20 +892,7 @@ function buildGoldCards(){
   var hhiCedShow=temFiltro?calcHHI(df,'setor_resumo'):(sim.hhi_cedentes!=null?Number(sim.hhi_cedentes).toFixed(4):'—');
   var agingHTML=faixasDef.map((f,i)=>{var count=faixaCounts[i];var pct=+(count/totalFaixas*100).toFixed(1);var w=Math.min(pct,100);return'<div class="pbar"><div class="pbar-row"><span class="pbar-lbl">'+f.label+' <span style="color:var(--hint);font-size:.52rem;">(haircut '+f.haircut+'%)</span></span><span class="pbar-val" style="color:'+f.cor+'">'+pct+'% · '+count+' empresa'+(count!==1?'s':'')+'</span></div><div class="pbar-bg"><div class="pbar-fill" style="width:'+w+'%;background:'+f.cor+'"></div></div></div>';}).join('');
   return'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-bottom:.7rem;">'
-    +statCard('TOTAL BOLETOS',totalBolShow,temFiltro?'empresas no filtro':'valor total emitido','blue')
-    +statCard('PDD ESTIMADA',pddShow,temFiltro?'filtro ativo':'provisão devedor','red')
-    +statCard('TAXA INAD.',txInadShow,temFiltro?'% com atraso':'histórica carteira','amber')
-    +statCard('HHI SACADOS',hhiSacShow,temFiltro?'concentração empresa':'pagadores','purple')
-    +statCard('HHI CEDENTES',hhiCedShow,temFiltro?'concentração setor':'cedentes','cyan')
-    +'</div>'
     +'<div class="chart-card" style="margin-bottom:.7rem;"><div class="chart-title">DISTRIBUIÇÃO DE ATRASO MÉDIO — EMPRESAS FILTRADAS'+(temFiltro?'<span style="color:var(--acc2);font-size:.5rem;font-weight:400;text-transform:none;"> · filtro ativo</span>':'')+'</div>'+agingHTML+'</div>';
-}
-function calcHHI(df,campo){
-  if(!df.length)return'—';
-  var counts={};df.forEach(d=>{var k=d[campo]||'N/A';counts[k]=(counts[k]||0)+1;});
-  var n=df.length;
-  var hhi=Object.values(counts).reduce((acc,c)=>acc+Math.pow(c/n,2),0);
-  return hhi.toFixed(4);
 }
 
 /* ════════════════════════════════════════
@@ -945,7 +921,7 @@ function renderOverview(wrap){
   const stLabels=stData.map(d=>d.st.length>28?d.st.slice(0,27)+'…':d.st);
   const xfAtivo=STATE.xf.sinal||STATE.xf.uf||STATE.xf.setor;
   const xfBadge=xfAtivo?`<div style="display:flex;align-items:center;gap:.5rem;background:#1e1b3a;border:1px solid var(--acc);border-radius:8px;padding:.4rem .9rem;margin-bottom:.8rem;flex-wrap:wrap;"><span style="font-size:.6rem;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase;">Seleção:</span>${STATE.xf.sinal?`<span class="xf-chip" onclick="clearXF('sinal')">${{verde:'✅ Baixo Risco',amarelo:'⚡ Moderado',vermelho:'🚨 Alto Risco'}[STATE.xf.sinal]} ×</span>`:''}${STATE.xf.uf?`<span class="xf-chip" onclick="clearXF('uf')">📍 ${STATE.xf.uf} ×</span>`:''}${STATE.xf.setor?`<span class="xf-chip" onclick="clearXF('setor')">${STATE.xf.setor.length>25?STATE.xf.setor.slice(0,24)+'…':STATE.xf.setor} ×</span>`:''}<button onclick="clearAllXF()" style="margin-left:auto;background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:6px;font-size:.62rem;padding:.2rem .6rem;cursor:pointer;font-family:var(--font);">Limpar tudo</button></div>`:'';
-  wrap.innerHTML=`${xfBadge}<div class="stat-grid">${statCard('EMPRESAS',total.toLocaleString('pt-BR'),xfAtivo?'seleção atual':'na carteira filtrada','purple')}${statCard('SCORE MÉDIO',med.toFixed(1),'de 100 pontos','blue')}${statCard('BAIXO RISCO',pV+'%',verde+' empresas','green','↑ '+verde+' aptas','up')}${statCard('MODERADO',pA+'%',amarelo+' empresas','amber','── '+amarelo+' em observação','down')}${statCard('ALTO RISCO',pR+'%',vermelho+' empresas','red','↓ '+vermelho+' em alerta','down')}</div><div class="grad-div"></div><div id="gold-cards-placeholder"></div><div class="grad-div"></div><div class="chart-row chart-row-12" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">CLASSIFICAÇÃO DE RISCO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· clique para filtrar</span></div><div id="plt-donut"></div></div><div class="chart-card"><div class="chart-title">DISTRIBUIÇÃO DE SCORE</div><div id="plt-hist"></div></div></div><div class="grad-div"></div><div class="chart-row chart-row-2" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">SCORE MÉDIO POR UF <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${ufData.length} estado${ufData.length!==1?'s':''}) · clique</span></div><div id="plt-uf"></div></div><div class="chart-card"><div class="chart-title">TOP SETORES POR SCORE <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${stData.length} setor${stData.length!==1?'es':''}) · clique</span></div><div id="plt-setor"></div></div></div><div class="grad-div"></div><div class="chart-card"><div class="chart-title">CARTEIRA COMPLETA <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${total} empresa${total!==1?'s':''} · clique para ver detalhe</span></div><div class="tbl-wrap">${buildTable(df,true)}</div></div>`;
+  wrap.innerHTML=`${xfBadge}<div class="stat-grid">${statCard('EMPRESAS',total.toLocaleString('pt-BR'),xfAtivo?'seleção atual':'na carteira filtrada','purple')}${statCard('SCORE MÉDIO',med.toFixed(1),'de 100 pontos','blue')}${statCard('BAIXO RISCO',pV+'%',verde+' empresas','green','↑ '+verde+' aptas','up')}${statCard('RISCO MODERADO',pA+'%',amarelo+' empresas','amber','── '+amarelo+' em observação','down')}${statCard('ALTO RISCO',pR+'%',vermelho+' empresas','red','↓ '+vermelho+' em alerta','down')}</div><div class="grad-div"></div><div id="gold-cards-placeholder"></div><div class="grad-div"></div><div class="chart-row chart-row-12" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">CLASSIFICAÇÃO DE RISCO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· clique para filtrar</span></div><div id="plt-donut"></div></div><div class="chart-card"><div class="chart-title">DISTRIBUIÇÃO DE SCORE</div><div id="plt-hist"></div></div></div><div class="grad-div"></div><div class="chart-row chart-row-2" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">SCORE MÉDIO POR UF <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${ufData.length} estado${ufData.length!==1?'s':''}) · clique</span></div><div id="plt-uf"></div></div><div class="chart-card"><div class="chart-title">TOP SETORES POR SCORE <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${stData.length} setor${stData.length!==1?'es':''}) · clique</span></div><div id="plt-setor"></div></div></div><div class="grad-div"></div><div class="chart-card"><div class="chart-title">CARTEIRA COMPLETA <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${total} empresa${total!==1?'s':''} · clique para ver detalhe</span></div><div class="tbl-wrap">${buildTable(df,true)}</div></div>`;
   try{var gcEl=document.getElementById('gold-cards-placeholder');if(gcEl)gcEl.innerHTML=buildGoldCards();}catch(e){console.error(e);}
   const cfg={responsive:true,displayModeBar:false};
   var _c=getPlotlyColors();
