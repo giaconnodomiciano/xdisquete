@@ -601,6 +601,1851 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
 <!-- LOGIN -->
 <div id="login-overlay">
 <div class="login-box">
+  <div class="login-title">Bem-vindo 👋</div>
+  <div class="login-sub">Feito por X-Disquete · FIAP</div>
+  <label class="lbl">Usuário</label>
+  <input autocomplete="off" id="inp-user" placeholder="Ex: Convidado" type="text"/>
+  <label class="lbl">Senha</label>
+  <input autocomplete="off" id="inp-pass" placeholder="convidado" type="password"/>
+  <button class="login-btn" onclick="doLogin()" type="button">Acessar o Dashboard →</button>
+  <div class="login-err" id="login-err"></div>
+  <div class="login-footer">Problemas com o login? Contate o administrador</div>
+  <button class="theme-pill" id="theme-btn-login" onclick="toggleTheme()" type="button">🌙 Dark</button>
+</div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div class="sb-logo">
+    <i class="ti ti-lighthouse"></i>
+    <div>
+      <div class="sb-logo-name">Farol</div>
+      <div class="sb-logo-sub">FIDC · KYC</div>
+    </div>
+  </div>
+
+  <div class="sb-section">Navegação</div>
+  <div class="sb-nav-item active" data-page="overview" onclick="goPage('overview')">
+    <i class="ti ti-layout-dashboard"></i> Overview
+    <span class="sb-badge danger" id="badge-alertas">0</span>
+  </div>
+  <div class="sb-nav-item" data-page="empresa" onclick="goPage('empresa')">
+    <i class="ti ti-building"></i> Empresa
+  </div>
+  <div class="sb-nav-item" data-page="setor" onclick="goPage('setor')">
+    <i class="ti ti-chart-bar"></i> Setor
+  </div>
+  <div class="sb-nav-item" data-page="mercado" onclick="goPage('mercado')">
+    <i class="ti ti-world"></i> Setor vs Mercado
+  </div>
+  <div class="sb-nav-item" data-page="simulador" onclick="goPage('simulador')" style="color:#22d3ee;border-right:2px solid transparent;">
+    <i class="ti ti-rocket"></i> Simulador
+    <span class="sb-badge sim">NEW</span>
+  </div>
+
+  <div class="sb-section">Filtros</div>
+  <div class="sb-filter-label">Estado (UF)</div>
+  <select class="sb-select" id="sb-uf" onchange="onUFChange()"></select>
+
+  <div id="sb-setor-block">
+    <div class="sb-filter-label">Setor</div>
+    <select class="sb-select" id="sb-setor" onchange="onSetorChange()"></select>
+  </div>
+
+  <div class="sb-filter-label">Faixa de Atraso</div>
+  <select class="sb-select" id="sb-atraso" onchange="onAtrasoChange()">
+    <option value="todos">Todos</option>
+    <option value="sem">Sem atraso (0d)</option>
+    <option value="baixo">Baixo (1–15d)</option>
+    <option value="moderado">Moderado (16–30d)</option>
+    <option value="alto">Alto (31–60d)</option>
+    <option value="critico">Crítico (60d+)</option>
+  </select>
+
+  <button class="sb-clear-btn" onclick="limparFiltros()" type="button">✕ Limpar Filtros</button>
+
+  <div id="sb-empresa-block">
+    <div class="sb-section">Empresa</div>
+    <div id="sb-hint" style="font-size:.56rem;color:var(--hint);padding:.1rem 14px .3rem;font-style:italic;line-height:1.4;">Selecione um CNPJ</div>
+    <div id="sb-active-filters" style="margin:.1rem 14px .35rem;display:none;">
+      <div style="font-size:.52rem;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.18rem;">Filtros ativos</div>
+      <div id="sb-active-filters-list" style="font-size:.58rem;color:var(--muted);line-height:1.6;"></div>
+    </div>
+    <div class="sb-filter-label">Buscar CNPJ</div>
+    <input autocomplete="off" class="sb-input" id="sb-busca" oninput="applyFilters()" placeholder="Digite parte..." type="text"/>
+    <div class="sb-count" id="sb-count">0 empresa(s)</div>
+    <select class="sb-select" id="sb-cnpj" onchange="setSBCNPJ()"></select>
+  </div>
+
+  <div class="sb-footer">
+    👤 <b id="sb-username"></b>
+    <div class="sb-total" id="sb-total"></div>
+    <button class="sb-logout" onclick="doLogout()" type="button">⬅ Sair</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Default Dashboard</div>
+      <div class="topbar-sub">Projeto Farol FIDC · dados em tempo real</div>
+    </div>
+
+    <div class="nav-tabs" style="margin-left:1.5rem;">
+      <button class="nav-tab active" data-page="overview" onclick="goPage('overview')" type="button">
+        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="3" y="14"></rect><rect height="7" width="7" x="14" y="14"></rect></svg>
+        Overview
+      </button>
+      <button class="nav-tab" data-page="empresa" onclick="goPage('empresa')" type="button">
+        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        Empresa
+      </button>
+      <button class="nav-tab" data-page="setor" onclick="goPage('setor')" type="button">
+        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg>
+        Setor
+      </button>
+      <button class="nav-tab" data-page="mercado" onclick="goPage('mercado')" type="button">
+        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="12" r="10"></circle><line x1="2" x2="22" y1="12" y2="12"></line></svg>
+        Setor vs Mercado
+      </button>
+      <button class="nav-tab sim-tab" data-page="simulador" onclick="goPage('simulador')" type="button">
+        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Simulador
+      </button>
+    </div>
+
+    <div class="topbar-right">
+      <div class="search-wrap">
+        <i class="ti ti-search search-icon"></i>
+        <input class="search-inp" placeholder="Buscar empresa..." type="text" readonly/>
+      </div>
+      <div class="tb-btn" title="Notificações"><i class="ti ti-bell"></i><span class="notif-dot"></span></div>
+      <button class="tb-btn" id="theme-btn" onclick="toggleTheme()" title="Tema" type="button"><i class="ti ti-moon"></i></button>
+      <div class="tb-btn" onclick="initApp()" title="Atualizar"><i class="ti ti-refresh"></i></div>
+      <div class="tb-avatar" title="Usuário">GS</div>
+      <div class="tb-user">
+        <div class="name">👨🏾‍💻 <span id="tb-username"></span></div>
+        <div class="time" id="tb-time"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content"></div>
+</div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   USUÁRIOS / AUTH
+════════════════════════════════════════════════════════════════ */
+const USERS = {
+  "RM566908":{"password":"566908","name":"Giaconno"},
+  "RM568514":{"password":"568514","name":"Guilherme"},
+  "RM567338":{"password":"567338","name":"Isabela"},
+  "RM568569":{"password":"568569","name":"Pedro"},
+  "RM568479":{"password":"568479","name":"Yasmin"},
+  "Convidado":{"password":"convidado","name":"Convidado"},
+};
+
+let STATE = {
+  auth:false, userName:'', page:'overview',
+  empresaSel:'', df:[], dfFiltered:[],
+  simulacao:{}, aging:[],
+  xf:{sinal:null,uf:null,setor:null},
+  xfEmp:{sinal:null},
+  xfSet:{sinal:null,uf:null},
+  xfMkt:{sinal:null,uf:null},
+  // Simulador state
+  sim:{
+    portfolio:[],      // [{cnpj, setor, uf, valor, score, sinal, retorno, atraso}]
+    valorTotal:500000,
+    diversMax:5,
+    riskTolerance:50,
+    liveInterval:null,
+    lastUpdate:null,
+  }
+};
+
+/* ════════════════════════════════════════════════════════════════
+   CORES / CONSTANTES
+════════════════════════════════════════════════════════════════ */
+const COR_SINAL  = {verde:'#4ade80',amarelo:'#facc15',vermelho:'#f87171'};
+const ICO_SINAL  = {verde:'✅',amarelo:'⚡',vermelho:'🚨'};
+const LBL_SINAL  = {verde:'Baixo Risco',amarelo:'Moderado',vermelho:'Alto Risco'};
+const CSS_SINAL  = {verde:'green',amarelo:'amber',vermelho:'red'};
+
+const KPI_ICONS = {
+  'EMPRESAS':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
+  'SCORE MÉDIO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+  'BAIXO RISCO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  'MODERADO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  'ALTO RISCO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="10.29 3.86 1.82 18 22.18 18 13.71 3.86 10.29 3.86"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  'SCORE FINAL':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  'RETORNO ESP.':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
+  'ATRASO MÉDIO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  'LIQUIDEZ 1M':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>',
+  'SCORE EMPRESA':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+  'MÉDIA DO SETOR':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>',
+  'DIFERENÇA':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>',
+  'POSIÇÃO':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>',
+  'PERCENTIL':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>',
+  'TOTAL BOLETOS':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>',
+  'PDD ESTIMADA':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
+  'TAXA INAD.':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>',
+  'HHI SACADOS':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/></svg>',
+  'HHI CEDENTES':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+};
+
+/* ════════════════════════════════════════════════════════════════
+   PLOTLY HELPERS
+════════════════════════════════════════════════════════════════ */
+function getPlotlyColors(){
+  var isLight=document.documentElement.getAttribute('data-theme')==='light';
+  return {
+    font:   isLight?'#1a3a5c':'#6b6b88',
+    muted:  isLight?'#4a6080':'#4a5a7a',
+    grid:   isLight?'#d0daea':'#1e1e2e',
+    bg:     'rgba(0,0,0,0)',
+    text:   isLight?'#0f1f3d':'#e2e2f0',
+    axis:   isLight?'#4a6080':'#6b6b88',
+    tickfont: isLight?'#1a3a5c':'#6b6b88',
+    polar_bg: isLight?'#f0f4fa':'#0d0d14',
+    polar_grid: isLight?'#d0daea':'#1e1e2e',
+    gauge_num: isLight?'#0f1f3d':'#e2dff5',
+  };
+}
+
+/* ════════════════════════════════════════════════════════════════
+   UI HELPERS
+════════════════════════════════════════════════════════════════ */
+function pbarHTML(label,valor){
+  const cor=valor>=70?'#4ade80':valor>=40?'#facc15':'#f87171';
+  return `<div class="pbar"><div class="pbar-row"><span class="pbar-lbl">${label}</span><span class="pbar-val" style="color:${cor}">${valor.toFixed(0)}</span></div><div class="pbar-bg"><div class="pbar-fill" style="width:${valor}%;background:${cor}"></div></div></div>`;
+}
+function blocoHTML(titulo,valor,sub,cor){
+  return `<div class="bloco" style="border-color:${cor}"><div class="bloco-lbl" style="color:${cor}">${titulo}</div><div class="bloco-val">${valor}</div><div class="bloco-sub">${sub}</div></div>`;
+}
+function badge(sinal){
+  const cls={verde:'badge-green',amarelo:'badge-amber',vermelho:'badge-red'}[sinal]||'';
+  return `<span class="badge ${cls}">${ICO_SINAL[sinal]||''} ${LBL_SINAL[sinal]||sinal}</span>`;
+}
+function statCard(label,val,sub,accent,trend='',trendDir='up'){
+  const trCls=trendDir==='up'?'sc-trend-up':'sc-trend-down';
+  const trHTML=trend?`<div class="${trCls}">${trend}</div>`:'';
+  const icon=KPI_ICONS[label]||'';
+  return `<div class="stat-card ${accent}"><div class="sc-label">${icon?`<span class="sc-icon">${icon}</span>`:''} ${label}</div><div class="sc-val">${val}</div><div class="sc-sub">${sub}</div>${trHTML}</div>`;
+}
+
+function valido(v){
+  if(v===null||v===undefined)return false;
+  const s=String(v).trim();
+  return s!==''&&s!=='—'&&s!=='-'&&s!=='null'&&s!=='undefined'&&s!=='N/A'&&s!=='n/a';
+}
+function limparDados(arr){
+  return arr.filter(d=>valido(d.id_cnpj)&&valido(d.uf)&&valido(d.setor_resumo||d.descricao_cnae)&&valido(d.sinal)&&d.score_final>0);
+}
+function normalizar(item){
+  if(item.empresa||item.recomendacao){
+    const emp=item.empresa||{};const rec=item.recomendacao||{};
+    return {id_cnpj:emp.id_cnpj||'',uf:emp.uf||'',cd_cnae_prin:emp.cd_cnae_prin||'',descricao_cnae:emp.descricao_cnae||'',setor_resumo:emp.setor_resumo||emp.descricao_cnae||'',setor:emp.setor_resumo||emp.descricao_cnae||'',media_atraso_dias:emp.media_atraso_dias||0,sacado_indice_liquidez_1m:emp.sacado_indice_liquidez_1m||0,share_vl_inad_pag_bol_6_a_15d:emp.share_vl_inad_pag_bol_6_a_15d||0,score_final:rec.score_final||0,sinal:rec.sinal||'vermelho',label:rec.label||'',retorno_esperado:rec.retorno_esperado||'—',score_capacidade_pagamento:rec.score_capacidade_pagamento||0,score_historico_pagamento:rec.score_historico_pagamento||0,score_concentracao_risco:rec.score_concentracao_risco||0,taxa_mercado_referencia:rec.taxa_mercado_referencia||0};
+  }
+  return {id_cnpj:item.id_cnpj||'',uf:item.uf||'',cd_cnae_prin:item.cd_cnae_prin||'',descricao_cnae:item.descricao_cnae||'',setor_resumo:item.setor_resumo||item.descricao_cnae||'',setor:item.setor_resumo||item.descricao_cnae||'',media_atraso_dias:item.media_atraso_dias||0,sacado_indice_liquidez_1m:item.sacado_indice_liquidez_1m||0,share_vl_inad_pag_bol_6_a_15d:item.share_vl_inad_pag_bol_6_a_15d||0,score_final:item.score_final||0,sinal:item.sinal||'vermelho',label:item.label||'',retorno_esperado:item.retorno_esperado||'—',score_capacidade_pagamento:item.score_capacidade_pagamento||0,score_historico_pagamento:item.score_historico_pagamento||0,score_concentracao_risco:item.score_concentracao_risco||0,taxa_mercado_referencia:item.taxa_mercado_referencia||0};
+}
+
+/* ════════════════════════════════════════════════════════════════
+   API / FETCH
+════════════════════════════════════════════════════════════════ */
+function showLoader(msg="Carregando dados…"){
+  document.getElementById('content').innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:1rem;"><div style="width:36px;height:36px;border:3px solid var(--bord2);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;"></div><div style="font-size:.78rem;color:var(--muted);">${msg}</div></div>`;
+}
+function showError(msg){
+  document.getElementById('content').innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:.8rem;"><div style="font-size:2rem;">⚠️</div><div style="font-size:.9rem;font-weight:700;color:var(--red);">Erro ao carregar dados</div><div style="font-size:.75rem;color:var(--muted);max-width:420px;text-align:center;">${msg}</div><button onclick="initApp()" style="margin-top:.5rem;background:var(--acc);color:#fff;border:none;border-radius:8px;padding:.45rem 1.2rem;font-family:var(--font);font-size:.78rem;cursor:pointer;">Tentar novamente</button></div>`;
+}
+
+async function carregarCarteira(){
+  const res=await fetch('./dados/recomendacoes.json');
+  if(!res.ok)throw new Error(`HTTP ${res.status}`);
+  const data=await res.json();
+  return data.map(normalizar);
+}
+async function carregarSimulacao(){try{const r=await fetch('./dados/simulacao.json');if(!r.ok)return{};return r.json();}catch{return{};}}
+async function carregarAging(){try{const r=await fetch('./dados/aging.json');if(!r.ok)return[];return r.json();}catch{return[];}}
+
+/* ════════════════════════════════════════════════════════════════
+   LOGIN / AUTH
+════════════════════════════════════════════════════════════════ */
+function doLogin(){
+  const u=document.getElementById('inp-user').value.trim();
+  const p=document.getElementById('inp-pass').value;
+  if(USERS[u]&&USERS[u].password===p){
+    STATE.auth=true;STATE.userName=USERS[u].name;
+    document.getElementById('login-overlay').style.display='none';
+    document.getElementById('app').style.display='flex';
+    initApp();
+  }else{document.getElementById('login-err').textContent='Usuário ou senha incorretos.';}
+}
+document.getElementById('inp-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+document.getElementById('inp-user').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function toggleTheme(){
+  const root=document.documentElement;
+  const isLight=root.getAttribute('data-theme')==='light';
+  root.setAttribute('data-theme',isLight?'':'light');
+  const label=isLight?'🌙 Dark':'☀ Light';
+  const b=document.getElementById('theme-btn');
+  const bl=document.getElementById('theme-btn-login');
+  if(b)b.innerHTML=`<i class="ti ti-${isLight?'moon':'sun'}"></i>`;
+  if(bl)bl.textContent=label;
+  setTimeout(()=>renderPage(),50);
+}
+
+function limparFiltros(){
+  ['sb-uf','sb-setor','sb-atraso'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  const b=document.getElementById('sb-busca');if(b)b.value='';
+  const c=document.getElementById('sb-cnpj');if(c)c.value='';
+  STATE.empresaSel='';
+  STATE.xf={sinal:null,uf:null,setor:null};
+  STATE.xfEmp={sinal:null};STATE.xfSet={sinal:null,uf:null};STATE.xfMkt={sinal:null,uf:null};
+  onAtrasoChange();
+}
+function doLogout(){
+  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
+  STATE={auth:false,userName:'',page:'overview',empresaSel:'',df:[],dfFiltered:[],simulacao:{},aging:[],xf:{sinal:null,uf:null,setor:null},xfEmp:{sinal:null},xfSet:{sinal:null,uf:null},xfMkt:{sinal:null,uf:null},sim:{portfolio:[],valorTotal:500000,diversMax:5,riskTolerance:50,liveInterval:null,lastUpdate:null}};
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-overlay').style.display='flex';
+  document.getElementById('inp-user').value='';document.getElementById('inp-pass').value='';
+  document.getElementById('login-err').textContent='';
+}
+
+/* ════════════════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════════════════ */
+async function initApp(){
+  document.getElementById('sb-username').textContent=STATE.userName;
+  document.getElementById('tb-username').textContent=STATE.userName;
+  updateClock();setInterval(updateClock,30000);
+  showLoader("Carregando carteira…");
+  try{
+    const [carteira,simulacao,aging]=await Promise.all([carregarCarteira(),carregarSimulacao(),carregarAging()]);
+    STATE.df=limparDados(carteira);STATE.dfFiltered=[...STATE.df];
+    STATE.simulacao=simulacao;STATE.aging=aging;
+    document.getElementById('sb-total').textContent=`${STATE.df.length.toLocaleString('pt-BR')} empresas · Farol v2`;
+    buildSidebarFilters();renderPage();
+  }catch(err){
+    console.error(err);
+    showError(`Não foi possível carregar os dados.<br><small style="font-family:var(--mono)">${err.message}</small>`);
+  }
+}
+function updateClock(){
+  const now=new Date();
+  document.getElementById('tb-time').textContent=now.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SIDEBAR FILTERS
+════════════════════════════════════════════════════════════════ */
+const FAIXAS_ATRASO={todos:[null,null],sem:[0,0],baixo:[1,15],moderado:[16,30],alto:[31,60],critico:[61,null]};
+
+function buildSidebarFilters(){
+  const ufs=['Todas',...[...new Set(STATE.df.map(d=>d.uf).filter(v=>valido(v)))].sort()];
+  _fillSelect('sb-uf',ufs);
+  const setores=['Todos',...[...new Set(STATE.df.map(d=>d.setor_resumo).filter(v=>valido(v)))].sort()];
+  _fillSelect('sb-setor',setores);
+  onAtrasoChange();
+}
+function onUFChange(){
+  const uf=document.getElementById('sb-uf').value;
+  const afterUF=uf==='Todas'?STATE.df:STATE.df.filter(d=>d.uf===uf);
+  const base=STATE.page==='mercado'?STATE.df:afterUF;
+  const setores=['Todos',...[...new Set(base.map(d=>d.setor_resumo).filter(v=>valido(v)))].sort()];
+  const prevSetor=document.getElementById('sb-setor').value;
+  _fillSelect('sb-setor',setores);
+  document.getElementById('sb-setor').value=setores.includes(prevSetor)?prevSetor:'Todos';
+  onSetorChange();
+}
+function onSetorChange(){
+  if(STATE.page==='mercado'){renderPage();return;}
+  onAtrasoChange();
+}
+function onAtrasoChange(){
+  const uf=document.getElementById('sb-uf').value;
+  const setor=document.getElementById('sb-setor').value;
+  const atraso=document.getElementById('sb-atraso').value;
+  const busca=document.getElementById('sb-busca')?.value.trim().toLowerCase()||'';
+  const [fMin,fMax]=FAIXAS_ATRASO[atraso]||[null,null];
+  let f=STATE.df;
+  if(uf!=='Todas')f=f.filter(d=>d.uf===uf);
+  if(setor!=='Todos')f=f.filter(d=>d.setor_resumo===setor);
+  if(fMin!==null||fMax!==null)f=f.filter(d=>{const dias=d.media_atraso_dias||0;if(fMin!==null&&dias<fMin)return false;if(fMax!==null&&dias>fMax)return false;return true;});
+  STATE.dfFiltered=f;
+  const cnpjs=f.map(d=>d.id_cnpj).filter(v=>valido(v));
+  const cnpjsF=busca?cnpjs.filter(c=>c.toLowerCase().includes(busca)):cnpjs;
+  const atrasoLabel={todos:'',sem:' · Sem atraso',baixo:' · Baixo atraso',moderado:' · Moderado',alto:' · Alto',critico:' · Crítico'}[atraso]||'';
+  document.getElementById('sb-count').textContent=`${cnpjsF.length} empresa(s)${atrasoLabel}`;
+  const el=document.getElementById('sb-cnpj');
+  el.innerHTML=`<option value="">Selecione...</option>`+cnpjsF.map(c=>`<option value="${c}">${c}</option>`).join('');
+  if(STATE.empresaSel&&cnpjsF.includes(STATE.empresaSel)){el.value=STATE.empresaSel;}else{STATE.empresaSel='';el.value='';}
+  updateSidebarHint();renderPage();
+}
+function applyFilters(){onAtrasoChange();}
+function _fillSelect(id,opts){
+  const el=document.getElementById(id);const prev=el.value;
+  el.innerHTML=opts.map(o=>`<option value="${o}">${o.length>30?o.slice(0,29)+'…':o}</option>`).join('');
+  if(opts.includes(prev))el.value=prev;
+}
+function setSBCNPJ(){
+  const v=document.getElementById('sb-cnpj').value;
+  STATE.empresaSel=v||'';
+  if(v){if(STATE.page==='overview'){goPage('empresa');}else{renderPage();}}else{renderPage();}
+}
+
+/* ════════════════════════════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════════════════════════════ */
+const PAGE_LABELS={overview:'Default Dashboard',empresa:'Análise de Empresa',setor:'Análise do Setor',mercado:'Setor vs Mercado',simulador:'Simulador de Carteira'};
+
+function goPage(p){
+  if(p!=='simulador'&&STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
+  STATE.page=p;
+  document.querySelectorAll('.nav-tab,.sb-nav-item').forEach(t=>t.classList.toggle('active',t.dataset.page===p));
+  document.getElementById('topbar-title').textContent=PAGE_LABELS[p];
+  updateSidebarHint();renderPage();
+}
+
+function updateSidebarHint(){
+  const hints={overview:'Filtre para atualizar os gráficos',empresa:'Selecione um CNPJ',setor:'Selecione um Setor',mercado:'Selecione um Setor para comparar',simulador:'Monte sua carteira simulada'};
+  const hintEl=document.getElementById('sb-hint');if(hintEl)hintEl.textContent=hints[STATE.page]||'';
+  const empBlock=document.getElementById('sb-empresa-block');
+  if(empBlock)empBlock.style.display=(STATE.page==='mercado'||STATE.page==='simulador')?'none':'block';
+  const uf_v=document.getElementById('sb-uf')?.value||'Todas';
+  const setor_v=document.getElementById('sb-setor')?.value||'Todos';
+  const atraso_v=document.getElementById('sb-atraso')?.value||'todos';
+  const filtrosAtivos=[];
+  if(uf_v!=='Todas')filtrosAtivos.push('UF: '+uf_v);
+  if(setor_v!=='Todos')filtrosAtivos.push(setor_v.length>24?setor_v.slice(0,23)+'…':setor_v);
+  if(atraso_v!=='todos')filtrosAtivos.push({sem:'Sem atraso',baixo:'≤15d',moderado:'16–30d',alto:'31–60d',critico:'>60d'}[atraso_v]||'');
+  if(STATE.empresaSel)filtrosAtivos.push('CNPJ selecionado');
+  const sbAF=document.getElementById('sb-active-filters');
+  const sbAFL=document.getElementById('sb-active-filters-list');
+  if(sbAF&&sbAFL){
+    if(filtrosAtivos.length){sbAF.style.display='block';sbAFL.innerHTML=filtrosAtivos.map(f=>`<div style="display:flex;align-items:center;gap:.3rem;"><span style="color:var(--acc);font-size:.6rem;">▸</span>${f}</div>`).join('');}
+    else{sbAF.style.display='none';}
+  }
+  const alertas=STATE.dfFiltered.filter(d=>d.sinal==='vermelho').length;
+  const badgeEl=document.getElementById('badge-alertas');
+  if(badgeEl)badgeEl.textContent=alertas;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER ROUTER
+════════════════════════════════════════════════════════════════ */
+function renderPage(){
+  const el=document.getElementById('content');
+  el.innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.className='page-anim';
+  el.appendChild(wrap);
+  if(STATE.page==='overview')renderOverview(wrap);
+  else if(STATE.page==='empresa')renderEmpresa(wrap);
+  else if(STATE.page==='setor')renderSetor(wrap);
+  else if(STATE.page==='mercado')renderMercado(wrap);
+  else if(STATE.page==='simulador')renderSimulador(wrap);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   GOLD CARDS (overview helper)
+════════════════════════════════════════════════════════════════ */
+function buildGoldCards(){
+  var df=STATE.dfFiltered||[];
+  if(STATE.xf&&STATE.xf.sinal)df=df.filter(d=>d.sinal===STATE.xf.sinal);
+  if(STATE.xf&&STATE.xf.uf)df=df.filter(d=>d.uf===STATE.xf.uf);
+  if(STATE.xf&&STATE.xf.setor)df=df.filter(d=>d.setor_resumo===STATE.xf.setor);
+  var n=df.length;
+  if(!n)return'<div style="color:var(--muted);font-size:.75rem;padding:.5rem 0;">Nenhuma empresa no filtro atual.</div>';
+  var faixasDef=[{label:'Até 30 dias',min:0,max:30,haircut:5,cor:'#4ade80'},{label:'31 a 60 dias',min:31,max:60,haircut:10,cor:'#86efac'},{label:'61 a 90 dias',min:61,max:90,haircut:20,cor:'#facc15'},{label:'91 a 120 dias',min:91,max:120,haircut:35,cor:'#fb923c'},{label:'121 a 180 dias',min:121,max:180,haircut:50,cor:'#f87171'},{label:'Acima de 180 dias',min:181,max:99999,haircut:70,cor:'#991b1b'}];
+  var faixaCounts=faixasDef.map(f=>df.filter(d=>{var dias=d.media_atraso_dias||0;return dias>=f.min&&dias<=f.max;}).length);
+  var totalFaixas=faixaCounts.reduce((a,b)=>a+b,0)||1;
+  var _uf=(document.getElementById('sb-uf')||{}).value||'Todas';
+  var _setor=(document.getElementById('sb-setor')||{}).value||'Todos';
+  var _atraso=(document.getElementById('sb-atraso')||{}).value||'todos';
+  var xf=STATE.xf||{};
+  var temFiltro=_uf!=='Todas'||_setor!=='Todos'||_atraso!=='todos'||xf.sinal||xf.uf||xf.setor;
+  var sim=STATE.simulacao||{};
+  var totalBolShow=temFiltro?n.toLocaleString('pt-BR')+' emp.':(sim.total_boletos!=null?Number(sim.total_boletos).toLocaleString('pt-BR')+' bol.':n.toLocaleString('pt-BR')+' emp.');
+  var pddShow=temFiltro?'—':(sim.pdd_total_rs!=null?'R$ '+Number(sim.pdd_total_rs).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'—');
+  var txInadShow=temFiltro?(df.filter(d=>(d.media_atraso_dias||0)>0).length/n*100).toFixed(1)+'%':(sim.taxa_inad_historica_pct!=null?Number(sim.taxa_inad_historica_pct).toFixed(2)+'%':'—');
+  var hhiSacShow=temFiltro?calcHHI(df,'id_cnpj'):(sim.hhi_sacados!=null?Number(sim.hhi_sacados).toFixed(4):'—');
+  var hhiCedShow=temFiltro?calcHHI(df,'setor_resumo'):(sim.hhi_cedentes!=null?Number(sim.hhi_cedentes).toFixed(4):'—');
+  var agingHTML=faixasDef.map((f,i)=>{var count=faixaCounts[i];var pct=+(count/totalFaixas*100).toFixed(1);var w=Math.min(pct,100);return'<div class="pbar"><div class="pbar-row"><span class="pbar-lbl">'+f.label+' <span style="color:var(--hint);font-size:.52rem;">(haircut '+f.haircut+'%)</span></span><span class="pbar-val" style="color:'+f.cor+'">'+pct+'% · '+count+' empresa'+(count!==1?'s':'')+'</span></div><div class="pbar-bg"><div class="pbar-fill" style="width:'+w+'%;background:'+f.cor+'"></div></div></div>';}).join('');
+  return'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-bottom:.7rem;">'
+    +statCard('TOTAL BOLETOS',totalBolShow,temFiltro?'empresas no filtro':'valor total emitido','blue')
+    +statCard('PDD ESTIMADA',pddShow,temFiltro?'filtro ativo':'provisão devedor','red')
+    +statCard('TAXA INAD.',txInadShow,temFiltro?'% com atraso':'histórica carteira','amber')
+    +statCard('HHI SACADOS',hhiSacShow,temFiltro?'concentração empresa':'pagadores','purple')
+    +statCard('HHI CEDENTES',hhiCedShow,temFiltro?'concentração setor':'cedentes','cyan')
+    +'</div>'
+    +'<div class="chart-card" style="margin-bottom:.7rem;"><div class="chart-title">DISTRIBUIÇÃO DE ATRASO MÉDIO — EMPRESAS FILTRADAS'+(temFiltro?'<span style="color:var(--acc2);font-size:.5rem;font-weight:400;text-transform:none;"> · filtro ativo</span>':'')+'</div>'+agingHTML+'</div>';
+}
+function calcHHI(df,campo){
+  if(!df.length)return'—';
+  var counts={};df.forEach(d=>{var k=d[campo]||'N/A';counts[k]=(counts[k]||0)+1;});
+  var n=df.length;
+  var hhi=Object.values(counts).reduce((acc,c)=>acc+Math.pow(c/n,2),0);
+  return hhi.toFixed(4);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   OVERVIEW
+════════════════════════════════════════════════════════════════ */
+function renderOverview(wrap){
+  let df=STATE.dfFiltered;
+  if(STATE.xf.sinal)df=df.filter(d=>d.sinal===STATE.xf.sinal);
+  if(STATE.xf.uf)df=df.filter(d=>d.uf===STATE.xf.uf);
+  if(STATE.xf.setor)df=df.filter(d=>d.setor_resumo===STATE.xf.setor);
+  const total=df.length;
+  const scores=df.map(d=>d.score_final);
+  const med=total?+(scores.reduce((a,b)=>a+b,0)/total).toFixed(1):0;
+  const verde=df.filter(d=>d.sinal==='verde').length;
+  const amarelo=df.filter(d=>d.sinal==='amarelo').length;
+  const vermelho=df.filter(d=>d.sinal==='vermelho').length;
+  const pV=total?Math.round(verde/total*100):0;
+  const pA=total?Math.round(amarelo/total*100):0;
+  const pR=total?Math.round(vermelho/total*100):0;
+  const byUF={};
+  df.forEach(d=>{if(!valido(d.uf))return;if(!byUF[d.uf])byUF[d.uf]={s:0,c:0};byUF[d.uf].s+=d.score_final;byUF[d.uf].c++;});
+  const ufData=Object.entries(byUF).map(([k,v])=>({uf:k,sc:+(v.s/v.c).toFixed(1)})).sort((a,b)=>b.sc-a.sc);
+  const bySt={};
+  df.forEach(d=>{const k=d.setor_resumo||'';if(!valido(k))return;if(!bySt[k])bySt[k]={s:0,c:0};bySt[k].s+=d.score_final;bySt[k].c++;});
+  const stData=Object.entries(bySt).map(([k,v])=>({st:k,sc:+(v.s/v.c).toFixed(1)})).sort((a,b)=>a.sc-b.sc).slice(-8);
+  const stLabels=stData.map(d=>d.st.length>28?d.st.slice(0,27)+'…':d.st);
+  const xfAtivo=STATE.xf.sinal||STATE.xf.uf||STATE.xf.setor;
+  const xfBadge=xfAtivo?`<div style="display:flex;align-items:center;gap:.5rem;background:#1e1b3a;border:1px solid var(--acc);border-radius:8px;padding:.4rem .9rem;margin-bottom:.8rem;flex-wrap:wrap;"><span style="font-size:.6rem;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase;">Seleção:</span>${STATE.xf.sinal?`<span class="xf-chip" onclick="clearXF('sinal')">${{verde:'✅ Baixo Risco',amarelo:'⚡ Moderado',vermelho:'🚨 Alto Risco'}[STATE.xf.sinal]} ×</span>`:''}${STATE.xf.uf?`<span class="xf-chip" onclick="clearXF('uf')">📍 ${STATE.xf.uf} ×</span>`:''}${STATE.xf.setor?`<span class="xf-chip" onclick="clearXF('setor')">${STATE.xf.setor.length>25?STATE.xf.setor.slice(0,24)+'…':STATE.xf.setor} ×</span>`:''}<button onclick="clearAllXF()" style="margin-left:auto;background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:6px;font-size:.62rem;padding:.2rem .6rem;cursor:pointer;font-family:var(--font);">Limpar tudo</button></div>`:'';
+  wrap.innerHTML=`${xfBadge}<div class="stat-grid">${statCard('EMPRESAS',total.toLocaleString('pt-BR'),xfAtivo?'seleção atual':'na carteira filtrada','purple')}${statCard('SCORE MÉDIO',med.toFixed(1),'de 100 pontos','blue')}${statCard('BAIXO RISCO',pV+'%',verde+' empresas','green','↑ '+verde+' aptas','up')}${statCard('MODERADO',pA+'%',amarelo+' empresas','amber','── '+amarelo+' em observação','down')}${statCard('ALTO RISCO',pR+'%',vermelho+' empresas','red','↓ '+vermelho+' em alerta','down')}</div><div class="grad-div"></div><div id="gold-cards-placeholder"></div><div class="grad-div"></div><div class="chart-row chart-row-12" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">CLASSIFICAÇÃO DE RISCO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· clique para filtrar</span></div><div id="plt-donut"></div></div><div class="chart-card"><div class="chart-title">DISTRIBUIÇÃO DE SCORE</div><div id="plt-hist"></div></div></div><div class="grad-div"></div><div class="chart-row chart-row-2" style="margin-bottom:.7rem;"><div class="chart-card"><div class="chart-title">SCORE MÉDIO POR UF <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${ufData.length} estado${ufData.length!==1?'s':''}) · clique</span></div><div id="plt-uf"></div></div><div class="chart-card"><div class="chart-title">TOP SETORES POR SCORE <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">(${stData.length} setor${stData.length!==1?'es':''}) · clique</span></div><div id="plt-setor"></div></div></div><div class="grad-div"></div><div class="chart-card"><div class="chart-title">CARTEIRA COMPLETA <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${total} empresa${total!==1?'s':''} · clique para ver detalhe</span></div><div class="tbl-wrap">${buildTable(df,true)}</div></div>`;
+  try{var gcEl=document.getElementById('gold-cards-placeholder');if(gcEl)gcEl.innerHTML=buildGoldCards();}catch(e){console.error(e);}
+  const cfg={responsive:true,displayModeBar:false};
+  var _c=getPlotlyColors();
+  const base={paper_bgcolor:_c.bg,plot_bgcolor:_c.bg,font:{color:_c.font,family:'Plus Jakarta Sans',size:10}};
+  Plotly.newPlot('plt-donut',[{type:'pie',labels:['Baixo Risco','Moderado','Alto Risco'],values:[verde,amarelo,vermelho],hole:.62,sort:false,marker:{colors:['#4ade80','#facc15','#f87171'],line:{color:'#0d0d14',width:2}},textinfo:'percent',textfont:{color:'#fff',size:11},hovertemplate:'<b>%{label}</b><br>%{value} empresas (%{percent})<extra></extra>'}],{...base,height:270,margin:{t:12,b:12,l:12,r:110},showlegend:true,legend:{orientation:'v',x:1.02,y:.5,xanchor:'left',font:{color:_c.tickfont,size:10},bgcolor:'rgba(0,0,0,0)'}},cfg);
+  document.getElementById('plt-donut').on('plotly_click',ev=>{const map={'Baixo Risco':'verde','Moderado':'amarelo','Alto Risco':'vermelho'};const s=map[ev.points[0].label];STATE.xf.sinal=STATE.xf.sinal===s?null:s;renderPage();});
+  Plotly.newPlot('plt-hist',[{type:'histogram',x:scores,nbinsx:20,marker:{color:'#7c3aed',opacity:.9,line:{width:0}},xbins:{start:0,end:100,size:5}}],{...base,height:270,bargap:.04,showlegend:false,margin:{t:12,b:36,l:42,r:12},xaxis:{showgrid:false,range:[0,100],color:_c.axis,tickfont:{size:9},title:{text:'Score',font:{color:_c.axis,size:10}}},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:9},title:{text:'Empresas',font:{color:_c.axis,size:10}}}},cfg);
+  Plotly.newPlot('plt-uf',[{type:'bar',x:ufData.map(d=>d.uf),y:ufData.map(d=>d.sc),text:ufData.map(d=>d.sc.toFixed(1)),textposition:'outside',textfont:{color:_c.text,size:9},marker:{color:ufData.map(d=>d.sc>=65?'#4ade80':d.sc>=40?'#facc15':'#f87171'),line:{width:0}},cliponaxis:false,hovertemplate:'<b>%{x}</b><br>Score: %{y:.1f}<extra></extra>'}],{...base,height:280,bargap:.3,showlegend:false,margin:{t:28,b:48,l:36,r:12},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont},tickangle:ufData.length>10?-45:0,automargin:true},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,range:[0,110],tickfont:{size:8},zeroline:false}},cfg);
+  document.getElementById('plt-uf').on('plotly_click',ev=>{const uf=ev.points[0].x;STATE.xf.uf=STATE.xf.uf===uf?null:uf;renderPage();});
+  Plotly.newPlot('plt-setor',[{type:'bar',x:stData.map(d=>d.sc),y:stLabels,orientation:'h',text:stData.map(d=>d.sc.toFixed(1)),textposition:'outside',textfont:{color:_c.text,size:9},marker:{color:stData.map(d=>d.sc>=65?'#4ade80':d.sc>=40?'#facc15':'#f87171'),line:{width:0}},cliponaxis:false,hovertemplate:'<b>%{y}</b><br>Score: %{x:.1f}<extra></extra>'}],{...base,height:Math.max(260,stData.length*34),showlegend:false,margin:{t:8,b:8,l:8,r:48},xaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,range:[0,110],tickfont:{size:8},zeroline:false},yaxis:{showgrid:false,color:_c.tickfont,tickfont:{size:9,color:_c.tickfont},automargin:true}},cfg);
+  document.getElementById('plt-setor').on('plotly_click',ev=>{const st=stData[ev.points[0].pointIndex]?.st;if(!st)return;STATE.xf.setor=STATE.xf.setor===st?null:st;renderPage();});
+}
+
+/* TABLE */
+function buildTable(df,clickable=false){
+  const cols=['id_cnpj','uf','setor_resumo','sinal','score_final','retorno_esperado','media_atraso_dias'];
+  const heads=['CNPJ','UF','Setor','Sinal','Score','Retorno Esp.','Atraso (d)'];
+  const rows=[...df].filter(r=>valido(r.id_cnpj)&&valido(r.uf)&&valido(r.setor_resumo)&&r.score_final>0).sort((a,b)=>b.score_final-a.score_final).slice(0,500);
+  return`<table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr style="${clickable?'cursor:pointer;':''}transition:background .15s;" ${clickable?`onclick="tblClickEmpresa('${r.id_cnpj}')"`:''} onmouseover="${clickable?`this.style.background='var(--bg3)'`:''}" onmouseout="${clickable?`this.style.background=''`:''}"><td style="font-family:var(--mono);font-size:.62rem">${r.id_cnpj}</td><td>${r.uf}</td><td style="max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.setor_resumo||'—'}</td><td>${badge(r.sinal)}</td><td style="font-weight:700;color:${COR_SINAL[r.sinal]||'var(--text)'};font-family:var(--mono)">${r.score_final.toFixed(1)}</td><td>${typeof r.retorno_esperado==='number'?(r.retorno_esperado*100).toFixed(2)+'%':(r.retorno_esperado||'—')}</td><td style="font-family:var(--mono)">${(r.media_atraso_dias||0).toFixed(1)}</td></tr>`).join('')}</tbody></table>`;
+}
+function tblClickEmpresa(cnpj){STATE.empresaSel=cnpj;const el=document.getElementById('sb-cnpj');if(el)el.value=cnpj;goPage('empresa');}
+function clearXF(campo){STATE.xf[campo]=null;renderPage();}
+function clearAllXF(){STATE.xf={sinal:null,uf:null,setor:null};STATE.xfEmp={sinal:null};STATE.xfSet={sinal:null,uf:null};STATE.xfMkt={sinal:null,uf:null};renderPage();}
+function clearXFEmp(campo){STATE.xfEmp[campo]=null;renderPage();}
+function clearAllXFEmp(){STATE.xfEmp={sinal:null};renderPage();}
+function clearXFSet(campo){STATE.xfSet[campo]=null;renderPage();}
+function clearAllXFSet(){STATE.xfSet={sinal:null,uf:null};renderPage();}
+function clearXFMkt(campo){STATE.xfMkt[campo]=null;renderPage();}
+function clearAllXFMkt(){STATE.xfMkt={sinal:null,uf:null};renderPage();}
+
+/* ════════════════════════════════════════════════════════════════
+   EMPRESA
+════════════════════════════════════════════════════════════════ */
+function renderEmpresa(wrap){
+  wrap.innerHTML=`<div id="emp-body"></div>`;
+  if(STATE.empresaSel){renderEmpBody(STATE.empresaSel);}
+  else{document.getElementById('emp-body').innerHTML=emptyState('🏢','Nenhuma empresa selecionada','Use a sidebar: filtre por UF e Setor, depois selecione o CNPJ');}
+}
+function emptyState(icon,title,sub){return`<div class="empty-state"><div class="icon">${icon}</div><h3>${title}</h3><p>${sub}</p></div>`;}
+function renderEmpBody(cnpj){
+  const cached=STATE.dfFiltered.find(d=>d.id_cnpj===cnpj)||STATE.df.find(d=>d.id_cnpj===cnpj);
+  if(cached){_renderEmpBodyWithData(cnpj,cached);}
+  else{
+    document.getElementById('emp-body').innerHTML=`<div style="display:flex;align-items:center;gap:.6rem;padding:1rem;color:var(--muted);font-size:.75rem;"><div style="width:18px;height:18px;border:2px solid var(--bord2);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;"></div>Carregando empresa…</div>`;
+    carregarEmpresa(cnpj).then(dados=>_renderEmpBodyWithData(cnpj,dados)).catch(err=>{document.getElementById('emp-body').innerHTML=`<p style="color:var(--red);padding:1rem;font-size:.78rem;">Erro: ${err.message}</p>`;});
+  }
+}
+async function carregarEmpresa(cnpj){
+  const cached=STATE.df.find(d=>d.id_cnpj===cnpj);
+  if(cached)return cached;
+  const res=await fetch('./dados/recomendacoes.json');
+  if(!res.ok)throw new Error(`HTTP ${res.status}`);
+  const data=await res.json();
+  const item=data.find(d=>(d.id_cnpj||d.empresa?.id_cnpj)===cnpj);
+  if(!item)throw new Error('Empresa não encontrada.');
+  return normalizar(item);
+}
+function _renderEmpBodyWithData(cnpj,dados){
+  const score=dados.score_final||0;const sinal=dados.sinal||'—';const retStr=dados.retorno_esperado||'—';
+  const atraso=dados.media_atraso_dias||0;const liquidez=dados.sacado_indice_liquidez_1m||0;
+  const sc_cap=dados.score_capacidade_pagamento||0;const sc_hist=dados.score_historico_pagamento||0;const sc_conc=dados.score_concentracao_risco||0;
+  const uf_emp=dados.uf||'—';const setor=dados.setor_resumo||dados.descricao_cnae||'—';
+  const inad=dados.share_vl_inad_pag_bol_6_a_15d||0;const taxa_ref=dados.taxa_mercado_referencia||0;
+  const COR=COR_SINAL[sinal]||'#8178d2';const ICO=ICO_SINAL[sinal]||'';const LBL=LBL_SINAL[sinal]||'—';const CSS=CSS_SINAL[sinal]||'purple';
+  const parecer={verde:['Aprovado','Perfil saudável. Apta para operações.'],amarelo:['Atenção','Due diligence antes de ampliar.'],vermelho:['Alerta','KYC completo obrigatório.']}[sinal]||['—','—'];
+  const jsonStr=JSON.stringify(dados,null,2);
+  document.getElementById('emp-body').innerHTML=`
+    <div class="emp-header" style="border-left-color:${COR};margin-bottom:.8rem;">
+      <div><div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:${COR};margin-bottom:.22rem;">${uf_emp} · ${setor}</div><div style="font-family:var(--mono);font-size:.75rem;color:var(--text);">CNPJ: ${cnpj}</div></div>
+      <div style="display:flex;align-items:center;gap:.8rem;">
+        <div style="text-align:right"><div style="font-size:1.8rem;font-weight:800;color:var(--text);line-height:1;">${score.toFixed(1)}</div><div style="font-size:.55rem;color:var(--muted);margin-top:1px;">SCORE FAROL</div></div>
+        <div class="badge badge-${CSS==='green'?'green':CSS==='amber'?'amber':'red'}" style="padding:4px 12px;font-size:.65rem;">${ICO} ${LBL}</div>
+      </div>
+    </div>
+    <div class="stat-grid-4" style="margin-bottom:.9rem;">${statCard('SCORE FINAL',score.toFixed(1),'de 100 pontos','blue')}${statCard('RETORNO ESP.',retStr,'UF: '+uf_emp,CSS)}${statCard('ATRASO MÉDIO',atraso===0?'Sem Atraso':atraso<=15?'Baixo':atraso<=30?'Moderado':atraso<=60?'Alto':'Crítico',atraso===0?'0 dias':atraso.toFixed(1)+' dias','amber')}${statCard('LIQUIDEZ 1M',liquidez.toFixed(2),'índice liquidez','cyan')}</div>
+    <div class="grad-div"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+      <div class="chart-card"><div class="chart-title">SUB-SCORES</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.5rem;"><div>${pbarHTML('Score Final',score)}${pbarHTML('Capacidade Pag.',sc_cap)}${pbarHTML('Histórico Pag.',sc_hist)}${pbarHTML('Concentração',sc_conc)}</div><div id="plt-radar-emp" style="min-height:175px;"></div></div></div>
+      <div class="chart-card"><div class="chart-title">COMPOSIÇÃO DO SCORE</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:.5rem;"><div id="plt-g-cap"></div><div id="plt-g-hist"></div><div id="plt-g-conc"></div></div>${blocoHTML('📋 PARECER KYC',parecer[0],parecer[1],COR)}<button id="btn-ver-setor" style="margin-top:.4rem;width:100%;background:transparent;border:1px solid ${COR}44;border-radius:6px;color:${COR};font-size:.62rem;font-family:var(--font);padding:.26rem .6rem;cursor:pointer;">📈 Comparar com o setor →</button></div>
+    </div>
+    <div class="chart-card"><div class="chart-title">DETALHES KYC</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;">${blocoHTML('📈 RETORNO ESPERADO',retStr,'Estimativa atual',COR)}${blocoHTML('⚠️ INADIMPLÊNCIA 6–15D',inad?(inad*100).toFixed(1)+'%':'—',taxa_ref?'Mercado: '+(taxa_ref*100).toFixed(2)+'%':'—',COR)}${blocoHTML('🏭 SETOR / UF',setor,'UF: '+uf_emp,COR)}</div><button class="json-toggle" onclick="toggleJSON()">📄 JSON completo ▾</button><pre class="json-body" id="json-body">${jsonStr}</pre></div>`;
+  const cfg={responsive:true,displayModeBar:false};var _c=getPlotlyColors();const base={paper_bgcolor:_c.bg,plot_bgcolor:_c.bg,font:{color:_c.font,family:'Plus Jakarta Sans',size:9}};
+  Plotly.newPlot('plt-radar-emp',[{type:'scatterpolar',r:[sc_cap,sc_hist,sc_conc,score],theta:['Capacidade','Histórico','Concentração','Score'],fill:'toself',fillcolor:`${COR}20`,line:{color:COR,width:2},marker:{color:COR,size:7},hovertemplate:'<b>%{theta}</b>: %{r:.1f}<extra></extra>'}],{...base,polar:{bgcolor:_c.polar_bg,radialaxis:{visible:true,range:[0,100],color:_c.muted,gridcolor:_c.grid,tickfont:{size:7,color:_c.muted}},angularaxis:{color:_c.axis,gridcolor:_c.grid,tickfont:{size:9,color:_c.tickfont}}},showlegend:false,margin:{t:16,b:16,l:24,r:24},height:190},cfg);
+  function mkGauge(id,val,lbl){const cor=val>=70?'#4ade80':val>=40?'#facc15':'#f87171';Plotly.newPlot(id,[{type:'indicator',mode:'gauge+number',value:val,title:{text:lbl+' · clique',font:{color:_c.axis,size:8}},number:{font:{color:_c.gauge_num,size:20}},gauge:{axis:{range:[0,100],visible:false},bar:{color:cor,thickness:.28},bgcolor:'#1e1b3a',borderwidth:0,steps:[{range:[0,40],color:'rgba(248,113,113,.07)'},{range:[40,70],color:'rgba(250,204,21,.07)'},{range:[70,100],color:'rgba(74,222,128,.07)'}]}}],{...base,height:145,margin:{t:28,b:4,l:8,r:8}},cfg);document.getElementById(id).on('plotly_click',()=>{const setorSel=document.getElementById('sb-setor');if(setorSel&&setor!=='—'){setorSel.value=setor;onSetorChange();}goPage('setor');});}
+  mkGauge('plt-g-cap',sc_cap,'Capacidade');mkGauge('plt-g-hist',sc_hist,'Histórico');mkGauge('plt-g-conc',sc_conc,'Concentração');
+  const btnSetor=document.getElementById('btn-ver-setor');if(btnSetor){btnSetor.onclick=()=>{const setorSel=document.getElementById('sb-setor');if(setorSel&&setor!=='—'){setorSel.value=setor;onSetorChange();}goPage('setor');};}
+}
+window.toggleJSON=function(){const el=document.getElementById('json-body');el.style.display=el.style.display==='none'||!el.style.display?'block':'none';};
+
+/* ════════════════════════════════════════════════════════════════
+   SETOR
+════════════════════════════════════════════════════════════════ */
+function renderSetor(wrap){
+  wrap.innerHTML=`<div id="set-body"></div>`;
+  const setorSel=document.getElementById('sb-setor')?.value||'Todos';
+  if(!setorSel||setorSel==='Todos'){document.getElementById('set-body').innerHTML=emptyState('📊','Nenhum setor selecionado','Use o filtro "Setor" na sidebar para visualizar a análise');return;}
+  const empDados=STATE.empresaSel?(STATE.dfFiltered.find(d=>d.id_cnpj===STATE.empresaSel)||STATE.df.find(d=>d.id_cnpj===STATE.empresaSel)):null;
+  renderSetorBody(setorSel,empDados);
+}
+function renderSetorBody(setor_sel,empDados=null){
+  const df_s=STATE.dfFiltered.filter(d=>d.setor_resumo===setor_sel&&valido(d.id_cnpj)&&valido(d.uf));
+  if(!df_s.length){document.getElementById('set-body').innerHTML=emptyState('📊','Sem empresas neste setor','Tente remover filtros de UF ou Faixa de Atraso');return;}
+  let df=df_s;
+  if(STATE.xfSet.sinal)df=df.filter(d=>d.sinal===STATE.xfSet.sinal);
+  if(STATE.xfSet.uf)df=df.filter(d=>d.uf===STATE.xfSet.uf);
+  const n=df.length;const n_tot=df_s.length;
+  const scores=df.map(d=>d.score_final);
+  const med_s=n?+(scores.reduce((a,b)=>a+b,0)/n).toFixed(1):0;
+  const max_s=n?+Math.max(...scores).toFixed(1):0;const min_s=n?+Math.min(...scores).toFixed(1):0;
+  const n_v=df.filter(d=>d.sinal==='verde').length;const n_a=df.filter(d=>d.sinal==='amarelo').length;const n_r=df.filter(d=>d.sinal==='vermelho').length;
+  const med_cap=n?+(df.reduce((a,d)=>a+(d.score_capacidade_pagamento||0),0)/n).toFixed(1):0;
+  const med_hist=n?+(df.reduce((a,d)=>a+(d.score_historico_pagamento||0),0)/n).toFixed(1):0;
+  const med_conc=n?+(df.reduce((a,d)=>a+(d.score_concentracao_risco||0),0)/n).toFixed(1):0;
+  const byUFAtr={};df.forEach(d=>{if(!byUFAtr[d.uf])byUFAtr[d.uf]={s:0,c:0};byUFAtr[d.uf].s+=(d.media_atraso_dias||0);byUFAtr[d.uf].c++;});
+  const ufAtrData=Object.entries(byUFAtr).map(([uf,v])=>({uf,med:+(v.s/v.c).toFixed(1)})).sort((a,b)=>b.med-a.med);
+  const topUF=ufAtrData[0]?.uf||'—';
+  const emp=empDados||(STATE.empresaSel?(STATE.dfFiltered.find(d=>d.id_cnpj===STATE.empresaSel)||STATE.df.find(d=>d.id_cnpj===STATE.empresaSel)):null);
+  const emp_score=emp?(emp.score_final||0):null;const emp_cap=emp?(emp.score_capacidade_pagamento||0):null;
+  const emp_hist=emp?(emp.score_historico_pagamento||0):null;const emp_conc=emp?(emp.score_concentracao_risco||0):null;
+  const emp_cnpj=emp?emp.id_cnpj:null;const temEmp=emp!==null;
+  const xfAtivo=STATE.xfSet.sinal||STATE.xfSet.uf;
+  const xfBadge=xfAtivo?`<div style="display:flex;align-items:center;gap:.5rem;background:#1e1b3a;border:1px solid var(--acc);border-radius:8px;padding:.4rem .9rem;margin-bottom:.8rem;flex-wrap:wrap;"><span style="font-size:.6rem;font-weight:700;color:var(--acc2);letter-spacing:.08em;text-transform:uppercase;">Seleção: ${n} de ${n_tot} empresa${n_tot!==1?'s':''}</span>${STATE.xfSet.sinal?`<span class="xf-chip" onclick="clearXFSet('sinal')">${{verde:'✅ Baixo Risco',amarelo:'⚡ Moderado',vermelho:'🚨 Alto Risco'}[STATE.xfSet.sinal]} ×</span>`:''}${STATE.xfSet.uf?`<span class="xf-chip" onclick="clearXFSet('uf')">📍 ${STATE.xfSet.uf} ×</span>`:''}<button onclick="clearAllXFSet()" style="margin-left:auto;background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:6px;font-size:.62rem;padding:.2rem .6rem;cursor:pointer;font-family:var(--font);">Limpar</button></div>`:'';
+  document.getElementById('set-body').innerHTML=`${xfBadge}<div class="emp-header" style="border-left-color:var(--acc);margin-bottom:.8rem;"><div><div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--acc2);margin-bottom:.22rem;">ANÁLISE DO SETOR</div><div style="font-size:.95rem;font-weight:800;color:var(--text);">${setor_sel}</div></div><div style="text-align:right;"><div style="font-size:.6rem;color:var(--muted);">${n} empresa${n!==1?'s':''} · UF principal: ${topUF}</div><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-top:2px;">Score Médio <span style="color:var(--acc2)">${med_s}</span></div></div></div>
+    <div class="stat-grid-5" style="margin-bottom:.9rem;">${statCard('EMPRESAS',n.toString(),'no setor filtrado','purple')}${statCard('SCORE MÉDIO',med_s.toFixed(1),'de 100 pontos','blue')}${statCard('BAIXO RISCO',n_v.toString(),n?Math.round(n_v/n*100)+'% do setor':'—','green','↑ '+n_v+' aptas','up')}${statCard('MODERADO',n_a.toString(),n?Math.round(n_a/n*100)+'% do setor':'—','amber')}${statCard('ALTO RISCO',n_r.toString(),n?Math.round(n_r/n*100)+'% do setor':'—','red','↓ '+n_r+' em alerta','down')}</div>
+    <div class="grad-div"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+      <div class="chart-card"><div class="chart-title">EMPRESA VS SETOR <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${temEmp?'· linha = empresa':'· selecione CNPJ'}</span></div><div id="plt-bar-mmm"></div></div>
+      <div class="chart-card"><div class="chart-title">DISTRIBUIÇÃO DE RISCO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· clique para filtrar</span></div><div id="plt-donut-set"></div></div>
+      <div class="chart-card"><div class="chart-title">DISTRIBUIÇÃO DE SCORES</div><div id="plt-hist-set"></div></div>
+    </div>
+    <div class="grad-div"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+      <div class="chart-card"><div class="chart-title">RADAR MÉDIO DO SETOR</div><div id="plt-radar-set"></div></div>
+      <div class="chart-card"><div class="chart-title">FAIXAS DE ATRASO — SETOR</div><div id="plt-atraso-set"></div></div>
+    </div>
+    <div class="grad-div"></div>
+    <div class="chart-card"><div class="chart-title">EMPRESAS DO SETOR <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${n} empresa${n!==1?'s':''} · clique para detalhe</span></div><div class="tbl-wrap">${buildTable(df,true)}</div></div>`;
+  const cfg={responsive:true,displayModeBar:false};var _c=getPlotlyColors();const base={paper_bgcolor:_c.bg,plot_bgcolor:_c.bg,font:{color:_c.font,family:'Plus Jakarta Sans',size:10}};const H=240;
+  const dims=['Capacidade','Histórico','Concentração','Score Final'];
+  const med_dim=[med_cap,med_hist,med_conc,med_s];
+  const min_dim=[+(Math.min(...df.map(d=>d.score_capacidade_pagamento||0))).toFixed(1),+(Math.min(...df.map(d=>d.score_historico_pagamento||0))).toFixed(1),+(Math.min(...df.map(d=>d.score_concentracao_risco||0))).toFixed(1),min_s];
+  const max_dim=[+(Math.max(...df.map(d=>d.score_capacidade_pagamento||0))).toFixed(1),+(Math.max(...df.map(d=>d.score_historico_pagamento||0))).toFixed(1),+(Math.max(...df.map(d=>d.score_concentracao_risco||0))).toFixed(1),max_s];
+  const emp_dim=temEmp?[emp_cap,emp_hist,emp_conc,emp_score]:null;
+  const tracesMmm=[{name:'Mín. Setor',type:'bar',x:dims,y:min_dim,marker:{color:'rgba(248,113,113,.25)',line:{color:'rgba(248,113,113,.5)',width:1}},text:min_dim.map(v=>v.toFixed(0)),textposition:'inside',textfont:{color:'#f87171',size:8},hovertemplate:'Mín: <b>%{y:.1f}</b><extra></extra>'},{name:'Méd. Setor',type:'bar',x:dims,y:med_dim,marker:{color:'rgba(109,40,217,.35)',line:{color:'rgba(109,40,217,.7)',width:1}},text:med_dim.map(v=>v.toFixed(0)),textposition:'inside',textfont:{color:_c.text,size:9},hovertemplate:'Média: <b>%{y:.1f}</b><extra></extra>'},{name:'Máx. Setor',type:'bar',x:dims,y:max_dim,marker:{color:'rgba(74,222,128,.25)',line:{color:'rgba(74,222,128,.5)',width:1}},text:max_dim.map(v=>v.toFixed(0)),textposition:'inside',textfont:{color:'#4ade80',size:8},hovertemplate:'Máx: <b>%{y:.1f}</b><extra></extra>'}];
+  if(temEmp){const empCor=COR_SINAL[emp?.sinal||'']||'#9d77f5';tracesMmm.push({name:emp_cnpj?emp_cnpj.slice(0,10)+'… (empresa)':'Empresa',type:'scatter',mode:'lines+markers+text',x:dims,y:emp_dim,line:{color:empCor,width:3},marker:{color:empCor,size:9,line:{color:'#0d0d14',width:2}},text:emp_dim.map(v=>v.toFixed(0)),textposition:'top center',textfont:{color:empCor,size:10,weight:700},hovertemplate:'Empresa: <b>%{y:.1f}</b><extra></extra>'});}
+  Plotly.newPlot('plt-bar-mmm',tracesMmm,{...base,height:H,barmode:'group',bargap:.18,bargroupgap:.05,showlegend:true,legend:{orientation:'h',x:.5,xanchor:'center',y:-.18,font:{color:_c.font,size:8},bgcolor:'rgba(0,0,0,0)'},margin:{t:16,b:48,l:36,r:16},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont}},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,range:[0,115],tickfont:{size:8},zeroline:false}},cfg);
+  Plotly.newPlot('plt-donut-set',[{type:'pie',labels:['Baixo Risco','Moderado','Alto Risco'],values:[n_v,n_a,n_r],hole:.55,sort:false,marker:{colors:['#4ade80','#facc15','#f87171'],line:{color:'#0d0d14',width:2}},textinfo:'percent',textfont:{color:'#fff',size:10},hovertemplate:'<b>%{label}</b><br>%{value} empresas (%{percent})<extra></extra>'}],{...base,height:H,margin:{t:16,b:16,l:16,r:100},showlegend:true,legend:{orientation:'v',x:1.02,y:.5,xanchor:'left',font:{color:_c.tickfont,size:9},bgcolor:'rgba(0,0,0,0)'}},cfg);
+  document.getElementById('plt-donut-set').on('plotly_click',ev=>{const map={'Baixo Risco':'verde','Moderado':'amarelo','Alto Risco':'vermelho'};const s=map[ev.points[0].label];STATE.xfSet.sinal=STATE.xfSet.sinal===s?null:s;renderPage();});
+  Plotly.newPlot('plt-hist-set',[{type:'histogram',x:scores,xbins:{start:0,end:100,size:5},marker:{color:'#7c3aed',opacity:.85,line:{width:0}}}],{...base,height:H,bargap:.06,showlegend:false,margin:{t:16,b:36,l:36,r:16},xaxis:{showgrid:false,range:[0,100],color:_c.axis,tickfont:{size:9},title:{text:'Score',font:{color:_c.axis,size:9}}},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:9}},shapes:[{type:'line',x0:med_s,x1:med_s,y0:0,y1:1,yref:'paper',line:{color:'#a78bfa',width:2,dash:'dash'}}],annotations:[{x:med_s,y:.96,yref:'paper',text:'Média '+med_s,font:{color:'#a78bfa',size:9},showarrow:false,xanchor:'left'}]},cfg);
+  Plotly.newPlot('plt-radar-set',[{type:'scatterpolar',r:[med_cap,med_hist,med_conc,med_s],theta:['Capacidade','Histórico','Concentração','Score Médio'],fill:'toself',fillcolor:'rgba(124,58,237,.15)',line:{color:'#7c3aed',width:2},marker:{color:'#a78bfa',size:5}}],{...base,height:H,margin:{t:16,b:16,l:24,r:24},polar:{bgcolor:_c.polar_bg,radialaxis:{visible:true,range:[0,100],color:_c.muted,gridcolor:_c.grid,tickfont:{size:7,color:_c.muted}},angularaxis:{color:_c.axis,gridcolor:_c.grid,tickfont:{size:9,color:_c.tickfont}}},showlegend:false},cfg);
+  const FAIXAS_SET=[{key:'sem',label:'Sem Atraso',sublabel:'0 dias',cor:'#4ade80'},{key:'baixo',label:'Baixo',sublabel:'1–15 dias',cor:'#86efac'},{key:'moderado',label:'Moderado',sublabel:'16–30 dias',cor:'#facc15'},{key:'alto',label:'Alto',sublabel:'31–60 dias',cor:'#fb923c'},{key:'critico',label:'Crítico',sublabel:'>60 dias',cor:'#f87171'}];
+  const faixasSet={sem:0,baixo:0,moderado:0,alto:0,critico:0};
+  df.forEach(d=>{const dias=d.media_atraso_dias||0;const f=dias===0?'sem':dias<=15?'baixo':dias<=30?'moderado':dias<=60?'alto':'critico';faixasSet[f]++;});
+  const totalSet=n||1;
+  Plotly.newPlot('plt-atraso-set',[{type:'bar',x:FAIXAS_SET.map(f=>f.label+'<br>'+f.sublabel),y:FAIXAS_SET.map(f=>faixasSet[f.key]),marker:{color:FAIXAS_SET.map(f=>f.cor),opacity:.9,line:{width:0}},text:FAIXAS_SET.map(f=>{const n_=faixasSet[f.key];const pct=Math.round(n_/totalSet*100);return n_>0?`${n_} (${pct}%)`:'0';}),textposition:'auto',textfont:{color:'#e2e2f0',size:10},cliponaxis:false,hovertemplate:'<b>%{x}</b><br>%{y} empresa(s)<extra></extra>'}],{...base,height:H,bargap:.25,showlegend:false,margin:{t:28,b:8,l:36,r:16},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont},automargin:true},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:9},zeroline:false,title:{text:'empresas',font:{color:_c.axis,size:9}}}},cfg);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SETOR VS MERCADO
+════════════════════════════════════════════════════════════════ */
+function renderMercado(wrap){
+  wrap.innerHTML=`<div id="mkt-body"></div>`;
+  const setorRef=document.getElementById('sb-setor')?.value||'Todos';
+  if(!setorRef||setorRef==='Todos'){document.getElementById('mkt-body').innerHTML=emptyState('🌐','Nenhum setor selecionado','Use o filtro "Setor" na sidebar para comparar com o mercado');return;}
+  const uf_mkt=document.getElementById('sb-uf')?.value||'Todas';
+  const atraso_mkt=document.getElementById('sb-atraso')?.value||'todos';
+  const FAIXAS_MKT={todos:[null,null],sem:[0,0],baixo:[1,15],moderado:[16,30],alto:[31,60],critico:[61,null]};
+  const [fMinMkt,fMaxMkt]=FAIXAS_MKT[atraso_mkt]||[null,null];
+  let df_mkt_base=STATE.df;
+  if(uf_mkt!=='Todas')df_mkt_base=df_mkt_base.filter(d=>d.uf===uf_mkt);
+  if(fMinMkt!==null||fMaxMkt!==null)df_mkt_base=df_mkt_base.filter(d=>{const dias=d.media_atraso_dias||0;if(fMinMkt!==null&&dias<fMinMkt)return false;if(fMaxMkt!==null&&dias>fMaxMkt)return false;return true;});
+  const bySetor={};
+  df_mkt_base.forEach(d=>{const s=d.setor_resumo||d.descricao_cnae||'';if(!valido(s))return;if(!bySetor[s])bySetor[s]={scores:[],caps:[],hists:[],concs:[],atrasos:[],sinais:[]};bySetor[s].scores.push(d.score_final||0);bySetor[s].caps.push(d.score_capacidade_pagamento||0);bySetor[s].hists.push(d.score_historico_pagamento||0);bySetor[s].concs.push(d.score_concentracao_risco||0);bySetor[s].atrasos.push(d.media_atraso_dias||0);bySetor[s].sinais.push(d.sinal||'vermelho');const dias=d.media_atraso_dias||0;const faixa=dias===0?'sem':dias<=15?'baixo':dias<=30?'moderado':dias<=60?'alto':'critico';bySetor[s].faixas=bySetor[s].faixas||{sem:0,baixo:0,moderado:0,alto:0,critico:0};bySetor[s].faixas[faixa]++;});
+  const avg=arr=>arr.length?+(arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1):0;
+  const setores=Object.entries(bySetor).map(([nome,v])=>({nome,n:v.scores.length,score:avg(v.scores),cap:avg(v.caps),hist:avg(v.hists),conc:avg(v.concs),atraso:avg(v.atrasos),pct_verde:+(v.sinais.filter(s=>s==='verde').length/v.sinais.length*100).toFixed(1),faixas:v.faixas||{sem:0,baixo:0,moderado:0,alto:0,critico:0},isRef:nome===setorRef||nome.toLowerCase().includes(setorRef.toLowerCase())||setorRef.toLowerCase().includes(nome.toLowerCase())})).sort((a,b)=>b.score-a.score);
+  if(!setores.length){document.getElementById('mkt-body').innerHTML=emptyState('📊','Sem dados para este filtro','Tente remover o filtro de UF ou Faixa de Atraso');return;}
+  const refData=setores.find(s=>s.isRef)||setores[0];
+  const allScores=setores.map(s=>s.score);const medGeral=avg(allScores);
+  const posicao=setores.findIndex(s=>s.isRef)+1;
+  const pctPosicao=setores.length?Math.round((1-(posicao-1)/setores.length)*100):0;
+  let df_mkt=[...setores];
+  if(STATE.xfMkt.sinal){const map={verde:s=>s.pct_verde>=50,amarelo:s=>s.pct_verde>=20&&s.pct_verde<50,vermelho:s=>s.pct_verde<20};if(map[STATE.xfMkt.sinal])df_mkt=df_mkt.filter(map[STATE.xfMkt.sinal]);}
+  const xfAtivo=STATE.xfMkt.sinal||STATE.xfMkt.uf;
+  const xfBadge=xfAtivo?`<div style="display:flex;align-items:center;gap:.5rem;background:#1e1b3a;border:1px solid var(--acc);border-radius:8px;padding:.4rem .9rem;margin-bottom:.8rem;flex-wrap:wrap;"><span style="font-size:.6rem;font-weight:700;color:var(--acc2);letter-spacing:.1em;text-transform:uppercase;">Seleção:</span>${STATE.xfMkt.sinal?`<span class="xf-chip" onclick="clearXFMkt('sinal')">${{verde:'✅ Predominância Verde',amarelo:'⚡ Amarelo',vermelho:'🚨 Vermelho'}[STATE.xfMkt.sinal]||STATE.xfMkt.sinal} ×</span>`:''}<button onclick="clearAllXFMkt()" style="margin-left:auto;background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:6px;font-size:.62rem;padding:.2rem .6rem;cursor:pointer;font-family:var(--font);">Limpar</button></div>`:'';
+  document.getElementById('mkt-body').innerHTML=`${xfBadge}
+    <div class="emp-header" style="border-left-color:var(--acc);margin-bottom:.8rem;"><div><div style="font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.14em;color:var(--acc2);margin-bottom:.22rem;">SETOR VS MERCADO</div><div style="font-size:.95rem;font-weight:700;color:var(--text);">${setorRef}</div><div style="font-size:.62rem;color:var(--muted);margin-top:.18rem;">Comparando com todos os setores do mercado</div></div><div style="text-align:right;"><div style="font-size:.6rem;color:var(--muted);">${setores.length} setores · ${STATE.df.length} empresas</div><div style="font-size:.9rem;font-weight:700;color:var(--text);margin-top:2px;">Média geral <span style="color:var(--acc2)">${medGeral.toFixed(1)}</span></div></div></div>
+    <div class="stat-grid-5" style="margin-bottom:.9rem;">${statCard('SCORE DO SETOR',refData.score.toFixed(1),'vs média geral '+medGeral.toFixed(1),refData.score>=medGeral?'green':'red',refData.score>=medGeral?'↑ Acima da média':'↓ Abaixo da média',refData.score>=medGeral?'up':'down')}${statCard('POSIÇÃO',posicao+'º','de '+setores.length+' setores',posicao<=3?'green':posicao<=setores.length*.5?'amber':'red')}${statCard('PERCENTIL',pctPosicao+'%','entre os setores',pctPosicao>=65?'green':pctPosicao>=40?'amber':'red')}${statCard('EMPRESAS',refData.n.toString(),'no setor','blue')}${statCard('% BAIXO RISCO',refData.pct_verde.toFixed(0)+'%','empresas saudáveis',refData.pct_verde>=50?'green':refData.pct_verde>=25?'amber':'red')}</div>
+    <div class="grad-div"></div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+      <div class="chart-card"><div class="chart-title">EMPRESAS POR ESTADO — ${setorRef.length>25?setorRef.slice(0,24)+'…':setorRef}</div><div id="plt-mkt-rank"></div></div>
+      <div class="chart-card"><div class="chart-title">RADAR: SETOR VS MERCADO</div><div id="plt-mkt-radar"></div></div>
+      <div class="chart-card"><div class="chart-title">SCORE VS % BAIXO RISCO</div><div id="plt-mkt-scatter"></div></div>
+    </div>
+    <div class="grad-div"></div>
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:.7rem;align-items:start;">
+      <div class="chart-card"><div class="chart-title">FAIXAS DE ATRASO — SETOR</div><div id="plt-mkt-atraso"></div></div>
+      <div class="chart-card"><div class="chart-title">TODOS OS SETORES</div><div class="tbl-wrap" id="tbl-mkt" style="max-height:200px;">${buildMktTable(setores,setorRef)}</div></div>
+    </div>`;
+  const cfg={responsive:true,displayModeBar:false};var _c=getPlotlyColors();const base={paper_bgcolor:_c.bg,plot_bgcolor:_c.bg,font:{color:_c.font,family:'Plus Jakarta Sans',size:10}};
+  const byUFRef={};
+  df_mkt_base.filter(d=>(d.setor_resumo||d.descricao_cnae||'—')===refData.nome||(d.setor_resumo||d.descricao_cnae||'—').toLowerCase().includes(setorRef.toLowerCase())||setorRef.toLowerCase().includes((d.setor_resumo||d.descricao_cnae||'—').toLowerCase())).forEach(d=>{byUFRef[d.uf]=(byUFRef[d.uf]||0)+1;});
+  const ufRefData=Object.entries(byUFRef).map(([uf,n])=>({uf,n})).sort((a,b)=>b.n-a.n);
+  Plotly.newPlot('plt-mkt-rank',[{type:'bar',x:ufRefData.map(d=>d.uf),y:ufRefData.map(d=>d.n),marker:{color:ufRefData.map(d=>d.n>=50?'#9d77f5':d.n>=20?'#6d28d9':'#4c1d95'),line:{width:0}},text:ufRefData.map(d=>d.n),textposition:'outside',textfont:{color:'#e2e2f0',size:10},cliponaxis:false,hovertemplate:'<b>%{x}</b><br>%{y} empresa(s)<extra></extra>'}],{...base,height:220,bargap:.25,showlegend:false,margin:{t:24,b:40,l:36,r:16},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont},tickangle:ufRefData.length>10?-45:0,automargin:true},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:8},zeroline:false,title:{text:'empresas',font:{color:_c.axis,size:9}}}},cfg);
+  Plotly.newPlot('plt-mkt-radar',[{type:'scatterpolar',r:[refData.cap,refData.hist,refData.conc,refData.score],theta:['Capacidade','Histórico','Concentração','Score'],fill:'toself',name:setorRef.length>18?setorRef.slice(0,17)+'…':setorRef,fillcolor:'rgba(109,40,217,.2)',line:{color:'#9d77f5',width:2.5},marker:{color:'#9d77f5',size:6}},{type:'scatterpolar',r:[avg(setores.map(s=>s.cap)),avg(setores.map(s=>s.hist)),avg(setores.map(s=>s.conc)),medGeral],theta:['Capacidade','Histórico','Concentração','Score'],fill:'toself',name:'Média Mercado',fillcolor:'rgba(88,86,126,.12)',line:{color:_c.axis,width:1.5,dash:'dash'},marker:{color:_c.axis,size:4}}],{...base,height:280,margin:{t:16,b:40,l:24,r:24},polar:{bgcolor:_c.polar_bg,radialaxis:{visible:true,range:[0,100],color:'#3a3860',gridcolor:_c.grid,tickfont:{size:7,color:'#3a3860'}},angularaxis:{color:_c.axis,gridcolor:_c.grid,tickfont:{size:9,color:_c.tickfont}}},showlegend:true,legend:{font:{color:_c.tickfont,size:8},bgcolor:'rgba(0,0,0,0)',orientation:'h',x:.5,xanchor:'center',y:-.15}},cfg);
+  const scatterColors=setores.map(s=>s.isRef?'#9d77f5':s.score>=65?'#4ade80':s.score>=40?'#facc15':'#f87171');
+  Plotly.newPlot('plt-mkt-scatter',[{type:'scatter',x:setores.map(s=>s.score),y:setores.map(s=>s.pct_verde),mode:'markers',marker:{color:scatterColors,size:setores.map(s=>s.isRef?14:7),opacity:.85,line:{width:0}},text:setores.map(s=>s.nome),hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>Baixo Risco: %{y:.1f}%<extra></extra>'}],{...base,height:220,margin:{t:12,b:36,l:44,r:12},xaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:8},title:{text:'Score médio',font:{color:_c.axis,size:9}},zeroline:false},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:8},title:{text:'% Baixo Risco',font:{color:_c.axis,size:9}},zeroline:false},showlegend:false},cfg);
+  const refFaixas=refData.faixas||{sem:0,baixo:0,moderado:0,alto:0,critico:0};
+  const FAIXAS_DEF=[{key:'sem',label:'Sem Atraso',sublabel:'0 dias',cor:'#4ade80'},{key:'baixo',label:'Baixo',sublabel:'1–15 dias',cor:'#86efac'},{key:'moderado',label:'Moderado',sublabel:'16–30 dias',cor:'#facc15'},{key:'alto',label:'Alto',sublabel:'31–60 dias',cor:'#fb923c'},{key:'critico',label:'Crítico',sublabel:'>60 dias',cor:'#f87171'}];
+  const totalRef=Object.values(refFaixas).reduce((a,b)=>a+b,0)||1;
+  Plotly.newPlot('plt-mkt-atraso',[{type:'bar',x:FAIXAS_DEF.map(f=>f.label+'<br>'+f.sublabel),y:FAIXAS_DEF.map(f=>refFaixas[f.key]||0),marker:{color:FAIXAS_DEF.map(f=>f.cor),opacity:.9,line:{width:0}},text:FAIXAS_DEF.map(f=>{const n=refFaixas[f.key]||0;const pct=Math.round(n/totalRef*100);return n>0?`${n} (${pct}%)`:'0';}),textposition:'auto',textfont:{color:'#e2e2f0',size:10},cliponaxis:false,hovertemplate:'<b>%{x}</b><br>%{y} empresa(s)<extra></extra>'}],{...base,height:200,bargap:.3,showlegend:false,margin:{t:16,b:8,l:36,r:16},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont},automargin:true},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:8},zeroline:false,title:{text:'empresas',font:{color:_c.axis,size:8}}}},cfg);
+}
+function buildMktTable(setores,setorRef){
+  const rows=setores.filter(s=>valido(s.nome)).map((s,i)=>{const isRef=s.nome===setorRef;const scoreCor=s.score>=65?'var(--green)':s.score>=40?'var(--amber)':'var(--red)';return`<tr style="${isRef?'background:rgba(109,40,217,.1);border-left:2px solid #9d77f5;':''}cursor:pointer;" onclick="mktClickSetor('${s.nome.replace(/'/g,"\\'")}')" onmouseover="if(!${isRef})this.style.background='var(--bg3)'" onmouseout="if(!${isRef})this.style.background='${isRef?'rgba(109,40,217,.1)':''}'"><td style="font-weight:700;color:var(--muted);font-family:var(--mono)">${i+1}</td><td style="font-weight:${isRef?'700':'500'};color:${isRef?'var(--acc2)':'var(--text)'};max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.nome}${isRef?' ★':''}</td><td style="font-weight:700;color:${scoreCor};font-family:var(--mono)">${s.score.toFixed(1)}</td><td style="font-family:var(--mono)">${s.cap.toFixed(1)}</td><td style="font-family:var(--mono)">${s.hist.toFixed(1)}</td><td style="font-family:var(--mono)">${s.conc.toFixed(1)}</td><td style="font-family:var(--mono)">${s.atraso.toFixed(1)}d</td><td style="color:${s.pct_verde>=50?'var(--green)':s.pct_verde>=25?'var(--amber)':'var(--red)'};font-family:var(--mono)">${s.pct_verde.toFixed(0)}%</td><td style="color:var(--muted);font-family:var(--mono)">${s.n}</td></tr>`;}).join('');
+  return`<table><thead><tr><th>#</th><th>Setor</th><th>Score</th><th>Capac.</th><th>Hist.</th><th>Conc.</th><th>Atraso</th><th>% Verde</th><th>Emp.</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function mktClickSetor(nome){const el=document.getElementById('sb-setor');if(el){el.value=nome;onSetorChange();}goPage('setor');}
+
+/* ════════════════════════════════════════════════════════════════
+   ██████████████████████████████████████████████████████████████
+   SIMULADOR DE CARTEIRA — NOVO MÓDULO COMPLETO
+   ██████████████████████████████████████████████████████████████
+════════════════════════════════════════════════════════════════ */
+
+/* ── Normaliza retorno para decimal (ex: "12.5%" → 0.125, 0.125 → 0.125, "—" → 0) ── */
+function parseRetorno(v){
+  if(v===null||v===undefined||v===''||v==='—'||v==='-')return 0;
+  if(typeof v==='number')return isNaN(v)?0:(v>1?v/100:v); // se já vier como 12.5, converte
+  const s=String(v).trim().replace('%','').replace(',','.');
+  const n=parseFloat(s);
+  if(isNaN(n))return 0;
+  return n>1?n/100:n; // "12.5" → 0.125, "0.125" → 0.125
+}
+
+/* ── Formata retorno decimal para exibição ── */
+function fmtRetorno(v){
+  const r=parseRetorno(v);
+  return r===0?'—':(r*100).toFixed(2)+'%';
+}
+
+/* ── Calcula métricas da carteira simulada ── */
+function calcSimMetricas(portfolio){
+  const n=portfolio.length;
+  if(!n)return{score:0,hhi:0,pdd:0,retorno:0,atraso:0,nVerde:0,nAmarelo:0,nVermelho:0,sinalCarteira:'vermelho',hhiSetor:0,hhiUF:0};
+  const totalValor=portfolio.reduce((a,d)=>a+d.valor,0)||1;
+  // Score ponderado pelo valor
+  const score=portfolio.reduce((a,d)=>a+(d.score*(d.valor/totalValor)),0);
+  // HHI por empresa (concentração)
+  const hhi=portfolio.reduce((a,d)=>a+Math.pow(d.valor/totalValor,2),0);
+  // HHI por setor
+  const bySetor={};portfolio.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
+  const hhiSetor=Object.values(bySetor).reduce((a,v)=>a+Math.pow(v/totalValor,2),0);
+  // HHI por UF
+  const byUF={};portfolio.forEach(d=>{byUF[d.uf]=(byUF[d.uf]||0)+d.valor;});
+  const hhiUF=Object.values(byUF).reduce((a,v)=>a+Math.pow(v/totalValor,2),0);
+  // PDD estimada (haircut por atraso)
+  const haircutMap=(dias)=>dias===0?0.01:dias<=15?0.05:dias<=30?0.10:dias<=60?0.20:0.40;
+  const pdd=portfolio.reduce((a,d)=>a+(d.valor*haircutMap(d.atraso)),0);
+  // Retorno ponderado (garante que d.retorno é decimal normalizado)
+  const retorno=portfolio.reduce((a,d)=>a+(parseRetorno(d.retorno)*(d.valor/totalValor)),0);
+  // Atraso médio ponderado
+  const atraso=portfolio.reduce((a,d)=>a+(d.atraso*(d.valor/totalValor)),0);
+  const nVerde=portfolio.filter(d=>d.sinal==='verde').length;
+  const nAmarelo=portfolio.filter(d=>d.sinal==='amarelo').length;
+  const nVermelho=portfolio.filter(d=>d.sinal==='vermelho').length;
+  const pctVerde=nVerde/n;
+  const sinalCarteira=pctVerde>=.6?'verde':pctVerde>=.3?'amarelo':'vermelho';
+  return{score,hhi,hhiSetor,hhiUF,pdd,retorno,atraso,nVerde,nAmarelo,nVermelho,sinalCarteira,totalValor,n};
+}
+
+/* ── Gera recomendações inteligentes de diversificação ── */
+function gerarRecomendacoes(portfolio,metricas){
+  const recs=[];
+  const n=portfolio.length;
+  const totalValor=metricas.totalValor||1;
+
+  // HHI concentrado por empresa?
+  if(metricas.hhi>0.25){
+    const maior=portfolio.sort((a,b)=>b.valor-a.valor)[0];
+    const pct=(maior.valor/totalValor*100).toFixed(0);
+    recs.push({tipo:'diversificacao',cor:'#facc15',icone:'⚡',titulo:'Alta Concentração por Empresa',texto:`${pct}% do capital está em uma única empresa (${maior.cnpj.slice(0,12)}…). Reduza para no máximo 20% por sacado para um HHI saudável (<0.10).`,meta:`HHI atual: ${metricas.hhi.toFixed(4)} · Meta: <0.10`});
+  }
+  // HHI por setor?
+  if(metricas.hhiSetor>0.30){
+    const bySetor={};portfolio.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
+    const topSetor=Object.entries(bySetor).sort((a,b)=>b[1]-a[1])[0];
+    if(topSetor){const pct=(topSetor[1]/totalValor*100).toFixed(0);recs.push({tipo:'setor',cor:'#fb923c',icone:'🏭',titulo:'Concentração Setorial Elevada',texto:`O setor "${topSetor[0].slice(0,40)}" representa ${pct}% da carteira. Adicione empresas de setores distintos para reduzir risco sistêmico.`,meta:`HHI Setor: ${metricas.hhiSetor.toFixed(4)} · Recomendado: <0.15`});}
+  }
+  // Muitas empresas vermelho?
+  if(metricas.nVermelho>0&&n>0&&metricas.nVermelho/n>0.3){
+    recs.push({tipo:'risco',cor:'#f87171',icone:'🚨',titulo:'Excesso de Exposição ao Risco',texto:`${metricas.nVermelho} de ${n} empresas (${Math.round(metricas.nVermelho/n*100)}%) possuem classificação "Alto Risco". Substitua por empresas com sinal verde ou realize due diligence avançado.`,meta:`PDD estimada: R$ ${metricas.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0})}`});
+  }
+  // Atraso médio alto?
+  if(metricas.atraso>30){
+    recs.push({tipo:'atraso',cor:'#f87171',icone:'📅',titulo:'Atraso Médio Crítico na Carteira',texto:`O atraso médio ponderado é de ${metricas.atraso.toFixed(1)} dias. Priorize empresas com menos de 15 dias de atraso e considere substituir devedores crônicos.`,meta:`Faixa crítica: >30d aumenta PDD em 10–40%`});
+  }else if(metricas.atraso>15){
+    recs.push({tipo:'atraso',cor:'#facc15',icone:'⏱️',titulo:'Atraso Médio Moderado',texto:`Atraso médio de ${metricas.atraso.toFixed(1)} dias. Monitore empresas acima de 15 dias e ative alertas de cobrança preventiva.`,meta:`Haircut aplicado: 5–10% do valor`});
+  }
+  // Score baixo?
+  if(metricas.score<50&&n>0){
+    recs.push({tipo:'score',cor:'#818cf8',icone:'📊',titulo:'Score Médio da Carteira Baixo',texto:`Score ponderado de ${metricas.score.toFixed(1)}/100 indica risco elevado. Adicione empresas com score ≥ 70 para elevar a qualidade média da carteira.`,meta:`Empresas verdes disponíveis: ${STATE.df.filter(d=>d.sinal==='verde').length}`});
+  }
+  // HHI geográfico?
+  if(metricas.hhiUF>0.40){
+    recs.push({tipo:'geo',cor:'#22d3ee',icone:'🗺️',titulo:'Concentração Geográfica Elevada',texto:`A carteira está muito concentrada em uma UF. Diversifique por estados para reduzir risco de crises regionais (climáticas, tributárias ou logísticas).`,meta:`HHI UF: ${metricas.hhiUF.toFixed(4)} · Meta: <0.20`});
+  }
+  // Retorno abaixo do mercado?
+  const medRetorno=STATE.df.length?STATE.df.reduce((a,d)=>a+parseRetorno(d.retorno_esperado),0)/STATE.df.length:0;
+  if(metricas.retorno<medRetorno*0.8&&n>0){
+    recs.push({tipo:'retorno',cor:'#4ade80',icone:'💰',titulo:'Retorno Abaixo da Média do Mercado',texto:`Retorno médio ponderado da carteira (${fmtRetorno(metricas.retorno)}) está abaixo da média do mercado (${fmtRetorno(medRetorno)}). Considere rebalancear para empresas com melhor relação risco-retorno.`,meta:`Diferencial: ${((metricas.retorno-medRetorno)*100).toFixed(2)}%`});
+  }
+  // Tudo ok?
+  if(!recs.length){
+    recs.push({tipo:'ok',cor:'#4ade80',icone:'✅',titulo:'Carteira Bem Diversificada!',texto:'Sua carteira simulada apresenta boa distribuição setorial, geográfica e por empresa. Mantenha o monitoramento periódico e atualize os dados a cada 30 dias.',meta:`Score: ${metricas.score.toFixed(1)} · HHI: ${metricas.hhi.toFixed(4)} · PDD: R$ ${metricas.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0})}`});
+  }
+  return recs;
+}
+
+/* ── Sugestão automática de empresas para adicionar ── */
+function gerarSugestoes(portfolio,n=5){
+  const jaAdicionados=new Set(portfolio.map(d=>d.cnpj));
+  const setoresAtivos=new Set(portfolio.map(d=>d.setor));
+  const ufsAtivas=new Set(portfolio.map(d=>d.uf));
+  // Pega candidatas verdes não adicionadas
+  let candidatas=STATE.df.filter(d=>d.sinal==='verde'&&!jaAdicionados.has(d.id_cnpj));
+  // Prioriza setores/UFs não representados
+  candidatas.sort((a,b)=>{
+    const aNew=(!setoresAtivos.has(a.setor_resumo)?2:0)+(!ufsAtivas.has(a.uf)?1:0);
+    const bNew=(!setoresAtivos.has(b.setor_resumo)?2:0)+(!ufsAtivas.has(b.uf)?1:0);
+    if(bNew!==aNew)return bNew-aNew;
+    return b.score_final-a.score_final;
+  });
+  return candidatas.slice(0,n);
+}
+
+/* ── Ticker com dados dinâmicos ── */
+function buildTickerHTML(metricas){
+  const port=STATE.sim.portfolio;
+  if(!port.length)return'<div class="ticker-inner"><span class="ticker-item">🚀 Adicione empresas ao simulador para ver o ticker em tempo real</span><span class="ticker-item">🚀 Adicione empresas ao simulador para ver o ticker em tempo real</span></div>';
+  const items=port.map(d=>{const delta=(Math.random()-.45)*2;const dir=delta>=0?'up':'down';const sym=delta>=0?'▲':'▼';return`<span class="ticker-item">${ICO_SINAL[d.sinal]} ${d.cnpj.slice(0,10)}… <span class="${dir}">${sym} ${Math.abs(delta).toFixed(2)}%</span> · Score ${d.score.toFixed(0)}</span>`;});
+  const all=[...items,...items].join('');
+  return`<div class="ticker-inner">${all}</div>`;
+}
+
+/* ── Farol visual ── */
+function buildFarolHTML(sinal){
+  const aceso={verde:'verde',amarelo:'amarelo',vermelho:'vermelho'}[sinal]||'vermelho';
+  return`
+    <div class="farol-wrap">
+      <div style="font-size:.52rem;font-weight:700;color:var(--hint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">FAROL</div>
+      <div class="farol-light vermelho ${aceso==='vermelho'?'on':'off'}"></div>
+      <div class="farol-light amarelo ${aceso==='amarelo'?'on':'off'}"></div>
+      <div class="farol-light verde ${aceso==='verde'?'on':'off'}"></div>
+      <div class="farol-label" style="color:${COR_SINAL[aceso]||'var(--muted)'};margin-top:.2rem;">${LBL_SINAL[aceso]||'—'}</div>
+    </div>`;
+}
+
+/* ── Tick do monitoramento ao vivo ── */
+function simLiveTick(){
+  const port=STATE.sim.portfolio;
+  if(!port.length)return;
+  // Simula pequenas variações de score/retorno ±2%
+  port.forEach(d=>{
+    const delta=(Math.random()-.48)*2;
+    d.score=Math.min(100,Math.max(0,d.score+delta));
+    d.sinal=d.score>=65?'verde':d.score>=40?'amarelo':'vermelho';
+    const deltaR=(Math.random()-.48)*0.001;
+    d.retorno=Math.max(0,parseRetorno(d.retorno)+deltaR);
+  });
+  STATE.sim.lastUpdate=new Date();
+  // Re-render apenas o painel de monitoramento e farol
+  const tickerEl=document.getElementById('sim-ticker');
+  const metricas=calcSimMetricas(port);
+  if(tickerEl){const t=buildTickerHTML(metricas);tickerEl.innerHTML=t;}
+  // Atualiza strip de monitoramento
+  updateMonitStrip(metricas);
+  // Atualiza farol
+  const farolEl=document.getElementById('sim-farol');
+  if(farolEl)farolEl.innerHTML=buildFarolHTML(metricas.sinalCarteira);
+  // Atualiza gráfico de pizza
+  updateSimCharts(port,metricas);
+  // Atualiza timestamp
+  const tsEl=document.getElementById('sim-ts');
+  if(tsEl)tsEl.textContent='Último update: '+STATE.sim.lastUpdate.toLocaleTimeString('pt-BR');
+}
+
+function updateMonitStrip(m){
+  const el=document.getElementById('sim-monit-strip');
+  if(!el)return;
+  el.innerHTML=`
+    <div class="monit-cell"><div class="monit-cell-lbl">Score Carteira</div><div class="monit-cell-val" style="color:${m.score>=65?'var(--green)':m.score>=40?'var(--amber)':'var(--red)'}">${m.n?m.score.toFixed(1):'—'}</div><div class="monit-cell-sub">ponderado por valor</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">HHI Concentração</div><div class="monit-cell-val" style="color:${m.hhi<0.10?'var(--green)':m.hhi<0.25?'var(--amber)':'var(--red)'}">${m.n?m.hhi.toFixed(4):'—'}</div><div class="monit-cell-sub">${m.hhi<0.10?'✅ Baixa conc.':m.hhi<0.25?'⚡ Moderada':'🚨 Alta conc.'}</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">PDD Estimada</div><div class="monit-cell-val" style="color:var(--red)">R$ ${m.n?m.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0}):'0'}</div><div class="monit-cell-sub">provisão de devedores</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">Retorno Esperado</div><div class="monit-cell-val" style="color:var(--green)">${m.n?fmtRetorno(m.retorno):'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">Empresas</div><div class="monit-cell-val">${m.n||0}</div><div class="monit-cell-sub">${m.nVerde} verde · ${m.nAmarelo} amber · ${m.nVermelho} red</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">Atraso Médio</div><div class="monit-cell-val" style="color:${m.atraso===0?'var(--green)':m.atraso<=15?'var(--amber)':'var(--red)'}">${m.n?m.atraso.toFixed(1)+'d':'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>`;
+}
+
+function updateSimCharts(port,metricas){
+  try{
+    // Donut setores
+    const bySetor={};port.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
+    const setLabels=Object.keys(bySetor);const setVals=Object.values(bySetor);
+    if(document.getElementById('sim-donut-setor'))
+      Plotly.react('sim-donut-setor',[{type:'pie',labels:setLabels,values:setVals,hole:.55,marker:{line:{color:'rgba(0,0,0,.3)',width:1}},textinfo:'percent',textfont:{size:10},hovertemplate:'<b>%{label}</b><br>R$ %{value:,.0f} (%{percent})<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',margin:{t:8,b:8,l:8,r:8},height:200,font:{color:'#6b6b88',size:10},showlegend:false},{responsive:true,displayModeBar:false});
+    // Scatter risco vs retorno
+    if(document.getElementById('sim-scatter'))
+      Plotly.react('sim-scatter',[{type:'scatter',x:port.map(d=>d.score),y:port.map(d=>parseRetorno(d.retorno)*100),mode:'markers+text',text:port.map(d=>d.cnpj.slice(0,8)),textposition:'top center',textfont:{size:8,color:'#6b6b88'},marker:{color:port.map(d=>COR_SINAL[d.sinal]||'#818cf8'),size:port.map(d=>Math.max(8,Math.min(22,d.valor/50000))),opacity:.85,line:{width:0}},hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>Retorno: %{y:.2f}%<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',height:200,margin:{t:8,b:36,l:44,r:12},xaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Score',font:{size:9}}},yaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Retorno %',font:{size:9}}},showlegend:false,font:{color:'#6b6b88',size:9}},{responsive:true,displayModeBar:false});
+  }catch(e){/*silencioso*/}
+}
+
+/* ── RENDER PRINCIPAL DO SIMULADOR ── */
+function renderSimulador(wrap){
+  // Para o intervalo se voltou à página
+  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
+
+  // Lista de CNPJs disponíveis para adicionar
+  const cnpjOpts=STATE.df.slice(0,200).map(d=>`<option value="${d.id_cnpj}" data-score="${d.score_final}" data-sinal="${d.sinal}" data-setor="${d.setor_resumo}" data-uf="${d.uf}" data-retorno="${d.retorno_esperado||0}" data-atraso="${d.media_atraso_dias||0}">${d.id_cnpj} · ${d.setor_resumo?.slice(0,28)||'—'} (${d.sinal})</option>`).join('');
+
+  const port=STATE.sim.portfolio;
+  const metricas=calcSimMetricas(port);
+  const recs=gerarRecomendacoes(port,metricas);
+  const sugestoes=gerarSugestoes(port,4);
+
+  wrap.innerHTML=`
+  <!-- HEADER SIMULADOR -->
+  <div class="emp-header" style="border-left-color:#22d3ee;margin-bottom:.7rem;">
+    <div>
+      <div style="font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.14em;color:#22d3ee;margin-bottom:.22rem;">🚀 SIMULADOR DE CARTEIRA</div>
+      <div style="font-size:.9rem;font-weight:700;color:var(--text);">Monte, analise e otimize sua carteira FIDC</div>
+      <div style="font-size:.62rem;color:var(--muted);margin-top:.18rem;">Indicadores profissionais · Recomendações IA · Monitoramento ao vivo</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <span class="live-dot" id="live-status">AO VIVO</span>
+      <div style="text-align:right;">
+        <div style="font-size:.6rem;color:var(--muted);" id="sim-ts">Sem updates ainda</div>
+        <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-top:2px;">${port.length} empresa${port.length!==1?'s':''} · R$ ${metricas.totalValor?.toLocaleString('pt-BR',{maximumFractionDigits:0})||'0'}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TICKER AO VIVO -->
+  <div class="ticker-wrap" id="sim-ticker">${buildTickerHTML(metricas)}</div>
+
+  <!-- MONITORAMENTO STRIP -->
+  <div class="monit-strip" id="sim-monit-strip"></div>
+
+  <div class="grad-div"></div>
+
+  <!-- ADD EMPRESA -->
+  <div class="add-panel">
+    <div class="add-panel-title">
+      <svg width="14" height="14" fill="none" stroke="#22d3ee" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Adicionar Empresa à Carteira Simulada
+    </div>
+    <div style="display:grid;grid-template-columns:1.5fr 1.8fr .8fr .75fr .75fr auto;gap:.55rem;align-items:end;">
+      <div>
+        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Setor</label>
+        <select id="sim-sel-setor" onchange="simFiltrarEmpresasPorSetor()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
+          <option value="">Todos os setores</option>
+          \${[...new Set(STATE.df.map(d=>d.setor_resumo).filter(v=>valido(v)))].sort().map(s=>`<option value="\${s}">\${s.length>50?s.slice(0,49)+'\u2026':s}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Empresa (CNPJ)</label>
+        <select id="sim-sel-cnpj" onchange="simPreviewEmpresa()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
+          <option value="">Selecione...</option>
+          \${STATE.df.slice(0,300).map(d=>`<option value="\${d.id_cnpj}" data-score="\${d.score_final}" data-sinal="\${d.sinal}" data-setor="\${d.setor_resumo||''}" data-uf="\${d.uf}" data-retorno="\${d.retorno_esperado||0}" data-atraso="\${d.media_atraso_dias||0}">\${d.id_cnpj} · \${d.uf} · score \${d.score_final.toFixed(0)} (\${d.sinal})</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Valor (R$)</label>
+        <input type="number" id="sim-inp-valor" value="50000" min="1000" step="1000" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;"/>
+      </div>
+      <div>
+        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Risco</label>
+        <select id="sim-sel-risco" onchange="simFiltrarEmpresasPorSetor()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
+          <option value="todos">Todos</option>
+          <option value="verde">S\xf3 Verde</option>
+          <option value="amarelo">Verde+Amber</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Opera\xe7\xe3o</label>
+        <select id="sim-sel-op" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
+          <option value="recebivel">Receb\xedvel</option>
+          <option value="duplicata">Duplicata</option>
+          <option value="cheque">Cheque</option>
+          <option value="cce">CCE</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:.55rem;color:transparent;display:block;margin-bottom:.16rem;">.</label>
+        <button class="add-btn" onclick="simAdicionarEmpresa()">+ Adicionar</button>
+      </div>
+    </div>
+    <div id="sim-empresa-preview" style="margin-top:.55rem;display:none;background:var(--bg3);border-radius:7px;padding:.45rem .85rem;border-left:3px solid var(--cyan);font-size:.64rem;line-height:1.7;"></div>
+  </div>
+
+  <!-- GRID PRINCIPAL: Portfolio + Farol + Gráficos -->
+  <div style="display:grid;grid-template-columns:1fr auto;gap:.7rem;margin-bottom:.7rem;align-items:start;">
+
+    <!-- PORTFOLIO TABLE -->
+    <div class="chart-card" style="padding:0;overflow:hidden;">
+      <div class="chart-title" style="padding:.8rem 1rem .6rem;margin:0;border-radius:10px 10px 0 0;">
+        PORTFÓLIO SIMULADO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${port.length} empresa${port.length!==1?'s':''}</span>
+        ${port.length?`<button onclick="simLimparPortfolio()" style="float:right;background:transparent;border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:4px;font-size:.55rem;font-weight:700;padding:.18rem .55rem;cursor:pointer;font-family:var(--font);">✕ Limpar tudo</button>`:''}
+      </div>
+      ${port.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.75rem;">📭 Nenhuma empresa adicionada ainda.<br><span style="font-size:.65rem;color:var(--hint);">Use o painel acima para adicionar empresas à carteira simulada.</span></div>`:`
+      <div style="overflow:auto;max-height:280px;">
+        <div class="port-row header">
+          <span>CNPJ</span><span>UF</span><span>Score</span><span>Sinal</span><span>Retorno</span><span>Atraso</span><span>Valor (R$)</span><span>Ação</span>
+        </div>
+        ${port.map((d,i)=>`
+          <div class="port-row">
+            <span style="font-family:var(--mono);font-size:.6rem;color:var(--muted);">${d.cnpj.slice(0,14)}…</span>
+            <span>${d.uf}</span>
+            <span style="font-weight:700;font-family:var(--mono);color:${COR_SINAL[d.sinal]||'var(--text)'};">${d.score.toFixed(1)}</span>
+            <span>${badge(d.sinal)}</span>
+            <span style="font-family:var(--mono);color:var(--green);">${fmtRetorno(d.retorno)}</span>
+            <span style="font-family:var(--mono);color:${d.atraso===0?'var(--green)':d.atraso<=15?'var(--amber)':'var(--red)'};">${d.atraso.toFixed(0)}d</span>
+            <span style="font-family:var(--mono);">R$ ${d.valor.toLocaleString('pt-BR',{maximumFractionDigits:0})}</span>
+            <span><button class="remove-btn" onclick="simRemoverEmpresa(${i})">Remover</button></span>
+          </div>`).join('')}
+      </div>`}
+    </div>
+
+    <!-- FAROL SEMÁFORO -->
+    <div id="sim-farol">${buildFarolHTML(metricas.sinalCarteira)}</div>
+  </div>
+
+  <!-- INDICADORES PROFISSIONAIS + CHARTS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+
+    <!-- HHI detalhado -->
+    <div class="chart-card">
+      <div class="chart-title">INDICADOR HHI — CONCENTRAÇÃO</div>
+      <div style="margin-bottom:.6rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
+          <span style="font-size:.6rem;color:var(--muted);">HHI Empresa</span>
+          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhi<0.10?'var(--green)':metricas.hhi<0.25?'var(--amber)':'var(--red)'}">${port.length?metricas.hhi.toFixed(4):'—'}</span>
+        </div>
+        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhi/0.5*100,100):0}%"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:.5rem;color:var(--hint);margin-top:.1rem;"><span>Baixa (0)</span><span>Alta (0.5+)</span></div>
+      </div>
+      <div style="margin-bottom:.6rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
+          <span style="font-size:.6rem;color:var(--muted);">HHI Setor</span>
+          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhiSetor<0.15?'var(--green)':metricas.hhiSetor<0.30?'var(--amber)':'var(--red)'}">${port.length?metricas.hhiSetor.toFixed(4):'—'}</span>
+        </div>
+        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhiSetor/0.5*100,100):0}%"></div></div>
+      </div>
+      <div style="margin-bottom:.6rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
+          <span style="font-size:.6rem;color:var(--muted);">HHI Geográfico (UF)</span>
+          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhiUF<0.20?'var(--green)':metricas.hhiUF<0.40?'var(--amber)':'var(--red)'}">${port.length?metricas.hhiUF.toFixed(4):'—'}</span>
+        </div>
+        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhiUF/0.5*100,100):0}%"></div></div>
+      </div>
+      <div style="margin-top:.5rem;padding:.5rem .7rem;background:var(--bg3);border-radius:6px;font-size:.58rem;color:var(--muted);line-height:1.5;">
+        <b style="color:var(--acc2);">Referência:</b> HHI &lt; 0.10 baixa concentração · 0.10–0.25 moderada · &gt; 0.25 alta
+      </div>
+    </div>
+
+    <!-- Donut por setor -->
+    <div class="chart-card">
+      <div class="chart-title">COMPOSIÇÃO POR SETOR</div>
+      <div id="sim-donut-setor" style="min-height:200px;display:flex;align-items:center;justify-content:center;">
+        ${!port.length?'<span style="color:var(--hint);font-size:.7rem;">Adicione empresas</span>':''}
+      </div>
+    </div>
+
+    <!-- Scatter score vs retorno -->
+    <div class="chart-card">
+      <div class="chart-title">RISCO vs RETORNO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· tamanho = valor alocado</span></div>
+      <div id="sim-scatter" style="min-height:200px;display:flex;align-items:center;justify-content:center;">
+        ${!port.length?'<span style="color:var(--hint);font-size:.7rem;">Adicione empresas</span>':''}
+      </div>
+    </div>
+  </div>
+
+  <div class="grad-div"></div>
+
+  <!-- RECOMENDAÇÕES SMART -->
+  <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:.7rem;margin-bottom:.7rem;">
+    <div class="chart-card">
+      <div class="chart-title">🧠 RECOMENDAÇÕES SMART — DIVERSIFICAÇÃO AUTOMÁTICA</div>
+      ${recs.map(r=>`
+        <div class="rec-card" style="border-color:${r.cor};">
+          <div class="rec-card-title" style="color:${r.cor};">${r.icone} ${r.titulo}</div>
+          <div class="rec-card-body">${r.texto}</div>
+          <div class="rec-card-meta">${r.meta}</div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Sugestões automáticas -->
+    <div class="chart-card">
+      <div class="chart-title">💡 SUGESTÕES AUTOMÁTICAS PARA ADICIONAR</div>
+      ${sugestoes.length===0?`<div style="color:var(--muted);font-size:.72rem;padding:.5rem 0;">Nenhuma sugestão disponível com os filtros atuais.</div>`:''}
+      ${sugestoes.map(d=>`
+        <div style="background:var(--bg3);border-radius:8px;padding:.6rem .85rem;margin-bottom:.4rem;border-left:3px solid ${COR_SINAL[d.sinal]||'var(--acc)'};">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.18rem;">
+            <span style="font-size:.62rem;font-weight:700;font-family:var(--mono);color:var(--text);">${d.id_cnpj}</span>
+            ${badge(d.sinal)}
+          </div>
+          <div style="font-size:.58rem;color:var(--muted);line-height:1.4;">${d.setor_resumo?.slice(0,45)||'—'} · ${d.uf}</div>
+          <div style="display:flex;justify-content:space-between;margin-top:.3rem;align-items:center;">
+            <span style="font-size:.6rem;color:var(--acc2);font-weight:700;">Score ${d.score_final.toFixed(1)}</span>
+            <button onclick="simAdicionarSugestao('${d.id_cnpj}')" style="background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--cyan);border-radius:5px;font-size:.58rem;font-weight:700;padding:.2rem .55rem;cursor:pointer;font-family:var(--font);">+ Adicionar</button>
+          </div>
+        </div>`).join('')}
+
+      <!-- Parâmetros da simulação -->
+      <div style="margin-top:.7rem;padding:.65rem .85rem;background:var(--bg3);border-radius:8px;border:1px dashed var(--bord2);">
+        <div style="font-size:.58rem;font-weight:700;color:var(--acc2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">⚙️ Parâmetros da Simulação</div>
+        <div style="margin-bottom:.4rem;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.2rem;">
+            <label style="font-size:.58rem;color:var(--muted);">Limite de Concentração (%)</label>
+            <span style="font-size:.6rem;font-weight:700;font-family:var(--mono);color:var(--acc2);" id="sim-conc-val">${STATE.sim.diversMax*4}%</span>
+          </div>
+          <input type="range" class="sim-range" min="1" max="10" value="${STATE.sim.diversMax}" oninput="STATE.sim.diversMax=+this.value;document.getElementById('sim-conc-val').textContent=(+this.value*4)+'%'"/>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.2rem;">
+            <label style="font-size:.58rem;color:var(--muted);">Tolerância ao Risco</label>
+            <span style="font-size:.6rem;font-weight:700;font-family:var(--mono);color:${STATE.sim.riskTolerance>=60?'var(--green)':STATE.sim.riskTolerance>=35?'var(--amber)':'var(--red)'};" id="sim-risk-val">${STATE.sim.riskTolerance>=60?'Agressivo':STATE.sim.riskTolerance>=35?'Moderado':'Conservador'}</span>
+          </div>
+          <input type="range" class="sim-range" min="0" max="100" value="${STATE.sim.riskTolerance}" oninput="STATE.sim.riskTolerance=+this.value;const l=document.getElementById('sim-risk-val');l.textContent=+this.value>=60?'Agressivo':+this.value>=35?'Moderado':'Conservador';l.style.color=+this.value>=60?'var(--green)':+this.value>=35?'var(--amber)':'var(--red)'"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grad-div"></div>
+
+  <!-- CONTROLES AO VIVO -->
+  <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.7rem;">
+    <button onclick="simIniciarLive()" style="background:linear-gradient(135deg,#059669,#34d399);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">▶ Iniciar Monitoramento Ao Vivo</button>
+    <button onclick="simPararLive()" style="background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">⏹ Parar</button>
+    <button onclick="simAutoMontar()" style="background:linear-gradient(135deg,#1d4ed8,#818cf8);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">🤖 Auto-montar Carteira</button>
+    <button onclick="simExportar()" style="background:transparent;border:1px solid rgba(34,211,238,.4);color:var(--cyan);border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">📥 Exportar JSON</button>
+    <span style="font-size:.6rem;color:var(--hint);margin-left:auto;" id="live-interval-info">${STATE.sim.liveInterval?'🟢 Monitorando a cada 5s':'⚫ Parado'}</span>
+  </div>`;
+
+  // Renderiza gráficos iniciais
+  updateMonitStrip(metricas);
+  if(port.length){
+    setTimeout(()=>updateSimCharts(port,metricas),100);
+  }
+}
+
+/* ── Ações do simulador ── */
+
+/* ── Filtro de setor → atualiza select de empresa ── */
+window.simFiltrarEmpresasPorSetor=function(){
+  const setor=document.getElementById('sim-sel-setor').value;
+  const risco=document.getElementById('sim-sel-risco')?.value||'todos';
+  const sel=document.getElementById('sim-sel-cnpj');
+  if(!sel)return;
+  let candidatas=STATE.df;
+  if(setor)candidatas=candidatas.filter(d=>d.setor_resumo===setor);
+  if(risco==='verde')candidatas=candidatas.filter(d=>d.sinal==='verde');
+  if(risco==='amarelo')candidatas=candidatas.filter(d=>d.sinal!=='vermelho');
+  const opts=candidatas.slice(0,300).map(d=>`<option value="${d.id_cnpj}" data-score="${d.score_final}" data-sinal="${d.sinal}" data-setor="${d.setor_resumo||''}" data-uf="${d.uf}" data-retorno="${d.retorno_esperado||0}" data-atraso="${d.media_atraso_dias||0}">${d.id_cnpj} · ${d.uf} · score ${d.score_final.toFixed(0)} (${d.sinal})</option>`).join('');
+  sel.innerHTML=`<option value="">Selecione... (${candidatas.length} empresa${candidatas.length!==1?'s':''})</option>`+opts;
+  // limpa preview
+  const prev=document.getElementById('sim-empresa-preview');
+  if(prev){prev.style.display='none';prev.innerHTML='';}
+};
+
+/* ── Preview da empresa selecionada ── */
+window.simPreviewEmpresa=function(){
+  const sel=document.getElementById('sim-sel-cnpj');
+  const prev=document.getElementById('sim-empresa-preview');
+  if(!sel||!prev)return;
+  const cnpj=sel.value;
+  if(!cnpj){prev.style.display='none';return;}
+  const opt=sel.options[sel.selectedIndex];
+  const score=+(opt.dataset.score||0);
+  const sinal=opt.dataset.sinal||'—';
+  const setor=opt.dataset.setor||'—';
+  const uf=opt.dataset.uf||'—';
+  const atraso=+(opt.dataset.atraso||0);
+  const retorno=parseRetorno(opt.dataset.retorno||0);
+  const cor=COR_SINAL[sinal]||'var(--muted)';
+  const ico=ICO_SINAL[sinal]||'';
+  const lbl=LBL_SINAL[sinal]||sinal;
+  prev.style.display='block';
+  prev.innerHTML=`
+    <span style="color:${cor};font-weight:700;">${ico} ${lbl}</span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--text);font-weight:600;">${cnpj}</span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--muted);">Setor: <b style="color:var(--text);">${setor.length>45?setor.slice(0,44)+'…':setor}</b></span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--muted);">UF: <b style="color:var(--text);">${uf}</b></span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--muted);">Score: <b style="color:${cor};">${score.toFixed(1)}</b></span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--muted);">Retorno: <b style="color:var(--green);">${fmtRetorno(retorno)}</b></span>
+    <span style="color:var(--hint);margin:0 .5rem;">|</span>
+    <span style="color:var(--muted);">Atraso: <b style="color:${atraso===0?'var(--green)':atraso<=15?'var(--amber)':'var(--red)'}">${atraso===0?'Sem atraso':atraso.toFixed(0)+'d'}</b></span>`;
+};
+
+window.simAdicionarEmpresa=function(){
+  const sel=document.getElementById('sim-sel-cnpj');
+  const cnpj=sel.value;
+  if(!cnpj)return;
+  const opt=sel.options[sel.selectedIndex];
+  const valor=+(document.getElementById('sim-inp-valor').value)||50000;
+  const filtroRisco=document.getElementById('sim-sel-risco').value;
+  const score=+(opt.dataset.score||0);
+  const sinal=opt.dataset.sinal||'vermelho';
+  if(filtroRisco==='verde'&&sinal!=='verde'){alert('⚠️ Esta empresa não tem classificação verde. Ajuste o filtro de risco ou escolha outra empresa.');return;}
+  if(filtroRisco==='amarelo'&&sinal==='vermelho'){alert('⚠️ Esta empresa tem classificação vermelha. Ajuste o filtro de risco.');return;}
+  if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Esta empresa já está na carteira.');return;}
+  const retorno=opt.dataset.retorno||0;
+  const retornoNum=parseRetorno(retorno);
+  STATE.sim.portfolio.push({cnpj,uf:opt.dataset.uf||'—',setor:opt.dataset.setor||'—',valor,score,sinal,retorno:retornoNum,atraso:+(opt.dataset.atraso||0),op:document.getElementById('sim-sel-op').value||'recebivel'});
+  renderPage();
+};
+
+window.simAdicionarSugestao=function(cnpj){
+  const emp=STATE.df.find(d=>d.id_cnpj===cnpj);
+  if(!emp)return;
+  if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Já está na carteira.');return;}
+  const retorno=parseRetorno(emp.retorno_esperado);
+  STATE.sim.portfolio.push({cnpj,uf:emp.uf||'—',setor:emp.setor_resumo||'—',valor:STATE.sim.valorTotal/(STATE.sim.diversMax||5),score:emp.score_final,sinal:emp.sinal,retorno,atraso:emp.media_atraso_dias||0,op:'recebivel'});
+  renderPage();
+};
+
+window.simRemoverEmpresa=function(i){
+  STATE.sim.portfolio.splice(i,1);
+  renderPage();
+};
+
+window.simLimparPortfolio=function(){
+  STATE.sim.portfolio=[];
+  renderPage();
+};
+
+window.simIniciarLive=function(){
+  if(STATE.sim.liveInterval)return;
+  STATE.sim.liveInterval=setInterval(simLiveTick,5000);
+  simLiveTick();
+  const el=document.getElementById('live-interval-info');
+  if(el)el.textContent='🟢 Monitorando a cada 5s';
+};
+
+window.simPararLive=function(){
+  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
+  const el=document.getElementById('live-interval-info');
+  if(el)el.textContent='⚫ Parado';
+};
+
+window.simAutoMontar=function(){
+  STATE.sim.portfolio=[];
+  const maxEmp=STATE.sim.diversMax||5;
+  const sugestoes=gerarSugestoes([],maxEmp);
+  const valorPorEmp=STATE.sim.valorTotal/maxEmp;
+  sugestoes.forEach(d=>{
+    const retorno=parseRetorno(d.retorno_esperado);
+    STATE.sim.portfolio.push({cnpj:d.id_cnpj,uf:d.uf||'—',setor:d.setor_resumo||'—',valor:valorPorEmp,score:d.score_final,sinal:d.sinal,retorno,atraso:d.media_atraso_dias||0,op:'recebivel'});
+  });
+  renderPage();
+};
+
+window.simExportar=function(){
+  const data={gerado_em:new Date().toISOString(),portfolio:STATE.sim.portfolio,metricas:calcSimMetricas(STATE.sim.portfolio),recomendacoes:gerarRecomendacoes(STATE.sim.portfolio,calcSimMetricas(STATE.sim.portfolio))};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='simulador_carteira_farol.json';a.click();
+};
+
+/* ════════════════════════════════════════════════════════════════
+   GLOBAL ERROR HANDLER
+════════════════════════════════════════════════════════════════ */
+window.addEventListener('error',e=>console.error('Erro:',e.message));
+</script>
+</body>
+</html>[data-theme="light"] .logo-light { display:block !important; }
+
+/* LOGIN */
+#login-overlay {
+  position:fixed; inset:0; background:var(--bg);
+  display:flex; align-items:center; justify-content:center; z-index:1000;
+}
+.login-box {
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:16px; padding:2.2rem; width:340px;
+  box-shadow:0 24px 64px rgba(0,0,0,.6);
+}
+.login-logo { text-align:center; margin-bottom:1.4rem; }
+.login-logo img { max-width:220px; width:100%; border-radius:6px; display:block; margin:0 auto; }
+.login-logo .badge {
+  font-size:.6rem; color:var(--muted); font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; margin-top:.5rem; display:block;
+}
+.login-title { font-size:1.1rem; font-weight:700; color:var(--text); text-align:center; margin-bottom:.2rem; }
+.login-sub   { font-size:.72rem; color:var(--muted); text-align:center; margin-bottom:1.4rem; }
+.lbl { font-size:.6rem; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.25rem; display:block; }
+.login-box input {
+  width:100%; background:var(--bg3); border:1px solid var(--bord2);
+  border-radius:8px; color:var(--text); font-family:var(--font);
+  font-size:.8rem; padding:.5rem .8rem; outline:none;
+  margin-bottom:.9rem; transition:border-color .2s;
+}
+.login-box input:focus { border-color:var(--acc); }
+.login-btn {
+  width:100%; background:linear-gradient(135deg,#6d28d9,#4c1d95);
+  color:#fff; border:none; border-radius:8px; padding:.65rem 1rem;
+  font-size:.72rem; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; font-family:var(--font); cursor:pointer; transition:all .2s;
+}
+.login-btn:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(109,40,217,.45); }
+.login-err { font-size:.68rem; color:var(--red); margin-top:.5rem; text-align:center; }
+.login-footer { font-size:.62rem; color:var(--muted); text-align:center; margin-top:.8rem; }
+.theme-pill {
+  background:var(--bg3); border:1px solid var(--bord2); border-radius:20px;
+  padding:.28rem .7rem; cursor:pointer; font-size:.65rem; font-weight:600;
+  color:var(--muted); font-family:var(--font); letter-spacing:.06em;
+  text-transform:uppercase; transition:border-color .2s; margin-top:.8rem;
+  display:block; width:fit-content; margin:auto;
+}
+
+/* APP SHELL */
+#app { display:flex; height:100vh; width:100vw; }
+
+/* SIDEBAR */
+#sidebar {
+  width:200px; min-width:200px; background:var(--bg2);
+  border-right:1px solid var(--bord);
+  display:flex; flex-direction:column;
+  z-index:100; overflow-y:auto;
+}
+.sb-logo {
+  display:flex; align-items:center; gap:8px;
+  padding:14px 14px 12px; border-bottom:1px solid var(--bord);
+}
+.sb-logo img { width:100%; max-width:140px; border-radius:4px; display:block; }
+.sb-logo-name { font-size:14px; font-weight:700; color:var(--text); letter-spacing:-.02em; }
+.sb-logo-sub  { font-size:10px; color:var(--muted); margin-top:1px; }
+.sb-logo i    { font-size:20px; color:var(--acc); flex-shrink:0; }
+
+.sb-section {
+  font-size:9px; font-weight:700; color:var(--hint);
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:12px 14px 4px; border-top:1px solid var(--bord);
+}
+.sb-section:first-of-type { border-top:none; }
+
+.sb-nav-item {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 14px; font-size:11px; color:var(--muted);
+  cursor:pointer; transition:all .15s;
+  border-right:2px solid transparent; white-space:nowrap;
+}
+.sb-nav-item:hover { color:#c4bff5; background:rgba(129,120,210,.07); }
+.sb-nav-item.active {
+  color:#c4bff5; background:rgba(129,120,210,.13);
+  border-right-color:var(--acc);
+}
+.sb-nav-item i { font-size:15px; flex-shrink:0; }
+.sb-badge {
+  margin-left:auto; font-size:9px; padding:1px 6px;
+  border-radius:10px; font-weight:700; background:var(--acc); color:#fff;
+}
+.sb-badge.danger { background:var(--red); }
+.sb-badge.sim { background:linear-gradient(135deg,#0891b2,#22d3ee); }
+
+.sb-filter-label {
+  font-size:9px; font-weight:700; color:var(--hint);
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:.3rem 14px .15rem;
+}
+.sb-select, .sb-input {
+  width:calc(100% - 28px); margin:0 14px .45rem;
+  background:var(--bg3); border:1px solid var(--bord2);
+  border-radius:6px; color:var(--text); font-size:.68rem;
+  padding:.32rem .5rem; font-family:var(--font); outline:none;
+  transition:border-color .2s;
+}
+.sb-select:focus,.sb-input:focus { border-color:var(--acc); }
+.sb-select option { background:var(--bg3); }
+
+.sb-clear-btn {
+  width:calc(100% - 28px); margin:.2rem 14px .4rem;
+  background:transparent; border:1px solid var(--bord2);
+  border-radius:6px; color:var(--muted); font-size:.6rem;
+  font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  font-family:var(--font); padding:.32rem .5rem;
+  cursor:pointer; transition:all .2s; text-align:left;
+}
+.sb-clear-btn:hover { border-color:var(--acc); color:var(--acc2); }
+
+.sb-count {
+  font-size:.6rem; font-weight:700; color:var(--acc2);
+  letter-spacing:.06em; text-transform:uppercase;
+  padding:.25rem 14px .1rem;
+}
+.sb-footer {
+  margin-top:auto; padding:.9rem 14px;
+  border-top:1px solid var(--bord);
+  font-size:.65rem; color:var(--muted); font-weight:500;
+}
+.sb-footer b { color:var(--acc2); font-weight:600; }
+.sb-footer .sb-total { font-size:.55rem; color:var(--hint); margin-top:2px; }
+.sb-logout {
+  margin-top:.5rem; width:100%; background:transparent;
+  border:1px solid var(--bord2); border-radius:4px;
+  color:var(--red); font-size:.58rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  font-family:var(--font); padding:.3rem .6rem;
+  cursor:pointer; transition:background .2s;
+}
+.sb-logout:hover { background:rgba(248,113,113,.1); }
+
+/* MAIN */
+#main { flex:1; display:flex; flex-direction:column; overflow-x:hidden; overflow-y:auto; }
+
+/* TOPBAR */
+#topbar {
+  background:var(--bg2); border-bottom:1px solid var(--bord);
+  padding:9px 20px; display:flex; align-items:center; gap:10px;
+  flex-shrink:0; min-height:52px;
+}
+.topbar-left { display:flex; flex-direction:column; }
+.topbar-title { font-size:15px; font-weight:700; color:var(--text); letter-spacing:-.02em; }
+.topbar-sub   { font-size:10px; color:var(--muted); margin-top:1px; }
+.topbar-right { display:flex; align-items:center; gap:8px; margin-left:auto; }
+
+.search-wrap { position:relative; }
+.search-inp {
+  background:var(--bg3); border:1px solid var(--bord);
+  border-radius:8px; padding:6px 12px 6px 30px;
+  font-size:11px; color:var(--text); width:220px;
+  font-family:var(--font); outline:none; transition:border .2s;
+}
+.search-inp:focus { border-color:var(--acc); }
+.search-inp::placeholder { color:var(--muted); }
+.search-icon { position:absolute; left:9px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:13px; pointer-events:none; }
+
+.nav-tabs { display:flex; gap:.1rem; }
+.nav-tab {
+  background:transparent; border:none;
+  border-bottom:2px solid transparent; border-radius:0;
+  color:var(--muted); font-size:.68rem; font-weight:600;
+  font-family:var(--font); padding:.45rem 1rem;
+  cursor:pointer; transition:all .15s;
+  letter-spacing:.08em; text-transform:uppercase;
+  white-space:nowrap; display:inline-flex; align-items:center; gap:.4rem;
+}
+.nav-tab:hover   { color:var(--acc2); border-bottom-color:var(--acc); }
+.nav-tab.active  { color:var(--acc2); border-bottom-color:var(--acc); font-weight:700; }
+.nav-tab svg     { flex-shrink:0; opacity:.8; }
+.nav-tab.active svg { opacity:1; }
+.nav-tab.sim-tab { color:#22d3ee; }
+.nav-tab.sim-tab:hover, .nav-tab.sim-tab.active { color:#22d3ee; border-bottom-color:#22d3ee; }
+
+.tb-btn {
+  width:30px; height:30px; background:var(--bg3); border:1px solid var(--bord);
+  border-radius:7px; display:flex; align-items:center; justify-content:center;
+  color:var(--muted); font-size:14px; cursor:pointer; transition:all .15s;
+  position:relative; flex-shrink:0;
+}
+.tb-btn:hover { border-color:var(--bord2); color:#c4bff5; }
+.notif-dot {
+  position:absolute; top:5px; right:5px;
+  width:5px; height:5px; background:var(--red); border-radius:50%;
+}
+.tb-avatar {
+  width:30px; height:30px; border-radius:50%;
+  background:linear-gradient(135deg,var(--acc),var(--acc2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; color:#fff; flex-shrink:0;
+  cursor:pointer;
+}
+.tb-user { text-align:right; }
+.tb-user .name { font-size:.72rem; color:var(--acc2); font-weight:600; }
+.tb-user .time { font-size:.6rem; color:var(--muted); margin-top:1px; font-family:var(--mono); }
+
+/* CONTENT */
+#content { flex:1; overflow-y:auto; padding:1.2rem 1.6rem 2rem; }
+
+/* CARDS */
+.stat-grid   { display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; margin-bottom:1.2rem; }
+.stat-grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-bottom:.9rem; }
+.stat-grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; margin-bottom:.9rem; }
+
+.stat-card {
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:10px; padding:14px 16px;
+  position:relative; overflow:hidden; transition:border-color .2s;
+}
+.stat-card:hover { border-color:var(--bord2); }
+.stat-card::before {
+  content:''; display:block; height:2px;
+  position:absolute; top:0; left:0; right:0; border-radius:10px 10px 0 0;
+}
+.stat-card.purple::before { background:linear-gradient(90deg,#7c3aed,#a78bfa); }
+.stat-card.green::before  { background:linear-gradient(90deg,#059669,#34d399); }
+.stat-card.amber::before  { background:linear-gradient(90deg,#d97706,#fbbf24); }
+.stat-card.red::before    { background:linear-gradient(90deg,#dc2626,#f87171); }
+.stat-card.blue::before   { background:linear-gradient(90deg,#1d4ed8,#60a5fa); }
+.stat-card.cyan::before   { background:linear-gradient(90deg,#0891b2,#22d3ee); }
+
+.sc-label {
+  font-size:.58rem; font-weight:700; color:var(--muted);
+  letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:.45rem; display:flex; align-items:center; gap:.35rem;
+}
+.sc-icon { display:inline-flex; align-items:center; opacity:.7; flex-shrink:0; }
+.sc-val  { font-size:1.5rem; font-weight:700; color:var(--text); line-height:1.05; letter-spacing:-.02em; font-family:var(--mono); }
+.sc-sub  { font-size:.58rem; color:var(--muted); margin-top:.2rem; letter-spacing:.04em; }
+.sc-trend-up   { font-size:.58rem; font-weight:600; color:var(--green); margin-top:.15rem; }
+.sc-trend-down { font-size:.58rem; font-weight:600; color:var(--red);   margin-top:.15rem; }
+
+/* CHART CARD */
+.chart-card {
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:10px; padding:14px 16px;
+}
+.chart-title {
+  font-size:.58rem; font-weight:700; color:var(--muted);
+  letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:.6rem; border-bottom:1px solid var(--bord);
+  padding-bottom:.4rem;
+}
+.chart-row   { display:grid; gap:.7rem; margin-bottom:.7rem; }
+.chart-row-2  { grid-template-columns:1fr 1fr; }
+.chart-row-12 { grid-template-columns:1.1fr 2fr; }
+.chart-row-3  { grid-template-columns:1fr 1fr 1fr; }
+
+/* MISC */
+.grad-div { height:1px; background:linear-gradient(90deg,transparent,var(--bord),transparent); margin:.8rem 0; }
+
+.pbar { margin-bottom:.45rem; }
+.pbar-row { display:flex; justify-content:space-between; margin-bottom:3px; }
+.pbar-lbl { color:var(--muted); font-size:.65rem; font-weight:500; letter-spacing:.04em; }
+.pbar-val { font-weight:700; font-size:.65rem; font-family:var(--mono); }
+.pbar-bg  { background:var(--bg3); border-radius:99px; height:4px; }
+.pbar-fill{ height:4px; border-radius:99px; }
+
+.bloco {
+  background:var(--bg3); border-radius:8px; border-left:3px solid;
+  padding:.6rem .85rem; margin-bottom:.45rem;
+}
+.bloco-lbl { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem; }
+.bloco-val { font-size:.82rem; font-weight:700; color:var(--text); word-break:break-word; }
+.bloco-sub { font-size:.58rem; color:var(--muted); margin-top:.12rem; }
+
+.tbl-wrap { overflow:auto; max-height:220px; border-radius:8px; }
+table { width:100%; border-collapse:collapse; font-size:.65rem; }
+thead th {
+  background:var(--bg3); color:var(--muted);
+  font-size:.58rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; padding:.55rem .8rem; text-align:left;
+  position:sticky; top:0; z-index:2; border-bottom:1px solid var(--bord2);
+}
+tbody tr { border-bottom:1px solid var(--bord); }
+tbody tr:hover { background:var(--bg3); }
+tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weight:500; }
+
+.badge {
+  display:inline-block; padding:2px 8px; border-radius:10px;
+  font-size:.58rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+}
+.badge-green { background:rgba(74,222,128,.12); color:var(--green); border:1px solid rgba(74,222,128,.25); }
+.badge-amber { background:rgba(250,204,21,.12);  color:var(--amber); border:1px solid rgba(250,204,21,.25); }
+.badge-red   { background:rgba(248,113,113,.12); color:var(--red);   border:1px solid rgba(248,113,113,.25); }
+.badge-cyan  { background:rgba(34,211,238,.12);  color:var(--cyan);  border:1px solid rgba(34,211,238,.25); }
+
+.emp-header {
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:12px; padding:.9rem 1.3rem; margin-bottom:.7rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-left:4px solid;
+}
+.filter-row { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:.7rem; margin-bottom:.7rem; }
+.filter-row select,.filter-row input {
+  width:100%; background:var(--bg2); border:1px solid var(--bord2);
+  border-radius:8px; color:var(--text); font-size:.7rem;
+  padding:.38rem .6rem; font-family:var(--font); outline:none; transition:border-color .2s;
+}
+.filter-row select:focus,.filter-row input:focus { border-color:var(--acc); }
+.filter-row label { font-size:.56rem; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-bottom:.18rem; display:block; }
+.gauges-row { display:grid; grid-template-columns:repeat(3,1fr); gap:.45rem; margin:.35rem 0; }
+.json-toggle {
+  font-size:.58rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); cursor:pointer; background:var(--bg3);
+  border:1px solid var(--bord); border-radius:4px;
+  padding:.35rem .7rem; margin-top:.45rem;
+  width:100%; text-align:left; font-family:var(--font); transition:background .2s;
+}
+.json-toggle:hover { background:var(--bord); }
+.json-body {
+  background:var(--bg); border:1px solid var(--bord);
+  border-radius:8px; padding:.7rem; font-family:var(--mono);
+  font-size:.58rem; color:var(--muted); margin-top:.25rem;
+  max-height:160px; overflow:auto; display:none;
+  white-space:pre-wrap; word-break:break-all;
+}
+.empty-state {
+  background:var(--bg2); border:1px dashed var(--bord2);
+  border-radius:14px; padding:3.5rem; text-align:center; margin-top:1.2rem;
+}
+.empty-state .icon { font-size:2.8rem; margin-bottom:.7rem; }
+.empty-state h3 { font-size:.95rem; font-weight:700; color:var(--text); margin-bottom:.35rem; }
+.empty-state p  { font-size:.72rem; color:var(--muted); }
+
+.xf-chip {
+  display:inline-flex; align-items:center; gap:.3rem;
+  background:rgba(109,40,217,.18); color:var(--acc2);
+  border:1px solid rgba(109,40,217,.4); border-radius:4px;
+  font-size:.58rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:.18rem .55rem; cursor:pointer; transition:background .15s; font-family:var(--font);
+}
+.xf-chip:hover { background:rgba(109,40,217,.32); }
+
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.page-anim { animation:fadeIn .22s ease both; }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.7;transform:scale(1.15)} }
+
+/* ══════════════════════════════════════════
+   SIMULADOR DE CARTEIRA — estilos exclusivos
+══════════════════════════════════════════ */
+
+/* live badge */
+.live-dot {
+  display:inline-flex; align-items:center; gap:.35rem;
+  background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.3);
+  border-radius:20px; padding:.2rem .65rem;
+  font-size:.58rem; font-weight:700; color:var(--green);
+  letter-spacing:.08em; text-transform:uppercase;
+}
+.live-dot::before {
+  content:''; width:6px; height:6px; border-radius:50%;
+  background:var(--green); animation:blink 1.4s ease infinite;
+}
+
+/* farol semáforo */
+.farol-wrap {
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  background:var(--bg3); border-radius:14px; border:1px solid var(--bord);
+  padding:1.1rem .8rem; min-width:90px;
+}
+.farol-light {
+  width:38px; height:38px; border-radius:50%;
+  border:2px solid rgba(0,0,0,.3);
+  transition:all .5s ease;
+  position:relative;
+}
+.farol-light.on { box-shadow:0 0 18px 6px currentColor; }
+.farol-light.off { opacity:.12; }
+.farol-light.verde  { background:#4ade80; color:#4ade80; }
+.farol-light.amarelo{ background:#facc15; color:#facc15; }
+.farol-light.vermelho{ background:#f87171; color:#f87171; }
+.farol-label { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
+
+/* portfolio empresa row */
+.port-row {
+  display:grid;
+  grid-template-columns:1.6fr .6fr .7fr .8fr .7fr .8fr .8fr 110px;
+  gap:.5rem; align-items:center;
+  padding:.55rem .85rem; border-bottom:1px solid var(--bord);
+  transition:background .15s;
+  font-size:.65rem;
+}
+.port-row:hover { background:var(--bg3); }
+.port-row.header {
+  background:var(--bg3); font-size:.56rem; font-weight:700;
+  color:var(--muted); letter-spacing:.1em; text-transform:uppercase;
+  border-bottom:2px solid var(--bord2);
+  position:sticky; top:0; z-index:2;
+}
+
+/* slider custom */
+.sim-range {
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:4px; border-radius:99px;
+  background:var(--bord2); outline:none; cursor:pointer;
+}
+.sim-range::-webkit-slider-thumb {
+  -webkit-appearance:none; width:14px; height:14px;
+  border-radius:50%; background:var(--acc2);
+  border:2px solid var(--bg2); cursor:pointer;
+  box-shadow:0 0 6px rgba(192,132,252,.5);
+}
+.sim-range::-moz-range-thumb {
+  width:14px; height:14px; border-radius:50%;
+  background:var(--acc2); border:2px solid var(--bg2); cursor:pointer;
+}
+
+/* recomendacao card */
+.rec-card {
+  background:var(--bg3); border-radius:10px;
+  border-left:3px solid; padding:.75rem 1rem;
+  margin-bottom:.45rem; transition:border-color .2s;
+}
+.rec-card-title {
+  font-size:.62rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; margin-bottom:.25rem;
+  display:flex; align-items:center; gap:.4rem;
+}
+.rec-card-body { font-size:.7rem; color:var(--muted); line-height:1.55; }
+.rec-card-meta { font-size:.58rem; color:var(--hint); margin-top:.3rem; font-family:var(--mono); }
+
+/* hhi gauge colored segments */
+.hhi-bar {
+  height:8px; border-radius:99px; width:100%;
+  background:linear-gradient(90deg,#4ade80 0%,#4ade80 25%,#facc15 25%,#facc15 50%,#fb923c 50%,#fb923c 75%,#f87171 75%,#f87171 100%);
+  position:relative; margin:.4rem 0;
+}
+.hhi-pointer {
+  position:absolute; top:-4px; width:4px; height:16px;
+  background:var(--text); border-radius:2px;
+  transform:translateX(-50%);
+  transition:left .6s ease;
+}
+
+/* ticker animado */
+.ticker-wrap {
+  overflow:hidden; background:rgba(34,211,238,.06);
+  border:1px solid rgba(34,211,238,.2); border-radius:8px;
+  padding:.35rem 0; margin-bottom:.7rem;
+}
+.ticker-inner {
+  display:flex; gap:2.5rem; white-space:nowrap;
+  animation:ticker 28s linear infinite;
+}
+.ticker-item {
+  font-size:.63rem; font-weight:600; font-family:var(--mono);
+  color:var(--cyan); letter-spacing:.04em;
+  display:inline-flex; align-items:center; gap:.4rem;
+}
+.ticker-item .up   { color:var(--green); }
+.ticker-item .down { color:var(--red); }
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* add empresa modal-like panel */
+.add-panel {
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:12px; padding:1rem 1.2rem; margin-bottom:.7rem;
+}
+.add-panel-title {
+  font-size:.6rem; font-weight:700; color:var(--acc2);
+  letter-spacing:.1em; text-transform:uppercase;
+  margin-bottom:.7rem; display:flex; align-items:center; gap:.45rem;
+}
+.add-grid {
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto;
+  gap:.55rem; align-items:end;
+}
+.add-grid label { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-bottom:.16rem; display:block; }
+.add-grid select, .add-grid input {
+  width:100%; background:var(--bg3); border:1px solid var(--bord2);
+  border-radius:7px; color:var(--text); font-size:.68rem;
+  padding:.38rem .55rem; font-family:var(--font); outline:none; transition:border-color .2s;
+}
+.add-grid select:focus, .add-grid input:focus { border-color:var(--acc); }
+.add-btn {
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  color:#fff; border:none; border-radius:7px; padding:.45rem 1rem;
+  font-size:.65rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  font-family:var(--font); cursor:pointer; transition:all .2s; white-space:nowrap;
+}
+.add-btn:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(109,40,217,.4); }
+.remove-btn {
+  background:transparent; border:1px solid rgba(248,113,113,.3);
+  color:var(--red); border-radius:5px; padding:.2rem .55rem;
+  font-size:.6rem; cursor:pointer; font-family:var(--font);
+  font-weight:700; transition:all .15s;
+}
+.remove-btn:hover { background:rgba(248,113,113,.12); }
+
+/* score ring */
+.score-ring-wrap { display:flex; flex-direction:column; align-items:center; }
+.score-ring-val { font-size:1.6rem; font-weight:800; font-family:var(--mono); line-height:1; }
+.score-ring-lbl { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-top:.2rem; }
+
+/* monit strip */
+.monit-strip {
+  display:flex; align-items:stretch; gap:0;
+  background:var(--bg2); border:1px solid var(--bord);
+  border-radius:10px; overflow:hidden; margin-bottom:.7rem;
+}
+.monit-cell {
+  flex:1; padding:.65rem .9rem; border-right:1px solid var(--bord);
+  display:flex; flex-direction:column; gap:.2rem;
+}
+.monit-cell:last-child { border-right:none; }
+.monit-cell-lbl { font-size:.52rem; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
+.monit-cell-val { font-size:1rem; font-weight:700; font-family:var(--mono); color:var(--text); }
+.monit-cell-sub { font-size:.55rem; color:var(--hint); }
+
+@media(max-width:900px) {
+  .stat-grid,.stat-grid-4,.stat-grid-5 { grid-template-columns:repeat(2,1fr); }
+  .chart-row-12,.chart-row-3,.chart-row-2 { grid-template-columns:1fr; }
+  .add-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:768px) {
+  #app { flex-direction:column; height:auto; min-height:100vh; }
+  #sidebar { width:100%; min-width:100%; border-right:none; border-bottom:1px solid var(--bord); }
+  .stat-grid,.stat-grid-4,.stat-grid-5,.chart-row-12,.chart-row-3,.chart-row-2,.filter-row,.gauges-row { grid-template-columns:1fr !important; }
+  .emp-header { flex-direction:column; align-items:flex-start; gap:.8rem; }
+  .nav-tabs { overflow-x:auto; width:100%; padding-bottom:.35rem; }
+  .nav-tab { flex-shrink:0; }
+  table { min-width:680px; }
+  .port-row { grid-template-columns:1fr 1fr; }
+  .add-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-overlay">
+<div class="login-box">
   <div class="login-logo">
     <img alt="KYC" class="logo-dark" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH8AgGDAsLDAsKCwwNEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFBT/wAALCABAAEABAREA/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAgMGB//EACkQAAIBAwQBBAMBAQAAAAAAAAECAwQFERIhBhMxUWFxIkGBFCOR/9oACAEBAAA/ANyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUuS5KlbynFfbVqOMY+L5v+EHT5GNeXSqbrdFSrGXb2cnhf2VFjjLbk9CnPJXG9OnFSWezk8bPVc9SqoqV0VipPuuWP5OMY/6uQAAAAAAAAHH8I4/ZRzLy3Xy5R7p1VJNf4pOvR+pHvbSwv8ASTR43R/X0mIlhOaFWWMf7jJZAAAAAAAAABxXz5Z9o8vZJPWWCWtVP6Uq1nqdVTtZ4T7s5jcxX3iu8VdU5RpwpU49KX+3LZXPy5XGSjGFOM4NR7Yx4SuY++O/YvL9w7xMbCIjqGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" style="max-width:200px;width:100%;display:block;margin:0 auto;border-radius:6px;"/>
     <img alt="KYC" class="logo-light" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH8AgGDAsLDAsKCwwNEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFBT/wAALCABAAEABAREA/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAgMGB//EACkQAAIBAwQBBAMBAQAAAAAAAAECAwQFERIhBhMxUWFxIkGBFCOR/9oACAEBAAA/ANyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUuS5KlbynFfbVqOMY+L5v+EHT5GNeXSqbrdFSrGXb2cnhf2VFjjLbk9CnPJXG9OnFSWezk8bPVc9SqoqV0VipPuuWP5OMY/6uQAAAAAAAAHH8I4/ZRzLy3Xy5R7p1VJNf4pOvR+pHvbSwv8ASTR43R/X0mIlhOaFWWMf7jJZAAAAAAAAABxXz5Z9o8vZJPWWCWtVP6Uq1nqdVTtZ4T7s5jcxX3iu8VdU5RpwpU49KX+3LZXPy5XGSjGFOM4NR7Yx4SuY++O/YvL9w7xMbCIjqGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" style="max-width:200px;width:100%;display:block;margin:0 auto;border-radius:6px;"/>
