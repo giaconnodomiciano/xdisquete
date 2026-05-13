@@ -1356,6 +1356,22 @@ function mktClickSetor(nome){const el=document.getElementById('sb-setor');if(el)
    ██████████████████████████████████████████████████████████████
 ════════════════════════════════════════════════════════════════ */
 
+/* ── Normaliza retorno para decimal (ex: "12.5%" → 0.125, 0.125 → 0.125, "—" → 0) ── */
+function parseRetorno(v){
+  if(v===null||v===undefined||v===''||v==='—'||v==='-')return 0;
+  if(typeof v==='number')return isNaN(v)?0:(v>1?v/100:v); // se já vier como 12.5, converte
+  const s=String(v).trim().replace('%','').replace(',','.');
+  const n=parseFloat(s);
+  if(isNaN(n))return 0;
+  return n>1?n/100:n; // "12.5" → 0.125, "0.125" → 0.125
+}
+
+/* ── Formata retorno decimal para exibição ── */
+function fmtRetorno(v){
+  const r=parseRetorno(v);
+  return r===0?'—':(r*100).toFixed(2)+'%';
+}
+
 /* ── Calcula métricas da carteira simulada ── */
 function calcSimMetricas(portfolio){
   const n=portfolio.length;
@@ -1374,8 +1390,8 @@ function calcSimMetricas(portfolio){
   // PDD estimada (haircut por atraso)
   const haircutMap=(dias)=>dias===0?0.01:dias<=15?0.05:dias<=30?0.10:dias<=60?0.20:0.40;
   const pdd=portfolio.reduce((a,d)=>a+(d.valor*haircutMap(d.atraso)),0);
-  // Retorno ponderado
-  const retorno=portfolio.reduce((a,d)=>a+(d.retorno*(d.valor/totalValor)),0);
+  // Retorno ponderado (garante que d.retorno é decimal normalizado)
+  const retorno=portfolio.reduce((a,d)=>a+(parseRetorno(d.retorno)*(d.valor/totalValor)),0);
   // Atraso médio ponderado
   const atraso=portfolio.reduce((a,d)=>a+(d.atraso*(d.valor/totalValor)),0);
   const nVerde=portfolio.filter(d=>d.sinal==='verde').length;
@@ -1423,9 +1439,9 @@ function gerarRecomendacoes(portfolio,metricas){
     recs.push({tipo:'geo',cor:'#22d3ee',icone:'🗺️',titulo:'Concentração Geográfica Elevada',texto:`A carteira está muito concentrada em uma UF. Diversifique por estados para reduzir risco de crises regionais (climáticas, tributárias ou logísticas).`,meta:`HHI UF: ${metricas.hhiUF.toFixed(4)} · Meta: <0.20`});
   }
   // Retorno abaixo do mercado?
-  const medRetorno=STATE.df.length?STATE.df.reduce((a,d)=>{const r=typeof d.retorno_esperado==='number'?d.retorno_esperado:0;return a+r;},0)/STATE.df.length:0;
+  const medRetorno=STATE.df.length?STATE.df.reduce((a,d)=>a+parseRetorno(d.retorno_esperado),0)/STATE.df.length:0;
   if(metricas.retorno<medRetorno*0.8&&n>0){
-    recs.push({tipo:'retorno',cor:'#4ade80',icone:'💰',titulo:'Retorno Abaixo da Média do Mercado',texto:`Retorno médio ponderado da carteira (${(metricas.retorno*100).toFixed(2)}%) está abaixo da média do mercado (${(medRetorno*100).toFixed(2)}%). Considere rebalancear para empresas com melhor relação risco-retorno.`,meta:`Diferencial: ${((metricas.retorno-medRetorno)*100).toFixed(2)}%`});
+    recs.push({tipo:'retorno',cor:'#4ade80',icone:'💰',titulo:'Retorno Abaixo da Média do Mercado',texto:`Retorno médio ponderado da carteira (${fmtRetorno(metricas.retorno)}) está abaixo da média do mercado (${fmtRetorno(medRetorno)}). Considere rebalancear para empresas com melhor relação risco-retorno.`,meta:`Diferencial: ${((metricas.retorno-medRetorno)*100).toFixed(2)}%`});
   }
   // Tudo ok?
   if(!recs.length){
@@ -1483,7 +1499,7 @@ function simLiveTick(){
     d.score=Math.min(100,Math.max(0,d.score+delta));
     d.sinal=d.score>=65?'verde':d.score>=40?'amarelo':'vermelho';
     const deltaR=(Math.random()-.48)*0.001;
-    d.retorno=Math.max(0,d.retorno+deltaR);
+    d.retorno=Math.max(0,parseRetorno(d.retorno)+deltaR);
   });
   STATE.sim.lastUpdate=new Date();
   // Re-render apenas o painel de monitoramento e farol
@@ -1509,7 +1525,7 @@ function updateMonitStrip(m){
     <div class="monit-cell"><div class="monit-cell-lbl">Score Carteira</div><div class="monit-cell-val" style="color:${m.score>=65?'var(--green)':m.score>=40?'var(--amber)':'var(--red)'}">${m.n?m.score.toFixed(1):'—'}</div><div class="monit-cell-sub">ponderado por valor</div></div>
     <div class="monit-cell"><div class="monit-cell-lbl">HHI Concentração</div><div class="monit-cell-val" style="color:${m.hhi<0.10?'var(--green)':m.hhi<0.25?'var(--amber)':'var(--red)'}">${m.n?m.hhi.toFixed(4):'—'}</div><div class="monit-cell-sub">${m.hhi<0.10?'✅ Baixa conc.':m.hhi<0.25?'⚡ Moderada':'🚨 Alta conc.'}</div></div>
     <div class="monit-cell"><div class="monit-cell-lbl">PDD Estimada</div><div class="monit-cell-val" style="color:var(--red)">R$ ${m.n?m.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0}):'0'}</div><div class="monit-cell-sub">provisão de devedores</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">Retorno Esperado</div><div class="monit-cell-val" style="color:var(--green)">${m.n?(m.retorno*100).toFixed(2)+'%':'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>
+    <div class="monit-cell"><div class="monit-cell-lbl">Retorno Esperado</div><div class="monit-cell-val" style="color:var(--green)">${m.n?fmtRetorno(m.retorno):'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>
     <div class="monit-cell"><div class="monit-cell-lbl">Empresas</div><div class="monit-cell-val">${m.n||0}</div><div class="monit-cell-sub">${m.nVerde} verde · ${m.nAmarelo} amber · ${m.nVermelho} red</div></div>
     <div class="monit-cell"><div class="monit-cell-lbl">Atraso Médio</div><div class="monit-cell-val" style="color:${m.atraso===0?'var(--green)':m.atraso<=15?'var(--amber)':'var(--red)'}">${m.n?m.atraso.toFixed(1)+'d':'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>`;
 }
@@ -1523,7 +1539,7 @@ function updateSimCharts(port,metricas){
       Plotly.react('sim-donut-setor',[{type:'pie',labels:setLabels,values:setVals,hole:.55,marker:{line:{color:'rgba(0,0,0,.3)',width:1}},textinfo:'percent',textfont:{size:10},hovertemplate:'<b>%{label}</b><br>R$ %{value:,.0f} (%{percent})<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',margin:{t:8,b:8,l:8,r:8},height:200,font:{color:'#6b6b88',size:10},showlegend:false},{responsive:true,displayModeBar:false});
     // Scatter risco vs retorno
     if(document.getElementById('sim-scatter'))
-      Plotly.react('sim-scatter',[{type:'scatter',x:port.map(d=>d.score),y:port.map(d=>d.retorno*100),mode:'markers+text',text:port.map(d=>d.cnpj.slice(0,8)),textposition:'top center',textfont:{size:8,color:'#6b6b88'},marker:{color:port.map(d=>COR_SINAL[d.sinal]||'#818cf8'),size:port.map(d=>Math.max(8,Math.min(22,d.valor/50000))),opacity:.85,line:{width:0}},hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>Retorno: %{y:.2f}%<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',height:200,margin:{t:8,b:36,l:44,r:12},xaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Score',font:{size:9}}},yaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Retorno %',font:{size:9}}},showlegend:false,font:{color:'#6b6b88',size:9}},{responsive:true,displayModeBar:false});
+      Plotly.react('sim-scatter',[{type:'scatter',x:port.map(d=>d.score),y:port.map(d=>parseRetorno(d.retorno)*100),mode:'markers+text',text:port.map(d=>d.cnpj.slice(0,8)),textposition:'top center',textfont:{size:8,color:'#6b6b88'},marker:{color:port.map(d=>COR_SINAL[d.sinal]||'#818cf8'),size:port.map(d=>Math.max(8,Math.min(22,d.valor/50000))),opacity:.85,line:{width:0}},hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>Retorno: %{y:.2f}%<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',height:200,margin:{t:8,b:36,l:44,r:12},xaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Score',font:{size:9}}},yaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Retorno %',font:{size:9}}},showlegend:false,font:{color:'#6b6b88',size:9}},{responsive:true,displayModeBar:false});
   }catch(e){/*silencioso*/}
 }
 
@@ -1627,7 +1643,7 @@ function renderSimulador(wrap){
             <span>${d.uf}</span>
             <span style="font-weight:700;font-family:var(--mono);color:${COR_SINAL[d.sinal]||'var(--text)'};">${d.score.toFixed(1)}</span>
             <span>${badge(d.sinal)}</span>
-            <span style="font-family:var(--mono);color:var(--green);">${(d.retorno*100).toFixed(2)}%</span>
+            <span style="font-family:var(--mono);color:var(--green);">${fmtRetorno(d.retorno)}</span>
             <span style="font-family:var(--mono);color:${d.atraso===0?'var(--green)':d.atraso<=15?'var(--amber)':'var(--red)'};">${d.atraso.toFixed(0)}d</span>
             <span style="font-family:var(--mono);">R$ ${d.valor.toLocaleString('pt-BR',{maximumFractionDigits:0})}</span>
             <span><button class="remove-btn" onclick="simRemoverEmpresa(${i})">Remover</button></span>
@@ -1772,8 +1788,8 @@ window.simAdicionarEmpresa=function(){
   if(filtroRisco==='verde'&&sinal!=='verde'){alert('⚠️ Esta empresa não tem classificação verde. Ajuste o filtro de risco ou escolha outra empresa.');return;}
   if(filtroRisco==='amarelo'&&sinal==='vermelho'){alert('⚠️ Esta empresa tem classificação vermelha. Ajuste o filtro de risco.');return;}
   if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Esta empresa já está na carteira.');return;}
-  const retorno=+(opt.dataset.retorno||0);
-  const retornoNum=typeof retorno==='number'?retorno:0;
+  const retorno=opt.dataset.retorno||0;
+  const retornoNum=parseRetorno(retorno);
   STATE.sim.portfolio.push({cnpj,uf:opt.dataset.uf||'—',setor:opt.dataset.setor||'—',valor,score,sinal,retorno:retornoNum,atraso:+(opt.dataset.atraso||0),op:document.getElementById('sim-sel-op').value||'recebivel'});
   renderPage();
 };
@@ -1782,7 +1798,7 @@ window.simAdicionarSugestao=function(cnpj){
   const emp=STATE.df.find(d=>d.id_cnpj===cnpj);
   if(!emp)return;
   if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Já está na carteira.');return;}
-  const retorno=typeof emp.retorno_esperado==='number'?emp.retorno_esperado:0;
+  const retorno=parseRetorno(emp.retorno_esperado);
   STATE.sim.portfolio.push({cnpj,uf:emp.uf||'—',setor:emp.setor_resumo||'—',valor:STATE.sim.valorTotal/(STATE.sim.diversMax||5),score:emp.score_final,sinal:emp.sinal,retorno,atraso:emp.media_atraso_dias||0,op:'recebivel'});
   renderPage();
 };
@@ -1817,7 +1833,7 @@ window.simAutoMontar=function(){
   const sugestoes=gerarSugestoes([],maxEmp);
   const valorPorEmp=STATE.sim.valorTotal/maxEmp;
   sugestoes.forEach(d=>{
-    const retorno=typeof d.retorno_esperado==='number'?d.retorno_esperado:0;
+    const retorno=parseRetorno(d.retorno_esperado);
     STATE.sim.portfolio.push({cnpj:d.id_cnpj,uf:d.uf||'—',setor:d.setor_resumo||'—',valor:valorPorEmp,score:d.score_final,sinal:d.sinal,retorno,atraso:d.media_atraso_dias||0,op:'recebivel'});
   });
   renderPage();
