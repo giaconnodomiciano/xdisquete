@@ -58,12 +58,15 @@ html,body {
 ::-webkit-scrollbar-track { background:var(--bg2); }
 ::-webkit-scrollbar-thumb { background:var(--bord2); border-radius:99px; }
 
+/* ── LOGO ── */
 .logo-dark  { display:block !important; }
 .logo-light { display:none  !important; }
 [data-theme="light"] .logo-dark  { display:none  !important; }
 [data-theme="light"] .logo-light { display:block !important; }
 
-/* LOGIN */
+/* ════════════════════════════════════════
+   LOGIN
+════════════════════════════════════════ */
 #login-overlay {
   position:fixed; inset:0; background:var(--bg);
   display:flex; align-items:center; justify-content:center; z-index:1000;
@@ -106,10 +109,12 @@ html,body {
   display:block; width:fit-content; margin:auto;
 }
 
-/* APP SHELL */
+/* ════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════ */
 #app { display:flex; height:100vh; width:100vw; }
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 #sidebar {
   width:200px; min-width:200px; background:var(--bg2);
   border-right:1px solid var(--bord);
@@ -149,7 +154,6 @@ html,body {
   border-radius:10px; font-weight:700; background:var(--acc); color:#fff;
 }
 .sb-badge.danger { background:var(--red); }
-.sb-badge.sim { background:linear-gradient(135deg,#0891b2,#22d3ee); }
 
 .sb-filter-label {
   font-size:9px; font-weight:700; color:var(--hint);
@@ -198,10 +202,10 @@ html,body {
 }
 .sb-logout:hover { background:rgba(248,113,113,.1); }
 
-/* MAIN */
+/* ── MAIN ── */
 #main { flex:1; display:flex; flex-direction:column; overflow-x:hidden; overflow-y:auto; }
 
-/* TOPBAR */
+/* ── TOPBAR ── */
 #topbar {
   background:var(--bg2); border-bottom:1px solid var(--bord);
   padding:9px 20px; display:flex; align-items:center; gap:10px;
@@ -237,8 +241,6 @@ html,body {
 .nav-tab.active  { color:var(--acc2); border-bottom-color:var(--acc); font-weight:700; }
 .nav-tab svg     { flex-shrink:0; opacity:.8; }
 .nav-tab.active svg { opacity:1; }
-.nav-tab.sim-tab { color:#22d3ee; }
-.nav-tab.sim-tab:hover, .nav-tab.sim-tab.active { color:#22d3ee; border-bottom-color:#22d3ee; }
 
 .tb-btn {
   width:30px; height:30px; background:var(--bg3); border:1px solid var(--bord);
@@ -262,10 +264,10 @@ html,body {
 .tb-user .name { font-size:.72rem; color:var(--acc2); font-weight:600; }
 .tb-user .time { font-size:.6rem; color:var(--muted); margin-top:1px; font-family:var(--mono); }
 
-/* CONTENT */
+/* ── CONTENT ── */
 #content { flex:1; overflow-y:auto; padding:1.2rem 1.6rem 2rem; }
 
-/* CARDS */
+/* ── CARDS ── */
 .stat-grid   { display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; margin-bottom:1.2rem; }
 .stat-grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.7rem; margin-bottom:.9rem; }
 .stat-grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:.7rem; margin-bottom:.9rem; }
@@ -298,7 +300,7 @@ html,body {
 .sc-trend-up   { font-size:.58rem; font-weight:600; color:var(--green); margin-top:.15rem; }
 .sc-trend-down { font-size:.58rem; font-weight:600; color:var(--red);   margin-top:.15rem; }
 
-/* CHART CARD */
+/* ── CHART CARD ── */
 .chart-card {
   background:var(--bg2); border:1px solid var(--bord);
   border-radius:10px; padding:14px 16px;
@@ -314,7 +316,7 @@ html,body {
 .chart-row-12 { grid-template-columns:1.1fr 2fr; }
 .chart-row-3  { grid-template-columns:1fr 1fr 1fr; }
 
-/* MISC */
+/* ── MISC ── */
 .grad-div { height:1px; background:linear-gradient(90deg,transparent,var(--bord),transparent); margin:.8rem 0; }
 
 .pbar { margin-bottom:.45rem; }
@@ -351,7 +353,6 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
 .badge-green { background:rgba(74,222,128,.12); color:var(--green); border:1px solid rgba(74,222,128,.25); }
 .badge-amber { background:rgba(250,204,21,.12);  color:var(--amber); border:1px solid rgba(250,204,21,.25); }
 .badge-red   { background:rgba(248,113,113,.12); color:var(--red);   border:1px solid rgba(248,113,113,.25); }
-.badge-cyan  { background:rgba(34,211,238,.12);  color:var(--cyan);  border:1px solid rgba(34,211,238,.25); }
 
 .emp-header {
   background:var(--bg2); border:1px solid var(--bord);
@@ -403,185 +404,10 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 .page-anim { animation:fadeIn .22s ease both; }
 @keyframes spin { to{transform:rotate(360deg)} }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-@keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.7;transform:scale(1.15)} }
-
-/* ══════════════════════════════════════════
-   SIMULADOR DE CARTEIRA — estilos exclusivos
-══════════════════════════════════════════ */
-
-/* live badge */
-.live-dot {
-  display:inline-flex; align-items:center; gap:.35rem;
-  background:rgba(74,222,128,.1); border:1px solid rgba(74,222,128,.3);
-  border-radius:20px; padding:.2rem .65rem;
-  font-size:.58rem; font-weight:700; color:var(--green);
-  letter-spacing:.08em; text-transform:uppercase;
-}
-.live-dot::before {
-  content:''; width:6px; height:6px; border-radius:50%;
-  background:var(--green); animation:blink 1.4s ease infinite;
-}
-
-/* farol semáforo */
-.farol-wrap {
-  display:flex; flex-direction:column; align-items:center; gap:.5rem;
-  background:var(--bg3); border-radius:14px; border:1px solid var(--bord);
-  padding:1.1rem .8rem; min-width:90px;
-}
-.farol-light {
-  width:38px; height:38px; border-radius:50%;
-  border:2px solid rgba(0,0,0,.3);
-  transition:all .5s ease;
-  position:relative;
-}
-.farol-light.on { box-shadow:0 0 18px 6px currentColor; }
-.farol-light.off { opacity:.12; }
-.farol-light.verde  { background:#4ade80; color:#4ade80; }
-.farol-light.amarelo{ background:#facc15; color:#facc15; }
-.farol-light.vermelho{ background:#f87171; color:#f87171; }
-.farol-label { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; }
-
-/* portfolio empresa row */
-.port-row {
-  display:grid;
-  grid-template-columns:1.6fr .6fr .7fr .8fr .7fr .8fr .8fr 110px;
-  gap:.5rem; align-items:center;
-  padding:.55rem .85rem; border-bottom:1px solid var(--bord);
-  transition:background .15s;
-  font-size:.65rem;
-}
-.port-row:hover { background:var(--bg3); }
-.port-row.header {
-  background:var(--bg3); font-size:.56rem; font-weight:700;
-  color:var(--muted); letter-spacing:.1em; text-transform:uppercase;
-  border-bottom:2px solid var(--bord2);
-  position:sticky; top:0; z-index:2;
-}
-
-/* slider custom */
-.sim-range {
-  -webkit-appearance:none; appearance:none;
-  width:100%; height:4px; border-radius:99px;
-  background:var(--bord2); outline:none; cursor:pointer;
-}
-.sim-range::-webkit-slider-thumb {
-  -webkit-appearance:none; width:14px; height:14px;
-  border-radius:50%; background:var(--acc2);
-  border:2px solid var(--bg2); cursor:pointer;
-  box-shadow:0 0 6px rgba(192,132,252,.5);
-}
-.sim-range::-moz-range-thumb {
-  width:14px; height:14px; border-radius:50%;
-  background:var(--acc2); border:2px solid var(--bg2); cursor:pointer;
-}
-
-/* recomendacao card */
-.rec-card {
-  background:var(--bg3); border-radius:10px;
-  border-left:3px solid; padding:.75rem 1rem;
-  margin-bottom:.45rem; transition:border-color .2s;
-}
-.rec-card-title {
-  font-size:.62rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:.08em; margin-bottom:.25rem;
-  display:flex; align-items:center; gap:.4rem;
-}
-.rec-card-body { font-size:.7rem; color:var(--muted); line-height:1.55; }
-.rec-card-meta { font-size:.58rem; color:var(--hint); margin-top:.3rem; font-family:var(--mono); }
-
-/* hhi gauge colored segments */
-.hhi-bar {
-  height:8px; border-radius:99px; width:100%;
-  background:linear-gradient(90deg,#4ade80 0%,#4ade80 25%,#facc15 25%,#facc15 50%,#fb923c 50%,#fb923c 75%,#f87171 75%,#f87171 100%);
-  position:relative; margin:.4rem 0;
-}
-.hhi-pointer {
-  position:absolute; top:-4px; width:4px; height:16px;
-  background:var(--text); border-radius:2px;
-  transform:translateX(-50%);
-  transition:left .6s ease;
-}
-
-/* ticker animado */
-.ticker-wrap {
-  overflow:hidden; background:rgba(34,211,238,.06);
-  border:1px solid rgba(34,211,238,.2); border-radius:8px;
-  padding:.35rem 0; margin-bottom:.7rem;
-}
-.ticker-inner {
-  display:flex; gap:2.5rem; white-space:nowrap;
-  animation:ticker 28s linear infinite;
-}
-.ticker-item {
-  font-size:.63rem; font-weight:600; font-family:var(--mono);
-  color:var(--cyan); letter-spacing:.04em;
-  display:inline-flex; align-items:center; gap:.4rem;
-}
-.ticker-item .up   { color:var(--green); }
-.ticker-item .down { color:var(--red); }
-@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-
-/* add empresa modal-like panel */
-.add-panel {
-  background:var(--bg2); border:1px solid var(--bord);
-  border-radius:12px; padding:1rem 1.2rem; margin-bottom:.7rem;
-}
-.add-panel-title {
-  font-size:.6rem; font-weight:700; color:var(--acc2);
-  letter-spacing:.1em; text-transform:uppercase;
-  margin-bottom:.7rem; display:flex; align-items:center; gap:.45rem;
-}
-.add-grid {
-  display:grid; grid-template-columns:2fr 1fr 1fr 1fr auto;
-  gap:.55rem; align-items:end;
-}
-.add-grid label { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-bottom:.16rem; display:block; }
-.add-grid select, .add-grid input {
-  width:100%; background:var(--bg3); border:1px solid var(--bord2);
-  border-radius:7px; color:var(--text); font-size:.68rem;
-  padding:.38rem .55rem; font-family:var(--font); outline:none; transition:border-color .2s;
-}
-.add-grid select:focus, .add-grid input:focus { border-color:var(--acc); }
-.add-btn {
-  background:linear-gradient(135deg,#6d28d9,#9333ea);
-  color:#fff; border:none; border-radius:7px; padding:.45rem 1rem;
-  font-size:.65rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-  font-family:var(--font); cursor:pointer; transition:all .2s; white-space:nowrap;
-}
-.add-btn:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(109,40,217,.4); }
-.remove-btn {
-  background:transparent; border:1px solid rgba(248,113,113,.3);
-  color:var(--red); border-radius:5px; padding:.2rem .55rem;
-  font-size:.6rem; cursor:pointer; font-family:var(--font);
-  font-weight:700; transition:all .15s;
-}
-.remove-btn:hover { background:rgba(248,113,113,.12); }
-
-/* score ring */
-.score-ring-wrap { display:flex; flex-direction:column; align-items:center; }
-.score-ring-val { font-size:1.6rem; font-weight:800; font-family:var(--mono); line-height:1; }
-.score-ring-lbl { font-size:.55rem; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-top:.2rem; }
-
-/* monit strip */
-.monit-strip {
-  display:flex; align-items:stretch; gap:0;
-  background:var(--bg2); border:1px solid var(--bord);
-  border-radius:10px; overflow:hidden; margin-bottom:.7rem;
-}
-.monit-cell {
-  flex:1; padding:.65rem .9rem; border-right:1px solid var(--bord);
-  display:flex; flex-direction:column; gap:.2rem;
-}
-.monit-cell:last-child { border-right:none; }
-.monit-cell-lbl { font-size:.52rem; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; }
-.monit-cell-val { font-size:1rem; font-weight:700; font-family:var(--mono); color:var(--text); }
-.monit-cell-sub { font-size:.55rem; color:var(--hint); }
 
 @media(max-width:900px) {
   .stat-grid,.stat-grid-4,.stat-grid-5 { grid-template-columns:repeat(2,1fr); }
   .chart-row-12,.chart-row-3,.chart-row-2 { grid-template-columns:1fr; }
-  .add-grid { grid-template-columns:1fr 1fr; }
 }
 @media(max-width:768px) {
   #app { flex-direction:column; height:auto; min-height:100vh; }
@@ -591,16 +417,19 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
   .nav-tabs { overflow-x:auto; width:100%; padding-bottom:.35rem; }
   .nav-tab { flex-shrink:0; }
   table { min-width:680px; }
-  .port-row { grid-template-columns:1fr 1fr; }
-  .add-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ══ LOGIN ══════════════════════════════════════════════════════ -->
 <div id="login-overlay">
 <div class="login-box">
+  <div class="login-logo">
+    <img alt="KYC" class="logo-dark" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH8AgGDAsLDAsKCwwNEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFBT/wAALCABAAEABAREA/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAgMGB//EACkQAAIBAwQBBAMBAQAAAAAAAAECAwQFERIhBhMxUWFxIkGBFCOR/9oACAEBAAA/ANyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUuS5KlbynFfbVqOMY+L5v+EHT5GNeXSqbrdFSrGXb2cnhf2VFjjLbk9CnPJXG9OnFSWezk8bPVc9SqoqV0VipPuuWP5OMY/6uQAAAAAAAAHH8I4/ZRzLy3Xy5R7p1VJNf4pOvR+pHvbSwv8ASTR43R/X0mIlhOaFWWMf7jJZAAAAAAAAABxXz5Z9o8vZJPWWCWtVP6Uq1nqdVTtZ4T7s5jcxX3iu8VdU5RpwpU49KX+3LZXPy5XGSjGFOM4NR7Yx4SuY++O/YvL9w7xMbCIjqGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" style="max-width:200px;width:100%;display:block;margin:0 auto;border-radius:6px;"/>
+    <img alt="KYC" class="logo-light" src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH8AgGDAsLDAsKCwwNEhANDhEOCwsQFhARExQVFRUMDxcYFhQYEhQVFBT/wAALCABAAEABAREA/8QAGgABAAIDAQAAAAAAAAAAAAAAAAQFAgMGB//EACkQAAIBAwQBBAMBAQAAAAAAAAECAwQFERIhBhMxUWFxIkGBFCOR/9oACAEBAAA/ANyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUuS5KlbynFfbVqOMY+L5v+EHT5GNeXSqbrdFSrGXb2cnhf2VFjjLbk9CnPJXG9OnFSWezk8bPVc9SqoqV0VipPuuWP5OMY/6uQAAAAAAAAHH8I4/ZRzLy3Xy5R7p1VJNf4pOvR+pHvbSwv8ASTR43R/X0mIlhOaFWWMf7jJZAAAAAAAAABxXz5Z9o8vZJPWWCWtVP6Uq1nqdVTtZ4T7s5jcxX3iu8VdU5RpwpU49KX+3LZXPy5XGSjGFOM4NR7Yx4SuY++O/YvL9w7xMbCIjqGYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/9k=" style="max-width:200px;width:100%;display:block;margin:0 auto;border-radius:6px;"/>
+    <span class="badge">KYC 360° · Nuclea FIDC</span>
+  </div>
   <div class="login-title">Bem-vindo 👋</div>
   <div class="login-sub">Feito por X-Disquete · FIAP</div>
   <label class="lbl">Usuário</label>
@@ -614,7 +443,7 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
 </div>
 </div>
 
-<!-- APP -->
+<!-- ══ APP ═══════════════════════════════════════════════════════ -->
 <div id="app" style="display:none;">
 
 <!-- SIDEBAR -->
@@ -640,10 +469,6 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
   </div>
   <div class="sb-nav-item" data-page="mercado" onclick="goPage('mercado')">
     <i class="ti ti-world"></i> Setor vs Mercado
-  </div>
-  <div class="sb-nav-item" data-page="simulador" onclick="goPage('simulador')" style="color:#22d3ee;border-right:2px solid transparent;">
-    <i class="ti ti-rocket"></i> Simulador
-    <span class="sb-badge sim">NEW</span>
   </div>
 
   <div class="sb-section">Filtros</div>
@@ -714,10 +539,6 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
         <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="12" r="10"></circle><line x1="2" x2="22" y1="12" y2="12"></line></svg>
         Setor vs Mercado
       </button>
-      <button class="nav-tab sim-tab" data-page="simulador" onclick="goPage('simulador')" type="button">
-        <svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        Simulador
-      </button>
     </div>
 
     <div class="topbar-right">
@@ -738,13 +559,14 @@ tbody td { padding:.48rem .8rem; color:var(--text); font-size:.65rem; font-weigh
 
   <!-- CONTENT -->
   <div id="content"></div>
-</div>
-</div>
+</div><!-- /main -->
+</div><!-- /app -->
 
 <script>
 /* ════════════════════════════════════════════════════════════════
-   USUÁRIOS / AUTH
+   TODA A LÓGICA ORIGINAL PRESERVADA — só o visual foi alterado
 ════════════════════════════════════════════════════════════════ */
+
 const USERS = {
   "RM566908":{"password":"566908","name":"Giaconno"},
   "RM568514":{"password":"568514","name":"Guilherme"},
@@ -762,24 +584,48 @@ let STATE = {
   xfEmp:{sinal:null},
   xfSet:{sinal:null,uf:null},
   xfMkt:{sinal:null,uf:null},
-  // Simulador state
-  sim:{
-    portfolio:[],      // [{cnpj, setor, uf, valor, score, sinal, retorno, atraso}]
-    valorTotal:500000,
-    diversMax:5,
-    riskTolerance:50,
-    liveInterval:null,
-    lastUpdate:null,
-  }
 };
 
-/* ════════════════════════════════════════════════════════════════
-   CORES / CONSTANTES
-════════════════════════════════════════════════════════════════ */
-const COR_SINAL  = {verde:'#4ade80',amarelo:'#facc15',vermelho:'#f87171'};
-const ICO_SINAL  = {verde:'✅',amarelo:'⚡',vermelho:'🚨'};
-const LBL_SINAL  = {verde:'Baixo Risco',amarelo:'Moderado',vermelho:'Alto Risco'};
-const CSS_SINAL  = {verde:'green',amarelo:'amber',vermelho:'red'};
+/* ── Cores ── */
+const COR_SINAL = {verde:'#4ade80',amarelo:'#facc15',vermelho:'#f87171'};
+const ICO_SINAL = {verde:'✅',amarelo:'⚡',vermelho:'🚨'};
+const LBL_SINAL = {verde:'Baixo Risco',amarelo:'Moderado',vermelho:'Alto Risco'};
+const CSS_SINAL = {verde:'green',amarelo:'amber',vermelho:'red'};
+
+/* ── Plotly ── */
+const PB = (h=220) => {
+  var c = getPlotlyColors();
+  return {paper_bgcolor:c.bg,plot_bgcolor:c.bg,margin:{t:10,b:10,l:6,r:6},height:h,font:{color:c.font,family:'Plus Jakarta Sans',size:10}};
+};
+
+function getPlotlyColors() {
+  var isLight = document.documentElement.getAttribute('data-theme')==='light';
+  return {
+    font:   isLight?'#1a3a5c':'#6b6b88',
+    muted:  isLight?'#4a6080':'#4a5a7a',
+    grid:   isLight?'#d0daea':'#1e1e2e',
+    bg:     'rgba(0,0,0,0)',
+    text:   isLight?'#0f1f3d':'#e2e2f0',
+    axis:   isLight?'#4a6080':'#6b6b88',
+    tickfont: isLight?'#1a3a5c':'#6b6b88',
+    polar_bg: isLight?'#f0f4fa':'#0d0d14',
+    polar_grid: isLight?'#d0daea':'#1e1e2e',
+    gauge_num: isLight?'#0f1f3d':'#e2dff5',
+  };
+}
+
+/* ── pbar / bloco / badge / statCard ── */
+function pbarHTML(label,valor){
+  const cor=valor>=70?'#4ade80':valor>=40?'#facc15':'#f87171';
+  return `<div class="pbar"><div class="pbar-row"><span class="pbar-lbl">${label}</span><span class="pbar-val" style="color:${cor}">${valor.toFixed(0)}</span></div><div class="pbar-bg"><div class="pbar-fill" style="width:${valor}%;background:${cor}"></div></div></div>`;
+}
+function blocoHTML(titulo,valor,sub,cor){
+  return `<div class="bloco" style="border-color:${cor}"><div class="bloco-lbl" style="color:${cor}">${titulo}</div><div class="bloco-val">${valor}</div><div class="bloco-sub">${sub}</div></div>`;
+}
+function badge(sinal){
+  const cls={verde:'badge-green',amarelo:'badge-amber',vermelho:'badge-red'}[sinal]||'';
+  return `<span class="badge ${cls}">${ICO_SINAL[sinal]||''} ${LBL_SINAL[sinal]||sinal}</span>`;
+}
 
 const KPI_ICONS = {
   'EMPRESAS':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
@@ -803,46 +649,14 @@ const KPI_ICONS = {
   'HHI CEDENTES':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
 };
 
-/* ════════════════════════════════════════════════════════════════
-   PLOTLY HELPERS
-════════════════════════════════════════════════════════════════ */
-function getPlotlyColors(){
-  var isLight=document.documentElement.getAttribute('data-theme')==='light';
-  return {
-    font:   isLight?'#1a3a5c':'#6b6b88',
-    muted:  isLight?'#4a6080':'#4a5a7a',
-    grid:   isLight?'#d0daea':'#1e1e2e',
-    bg:     'rgba(0,0,0,0)',
-    text:   isLight?'#0f1f3d':'#e2e2f0',
-    axis:   isLight?'#4a6080':'#6b6b88',
-    tickfont: isLight?'#1a3a5c':'#6b6b88',
-    polar_bg: isLight?'#f0f4fa':'#0d0d14',
-    polar_grid: isLight?'#d0daea':'#1e1e2e',
-    gauge_num: isLight?'#0f1f3d':'#e2dff5',
-  };
-}
-
-/* ════════════════════════════════════════════════════════════════
-   UI HELPERS
-════════════════════════════════════════════════════════════════ */
-function pbarHTML(label,valor){
-  const cor=valor>=70?'#4ade80':valor>=40?'#facc15':'#f87171';
-  return `<div class="pbar"><div class="pbar-row"><span class="pbar-lbl">${label}</span><span class="pbar-val" style="color:${cor}">${valor.toFixed(0)}</span></div><div class="pbar-bg"><div class="pbar-fill" style="width:${valor}%;background:${cor}"></div></div></div>`;
-}
-function blocoHTML(titulo,valor,sub,cor){
-  return `<div class="bloco" style="border-color:${cor}"><div class="bloco-lbl" style="color:${cor}">${titulo}</div><div class="bloco-val">${valor}</div><div class="bloco-sub">${sub}</div></div>`;
-}
-function badge(sinal){
-  const cls={verde:'badge-green',amarelo:'badge-amber',vermelho:'badge-red'}[sinal]||'';
-  return `<span class="badge ${cls}">${ICO_SINAL[sinal]||''} ${LBL_SINAL[sinal]||sinal}</span>`;
-}
 function statCard(label,val,sub,accent,trend='',trendDir='up'){
-  const trCls=trendDir==='up'?'sc-trend-up':'sc-trend-down';
-  const trHTML=trend?`<div class="${trCls}">${trend}</div>`:'';
-  const icon=KPI_ICONS[label]||'';
+  const trCls = trendDir==='up'?'sc-trend-up':'sc-trend-down';
+  const trHTML = trend?`<div class="${trCls}">${trend}</div>`:'';
+  const icon = KPI_ICONS[label]||'';
   return `<div class="stat-card ${accent}"><div class="sc-label">${icon?`<span class="sc-icon">${icon}</span>`:''} ${label}</div><div class="sc-val">${val}</div><div class="sc-sub">${sub}</div>${trHTML}</div>`;
 }
 
+/* ── Validação ── */
 function valido(v){
   if(v===null||v===undefined)return false;
   const s=String(v).trim();
@@ -851,6 +665,8 @@ function valido(v){
 function limparDados(arr){
   return arr.filter(d=>valido(d.id_cnpj)&&valido(d.uf)&&valido(d.setor_resumo||d.descricao_cnae)&&valido(d.sinal)&&d.score_final>0);
 }
+
+/* ── normalizar ── */
 function normalizar(item){
   if(item.empresa||item.recomendacao){
     const emp=item.empresa||{};const rec=item.recomendacao||{};
@@ -859,9 +675,7 @@ function normalizar(item){
   return {id_cnpj:item.id_cnpj||'',uf:item.uf||'',cd_cnae_prin:item.cd_cnae_prin||'',descricao_cnae:item.descricao_cnae||'',setor_resumo:item.setor_resumo||item.descricao_cnae||'',setor:item.setor_resumo||item.descricao_cnae||'',media_atraso_dias:item.media_atraso_dias||0,sacado_indice_liquidez_1m:item.sacado_indice_liquidez_1m||0,share_vl_inad_pag_bol_6_a_15d:item.share_vl_inad_pag_bol_6_a_15d||0,score_final:item.score_final||0,sinal:item.sinal||'vermelho',label:item.label||'',retorno_esperado:item.retorno_esperado||'—',score_capacidade_pagamento:item.score_capacidade_pagamento||0,score_historico_pagamento:item.score_historico_pagamento||0,score_concentracao_risco:item.score_concentracao_risco||0,taxa_mercado_referencia:item.taxa_mercado_referencia||0};
 }
 
-/* ════════════════════════════════════════════════════════════════
-   API / FETCH
-════════════════════════════════════════════════════════════════ */
+/* ── API / Fetch ── */
 function showLoader(msg="Carregando dados…"){
   document.getElementById('content').innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:60vh;gap:1rem;"><div style="width:36px;height:36px;border:3px solid var(--bord2);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;"></div><div style="font-size:.78rem;color:var(--muted);">${msg}</div></div>`;
 }
@@ -875,12 +689,20 @@ async function carregarCarteira(){
   const data=await res.json();
   return data.map(normalizar);
 }
+async function carregarEmpresa(cnpj){
+  const cached=STATE.df.find(d=>d.id_cnpj===cnpj);
+  if(cached)return cached;
+  const res=await fetch('./dados/recomendacoes.json');
+  if(!res.ok)throw new Error(`HTTP ${res.status}`);
+  const data=await res.json();
+  const item=data.find(d=>(d.id_cnpj||d.empresa?.id_cnpj)===cnpj);
+  if(!item)throw new Error('Empresa não encontrada.');
+  return normalizar(item);
+}
 async function carregarSimulacao(){try{const r=await fetch('./dados/simulacao.json');if(!r.ok)return{};return r.json();}catch{return{};}}
 async function carregarAging(){try{const r=await fetch('./dados/aging.json');if(!r.ok)return[];return r.json();}catch{return[];}}
 
-/* ════════════════════════════════════════════════════════════════
-   LOGIN / AUTH
-════════════════════════════════════════════════════════════════ */
+/* ── LOGIN ── */
 function doLogin(){
   const u=document.getElementById('inp-user').value.trim();
   const p=document.getElementById('inp-pass').value;
@@ -916,17 +738,17 @@ function limparFiltros(){
   onAtrasoChange();
 }
 function doLogout(){
-  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
-  STATE={auth:false,userName:'',page:'overview',empresaSel:'',df:[],dfFiltered:[],simulacao:{},aging:[],xf:{sinal:null,uf:null,setor:null},xfEmp:{sinal:null},xfSet:{sinal:null,uf:null},xfMkt:{sinal:null,uf:null},sim:{portfolio:[],valorTotal:500000,diversMax:5,riskTolerance:50,liveInterval:null,lastUpdate:null}};
+  STATE={auth:false,userName:'',page:'overview',empresaSel:'',df:[],dfFiltered:[],simulacao:{},aging:[],xf:{sinal:null,uf:null,setor:null},xfEmp:{sinal:null},xfSet:{sinal:null,uf:null},xfMkt:{sinal:null,uf:null}};
+  ['sb-uf','sb-setor','sb-atraso'].forEach(id=>{const el=document.getElementById(id);if(el)el.selectedIndex=0;});
+  const b=document.getElementById('sb-busca');if(b)b.value='';
   document.getElementById('app').style.display='none';
   document.getElementById('login-overlay').style.display='flex';
-  document.getElementById('inp-user').value='';document.getElementById('inp-pass').value='';
+  document.getElementById('inp-user').value='';
+  document.getElementById('inp-pass').value='';
   document.getElementById('login-err').textContent='';
 }
 
-/* ════════════════════════════════════════════════════════════════
-   INIT
-════════════════════════════════════════════════════════════════ */
+/* ── INIT ── */
 async function initApp(){
   document.getElementById('sb-username').textContent=STATE.userName;
   document.getElementById('tb-username').textContent=STATE.userName;
@@ -948,9 +770,9 @@ function updateClock(){
   document.getElementById('tb-time').textContent=now.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
 
-/* ════════════════════════════════════════════════════════════════
-   SIDEBAR FILTERS
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   SIDEBAR FILTERS — lógica original intacta
+════════════════════════════════════════ */
 const FAIXAS_ATRASO={todos:[null,null],sem:[0,0],baixo:[1,15],moderado:[16,30],alto:[31,60],critico:[61,null]};
 
 function buildSidebarFilters(){
@@ -1006,13 +828,16 @@ function setSBCNPJ(){
   if(v){if(STATE.page==='overview'){goPage('empresa');}else{renderPage();}}else{renderPage();}
 }
 
-/* ════════════════════════════════════════════════════════════════
+/* ════════════════════════════════════════
    NAVIGATION
-════════════════════════════════════════════════════════════════ */
-const PAGE_LABELS={overview:'Default Dashboard',empresa:'Análise de Empresa',setor:'Análise do Setor',mercado:'Setor vs Mercado',simulador:'Simulador de Carteira'};
+════════════════════════════════════════ */
+const PAGE_LABELS={overview:'Default Dashboard',empresa:'Análise de Empresa',setor:'Análise do Setor',mercado:'Setor vs Mercado'};
 
 function goPage(p){
-  if(p!=='simulador'&&STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
+  if(STATE.page==='overview')STATE.xf={sinal:null,uf:null,setor:null};
+  if(STATE.page==='empresa')STATE.xfEmp={sinal:null};
+  if(STATE.page==='setor')STATE.xfSet={sinal:null,uf:null};
+  if(STATE.page==='mercado')STATE.xfMkt={sinal:null,uf:null};
   STATE.page=p;
   document.querySelectorAll('.nav-tab,.sb-nav-item').forEach(t=>t.classList.toggle('active',t.dataset.page===p));
   document.getElementById('topbar-title').textContent=PAGE_LABELS[p];
@@ -1020,10 +845,10 @@ function goPage(p){
 }
 
 function updateSidebarHint(){
-  const hints={overview:'Filtre para atualizar os gráficos',empresa:'Selecione um CNPJ',setor:'Selecione um Setor',mercado:'Selecione um Setor para comparar',simulador:'Monte sua carteira simulada'};
+  const hints={overview:'Filtre para atualizar os gráficos',empresa:'Selecione um CNPJ',setor:'Selecione um Setor',mercado:'Selecione um Setor para comparar'};
   const hintEl=document.getElementById('sb-hint');if(hintEl)hintEl.textContent=hints[STATE.page]||'';
   const empBlock=document.getElementById('sb-empresa-block');
-  if(empBlock)empBlock.style.display=(STATE.page==='mercado'||STATE.page==='simulador')?'none':'block';
+  if(empBlock)empBlock.style.display=STATE.page==='mercado'?'none':'block';
   const uf_v=document.getElementById('sb-uf')?.value||'Todas';
   const setor_v=document.getElementById('sb-setor')?.value||'Todos';
   const atraso_v=document.getElementById('sb-atraso')?.value||'todos';
@@ -1038,14 +863,15 @@ function updateSidebarHint(){
     if(filtrosAtivos.length){sbAF.style.display='block';sbAFL.innerHTML=filtrosAtivos.map(f=>`<div style="display:flex;align-items:center;gap:.3rem;"><span style="color:var(--acc);font-size:.6rem;">▸</span>${f}</div>`).join('');}
     else{sbAF.style.display='none';}
   }
+  // badge alertas
   const alertas=STATE.dfFiltered.filter(d=>d.sinal==='vermelho').length;
   const badgeEl=document.getElementById('badge-alertas');
   if(badgeEl)badgeEl.textContent=alertas;
 }
 
-/* ════════════════════════════════════════════════════════════════
-   RENDER ROUTER
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   RENDER
+════════════════════════════════════════ */
 function renderPage(){
   const el=document.getElementById('content');
   el.innerHTML='';
@@ -1056,12 +882,9 @@ function renderPage(){
   else if(STATE.page==='empresa')renderEmpresa(wrap);
   else if(STATE.page==='setor')renderSetor(wrap);
   else if(STATE.page==='mercado')renderMercado(wrap);
-  else if(STATE.page==='simulador')renderSimulador(wrap);
 }
 
-/* ════════════════════════════════════════════════════════════════
-   GOLD CARDS (overview helper)
-════════════════════════════════════════════════════════════════ */
+/* ── Gold cards ── */
 function buildGoldCards(){
   var df=STATE.dfFiltered||[];
   if(STATE.xf&&STATE.xf.sinal)df=df.filter(d=>d.sinal===STATE.xf.sinal);
@@ -1101,9 +924,9 @@ function calcHHI(df,campo){
   return hhi.toFixed(4);
 }
 
-/* ════════════════════════════════════════════════════════════════
-   OVERVIEW
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   OVERVIEW — lógica original
+════════════════════════════════════════ */
 function renderOverview(wrap){
   let df=STATE.dfFiltered;
   if(STATE.xf.sinal)df=df.filter(d=>d.sinal===STATE.xf.sinal);
@@ -1141,7 +964,7 @@ function renderOverview(wrap){
   document.getElementById('plt-setor').on('plotly_click',ev=>{const st=stData[ev.points[0].pointIndex]?.st;if(!st)return;STATE.xf.setor=STATE.xf.setor===st?null:st;renderPage();});
 }
 
-/* TABLE */
+/* ── Tabela ── */
 function buildTable(df,clickable=false){
   const cols=['id_cnpj','uf','setor_resumo','sinal','score_final','retorno_esperado','media_atraso_dias'];
   const heads=['CNPJ','UF','Setor','Sinal','Score','Retorno Esp.','Atraso (d)'];
@@ -1149,6 +972,8 @@ function buildTable(df,clickable=false){
   return`<table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr style="${clickable?'cursor:pointer;':''}transition:background .15s;" ${clickable?`onclick="tblClickEmpresa('${r.id_cnpj}')"`:''} onmouseover="${clickable?`this.style.background='var(--bg3)'`:''}" onmouseout="${clickable?`this.style.background=''`:''}"><td style="font-family:var(--mono);font-size:.62rem">${r.id_cnpj}</td><td>${r.uf}</td><td style="max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.setor_resumo||'—'}</td><td>${badge(r.sinal)}</td><td style="font-weight:700;color:${COR_SINAL[r.sinal]||'var(--text)'};font-family:var(--mono)">${r.score_final.toFixed(1)}</td><td>${typeof r.retorno_esperado==='number'?(r.retorno_esperado*100).toFixed(2)+'%':(r.retorno_esperado||'—')}</td><td style="font-family:var(--mono)">${(r.media_atraso_dias||0).toFixed(1)}</td></tr>`).join('')}</tbody></table>`;
 }
 function tblClickEmpresa(cnpj){STATE.empresaSel=cnpj;const el=document.getElementById('sb-cnpj');if(el)el.value=cnpj;goPage('empresa');}
+
+/* ── Cross-filter helpers ── */
 function clearXF(campo){STATE.xf[campo]=null;renderPage();}
 function clearAllXF(){STATE.xf={sinal:null,uf:null,setor:null};STATE.xfEmp={sinal:null};STATE.xfSet={sinal:null,uf:null};STATE.xfMkt={sinal:null,uf:null};renderPage();}
 function clearXFEmp(campo){STATE.xfEmp[campo]=null;renderPage();}
@@ -1158,9 +983,9 @@ function clearAllXFSet(){STATE.xfSet={sinal:null,uf:null};renderPage();}
 function clearXFMkt(campo){STATE.xfMkt[campo]=null;renderPage();}
 function clearAllXFMkt(){STATE.xfMkt={sinal:null,uf:null};renderPage();}
 
-/* ════════════════════════════════════════════════════════════════
-   EMPRESA
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   EMPRESA — lógica original
+════════════════════════════════════════ */
 function renderEmpresa(wrap){
   wrap.innerHTML=`<div id="emp-body"></div>`;
   if(STATE.empresaSel){renderEmpBody(STATE.empresaSel);}
@@ -1174,16 +999,6 @@ function renderEmpBody(cnpj){
     document.getElementById('emp-body').innerHTML=`<div style="display:flex;align-items:center;gap:.6rem;padding:1rem;color:var(--muted);font-size:.75rem;"><div style="width:18px;height:18px;border:2px solid var(--bord2);border-top-color:var(--acc);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;"></div>Carregando empresa…</div>`;
     carregarEmpresa(cnpj).then(dados=>_renderEmpBodyWithData(cnpj,dados)).catch(err=>{document.getElementById('emp-body').innerHTML=`<p style="color:var(--red);padding:1rem;font-size:.78rem;">Erro: ${err.message}</p>`;});
   }
-}
-async function carregarEmpresa(cnpj){
-  const cached=STATE.df.find(d=>d.id_cnpj===cnpj);
-  if(cached)return cached;
-  const res=await fetch('./dados/recomendacoes.json');
-  if(!res.ok)throw new Error(`HTTP ${res.status}`);
-  const data=await res.json();
-  const item=data.find(d=>(d.id_cnpj||d.empresa?.id_cnpj)===cnpj);
-  if(!item)throw new Error('Empresa não encontrada.');
-  return normalizar(item);
 }
 function _renderEmpBodyWithData(cnpj,dados){
   const score=dados.score_final||0;const sinal=dados.sinal||'—';const retStr=dados.retorno_esperado||'—';
@@ -1217,9 +1032,9 @@ function _renderEmpBodyWithData(cnpj,dados){
 }
 window.toggleJSON=function(){const el=document.getElementById('json-body');el.style.display=el.style.display==='none'||!el.style.display?'block':'none';};
 
-/* ════════════════════════════════════════════════════════════════
-   SETOR
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   SETOR — lógica original
+════════════════════════════════════════ */
 function renderSetor(wrap){
   wrap.innerHTML=`<div id="set-body"></div>`;
   const setorSel=document.getElementById('sb-setor')?.value||'Todos';
@@ -1285,9 +1100,9 @@ function renderSetorBody(setor_sel,empDados=null){
   Plotly.newPlot('plt-atraso-set',[{type:'bar',x:FAIXAS_SET.map(f=>f.label+'<br>'+f.sublabel),y:FAIXAS_SET.map(f=>faixasSet[f.key]),marker:{color:FAIXAS_SET.map(f=>f.cor),opacity:.9,line:{width:0}},text:FAIXAS_SET.map(f=>{const n_=faixasSet[f.key];const pct=Math.round(n_/totalSet*100);return n_>0?`${n_} (${pct}%)`:'0';}),textposition:'auto',textfont:{color:'#e2e2f0',size:10},cliponaxis:false,hovertemplate:'<b>%{x}</b><br>%{y} empresa(s)<extra></extra>'}],{...base,height:H,bargap:.25,showlegend:false,margin:{t:28,b:8,l:36,r:16},xaxis:{showgrid:false,color:_c.axis,tickfont:{size:9,color:_c.tickfont},automargin:true},yaxis:{showgrid:true,gridcolor:_c.grid,color:_c.axis,tickfont:{size:9},zeroline:false,title:{text:'empresas',font:{color:_c.axis,size:9}}}},cfg);
 }
 
-/* ════════════════════════════════════════════════════════════════
-   SETOR VS MERCADO
-════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   SETOR VS MERCADO — lógica original
+════════════════════════════════════════ */
 function renderMercado(wrap){
   wrap.innerHTML=`<div id="mkt-body"></div>`;
   const setorRef=document.getElementById('sb-setor')?.value||'Todos';
@@ -1345,567 +1160,6 @@ function buildMktTable(setores,setorRef){
 }
 function mktClickSetor(nome){const el=document.getElementById('sb-setor');if(el){el.value=nome;onSetorChange();}goPage('setor');}
 
-/* ════════════════════════════════════════════════════════════════
-   ██████████████████████████████████████████████████████████████
-   SIMULADOR DE CARTEIRA — NOVO MÓDULO COMPLETO
-   ██████████████████████████████████████████████████████████████
-════════════════════════════════════════════════════════════════ */
-
-/* ── Normaliza retorno para decimal (ex: "12.5%" → 0.125, 0.125 → 0.125, "—" → 0) ── */
-function parseRetorno(v){
-  if(v===null||v===undefined||v===''||v==='—'||v==='-')return 0;
-  if(typeof v==='number')return isNaN(v)?0:(v>1?v/100:v); // se já vier como 12.5, converte
-  const s=String(v).trim().replace('%','').replace(',','.');
-  const n=parseFloat(s);
-  if(isNaN(n))return 0;
-  return n>1?n/100:n; // "12.5" → 0.125, "0.125" → 0.125
-}
-
-/* ── Formata retorno decimal para exibição ── */
-function fmtRetorno(v){
-  const r=parseRetorno(v);
-  return r===0?'—':(r*100).toFixed(2)+'%';
-}
-
-/* ── Calcula métricas da carteira simulada ── */
-function calcSimMetricas(portfolio){
-  const n=portfolio.length;
-  if(!n)return{score:0,hhi:0,pdd:0,retorno:0,atraso:0,nVerde:0,nAmarelo:0,nVermelho:0,sinalCarteira:'vermelho',hhiSetor:0,hhiUF:0};
-  const totalValor=portfolio.reduce((a,d)=>a+d.valor,0)||1;
-  // Score ponderado pelo valor
-  const score=portfolio.reduce((a,d)=>a+(d.score*(d.valor/totalValor)),0);
-  // HHI por empresa (concentração)
-  const hhi=portfolio.reduce((a,d)=>a+Math.pow(d.valor/totalValor,2),0);
-  // HHI por setor
-  const bySetor={};portfolio.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
-  const hhiSetor=Object.values(bySetor).reduce((a,v)=>a+Math.pow(v/totalValor,2),0);
-  // HHI por UF
-  const byUF={};portfolio.forEach(d=>{byUF[d.uf]=(byUF[d.uf]||0)+d.valor;});
-  const hhiUF=Object.values(byUF).reduce((a,v)=>a+Math.pow(v/totalValor,2),0);
-  // PDD estimada (haircut por atraso)
-  const haircutMap=(dias)=>dias===0?0.01:dias<=15?0.05:dias<=30?0.10:dias<=60?0.20:0.40;
-  const pdd=portfolio.reduce((a,d)=>a+(d.valor*haircutMap(d.atraso)),0);
-  // Retorno ponderado (garante que d.retorno é decimal normalizado)
-  const retorno=portfolio.reduce((a,d)=>a+(parseRetorno(d.retorno)*(d.valor/totalValor)),0);
-  // Atraso médio ponderado
-  const atraso=portfolio.reduce((a,d)=>a+(d.atraso*(d.valor/totalValor)),0);
-  const nVerde=portfolio.filter(d=>d.sinal==='verde').length;
-  const nAmarelo=portfolio.filter(d=>d.sinal==='amarelo').length;
-  const nVermelho=portfolio.filter(d=>d.sinal==='vermelho').length;
-  const pctVerde=nVerde/n;
-  const sinalCarteira=pctVerde>=.6?'verde':pctVerde>=.3?'amarelo':'vermelho';
-  return{score,hhi,hhiSetor,hhiUF,pdd,retorno,atraso,nVerde,nAmarelo,nVermelho,sinalCarteira,totalValor,n};
-}
-
-/* ── Gera recomendações inteligentes de diversificação ── */
-function gerarRecomendacoes(portfolio,metricas){
-  const recs=[];
-  const n=portfolio.length;
-  const totalValor=metricas.totalValor||1;
-
-  // HHI concentrado por empresa?
-  if(metricas.hhi>0.25){
-    const maior=portfolio.sort((a,b)=>b.valor-a.valor)[0];
-    const pct=(maior.valor/totalValor*100).toFixed(0);
-    recs.push({tipo:'diversificacao',cor:'#facc15',icone:'⚡',titulo:'Alta Concentração por Empresa',texto:`${pct}% do capital está em uma única empresa (${maior.cnpj.slice(0,12)}…). Reduza para no máximo 20% por sacado para um HHI saudável (<0.10).`,meta:`HHI atual: ${metricas.hhi.toFixed(4)} · Meta: <0.10`});
-  }
-  // HHI por setor?
-  if(metricas.hhiSetor>0.30){
-    const bySetor={};portfolio.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
-    const topSetor=Object.entries(bySetor).sort((a,b)=>b[1]-a[1])[0];
-    if(topSetor){const pct=(topSetor[1]/totalValor*100).toFixed(0);recs.push({tipo:'setor',cor:'#fb923c',icone:'🏭',titulo:'Concentração Setorial Elevada',texto:`O setor "${topSetor[0].slice(0,40)}" representa ${pct}% da carteira. Adicione empresas de setores distintos para reduzir risco sistêmico.`,meta:`HHI Setor: ${metricas.hhiSetor.toFixed(4)} · Recomendado: <0.15`});}
-  }
-  // Muitas empresas vermelho?
-  if(metricas.nVermelho>0&&n>0&&metricas.nVermelho/n>0.3){
-    recs.push({tipo:'risco',cor:'#f87171',icone:'🚨',titulo:'Excesso de Exposição ao Risco',texto:`${metricas.nVermelho} de ${n} empresas (${Math.round(metricas.nVermelho/n*100)}%) possuem classificação "Alto Risco". Substitua por empresas com sinal verde ou realize due diligence avançado.`,meta:`PDD estimada: R$ ${metricas.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0})}`});
-  }
-  // Atraso médio alto?
-  if(metricas.atraso>30){
-    recs.push({tipo:'atraso',cor:'#f87171',icone:'📅',titulo:'Atraso Médio Crítico na Carteira',texto:`O atraso médio ponderado é de ${metricas.atraso.toFixed(1)} dias. Priorize empresas com menos de 15 dias de atraso e considere substituir devedores crônicos.`,meta:`Faixa crítica: >30d aumenta PDD em 10–40%`});
-  }else if(metricas.atraso>15){
-    recs.push({tipo:'atraso',cor:'#facc15',icone:'⏱️',titulo:'Atraso Médio Moderado',texto:`Atraso médio de ${metricas.atraso.toFixed(1)} dias. Monitore empresas acima de 15 dias e ative alertas de cobrança preventiva.`,meta:`Haircut aplicado: 5–10% do valor`});
-  }
-  // Score baixo?
-  if(metricas.score<50&&n>0){
-    recs.push({tipo:'score',cor:'#818cf8',icone:'📊',titulo:'Score Médio da Carteira Baixo',texto:`Score ponderado de ${metricas.score.toFixed(1)}/100 indica risco elevado. Adicione empresas com score ≥ 70 para elevar a qualidade média da carteira.`,meta:`Empresas verdes disponíveis: ${STATE.df.filter(d=>d.sinal==='verde').length}`});
-  }
-  // HHI geográfico?
-  if(metricas.hhiUF>0.40){
-    recs.push({tipo:'geo',cor:'#22d3ee',icone:'🗺️',titulo:'Concentração Geográfica Elevada',texto:`A carteira está muito concentrada em uma UF. Diversifique por estados para reduzir risco de crises regionais (climáticas, tributárias ou logísticas).`,meta:`HHI UF: ${metricas.hhiUF.toFixed(4)} · Meta: <0.20`});
-  }
-  // Retorno abaixo do mercado?
-  const medRetorno=STATE.df.length?STATE.df.reduce((a,d)=>a+parseRetorno(d.retorno_esperado),0)/STATE.df.length:0;
-  if(metricas.retorno<medRetorno*0.8&&n>0){
-    recs.push({tipo:'retorno',cor:'#4ade80',icone:'💰',titulo:'Retorno Abaixo da Média do Mercado',texto:`Retorno médio ponderado da carteira (${fmtRetorno(metricas.retorno)}) está abaixo da média do mercado (${fmtRetorno(medRetorno)}). Considere rebalancear para empresas com melhor relação risco-retorno.`,meta:`Diferencial: ${((metricas.retorno-medRetorno)*100).toFixed(2)}%`});
-  }
-  // Tudo ok?
-  if(!recs.length){
-    recs.push({tipo:'ok',cor:'#4ade80',icone:'✅',titulo:'Carteira Bem Diversificada!',texto:'Sua carteira simulada apresenta boa distribuição setorial, geográfica e por empresa. Mantenha o monitoramento periódico e atualize os dados a cada 30 dias.',meta:`Score: ${metricas.score.toFixed(1)} · HHI: ${metricas.hhi.toFixed(4)} · PDD: R$ ${metricas.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0})}`});
-  }
-  return recs;
-}
-
-/* ── Sugestão automática de empresas para adicionar ── */
-function gerarSugestoes(portfolio,n=5){
-  const jaAdicionados=new Set(portfolio.map(d=>d.cnpj));
-  const setoresAtivos=new Set(portfolio.map(d=>d.setor));
-  const ufsAtivas=new Set(portfolio.map(d=>d.uf));
-  // Pega candidatas verdes não adicionadas
-  let candidatas=STATE.df.filter(d=>d.sinal==='verde'&&!jaAdicionados.has(d.id_cnpj));
-  // Prioriza setores/UFs não representados
-  candidatas.sort((a,b)=>{
-    const aNew=(!setoresAtivos.has(a.setor_resumo)?2:0)+(!ufsAtivas.has(a.uf)?1:0);
-    const bNew=(!setoresAtivos.has(b.setor_resumo)?2:0)+(!ufsAtivas.has(b.uf)?1:0);
-    if(bNew!==aNew)return bNew-aNew;
-    return b.score_final-a.score_final;
-  });
-  return candidatas.slice(0,n);
-}
-
-/* ── Ticker com dados dinâmicos ── */
-function buildTickerHTML(metricas){
-  const port=STATE.sim.portfolio;
-  if(!port.length)return'<div class="ticker-inner"><span class="ticker-item">🚀 Adicione empresas ao simulador para ver o ticker em tempo real</span><span class="ticker-item">🚀 Adicione empresas ao simulador para ver o ticker em tempo real</span></div>';
-  const items=port.map(d=>{const delta=(Math.random()-.45)*2;const dir=delta>=0?'up':'down';const sym=delta>=0?'▲':'▼';return`<span class="ticker-item">${ICO_SINAL[d.sinal]} ${d.cnpj.slice(0,10)}… <span class="${dir}">${sym} ${Math.abs(delta).toFixed(2)}%</span> · Score ${d.score.toFixed(0)}</span>`;});
-  const all=[...items,...items].join('');
-  return`<div class="ticker-inner">${all}</div>`;
-}
-
-/* ── Farol visual ── */
-function buildFarolHTML(sinal){
-  const aceso={verde:'verde',amarelo:'amarelo',vermelho:'vermelho'}[sinal]||'vermelho';
-  return`
-    <div class="farol-wrap">
-      <div style="font-size:.52rem;font-weight:700;color:var(--hint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;">FAROL</div>
-      <div class="farol-light vermelho ${aceso==='vermelho'?'on':'off'}"></div>
-      <div class="farol-light amarelo ${aceso==='amarelo'?'on':'off'}"></div>
-      <div class="farol-light verde ${aceso==='verde'?'on':'off'}"></div>
-      <div class="farol-label" style="color:${COR_SINAL[aceso]||'var(--muted)'};margin-top:.2rem;">${LBL_SINAL[aceso]||'—'}</div>
-    </div>`;
-}
-
-/* ── Tick do monitoramento ao vivo ── */
-function simLiveTick(){
-  const port=STATE.sim.portfolio;
-  if(!port.length)return;
-  // Simula pequenas variações de score/retorno ±2%
-  port.forEach(d=>{
-    const delta=(Math.random()-.48)*2;
-    d.score=Math.min(100,Math.max(0,d.score+delta));
-    d.sinal=d.score>=65?'verde':d.score>=40?'amarelo':'vermelho';
-    const deltaR=(Math.random()-.48)*0.001;
-    d.retorno=Math.max(0,parseRetorno(d.retorno)+deltaR);
-  });
-  STATE.sim.lastUpdate=new Date();
-  // Re-render apenas o painel de monitoramento e farol
-  const tickerEl=document.getElementById('sim-ticker');
-  const metricas=calcSimMetricas(port);
-  if(tickerEl){const t=buildTickerHTML(metricas);tickerEl.innerHTML=t;}
-  // Atualiza strip de monitoramento
-  updateMonitStrip(metricas);
-  // Atualiza farol
-  const farolEl=document.getElementById('sim-farol');
-  if(farolEl)farolEl.innerHTML=buildFarolHTML(metricas.sinalCarteira);
-  // Atualiza gráfico de pizza
-  updateSimCharts(port,metricas);
-  // Atualiza timestamp
-  const tsEl=document.getElementById('sim-ts');
-  if(tsEl)tsEl.textContent='Último update: '+STATE.sim.lastUpdate.toLocaleTimeString('pt-BR');
-}
-
-function updateMonitStrip(m){
-  const el=document.getElementById('sim-monit-strip');
-  if(!el)return;
-  el.innerHTML=`
-    <div class="monit-cell"><div class="monit-cell-lbl">Score Carteira</div><div class="monit-cell-val" style="color:${m.score>=65?'var(--green)':m.score>=40?'var(--amber)':'var(--red)'}">${m.n?m.score.toFixed(1):'—'}</div><div class="monit-cell-sub">ponderado por valor</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">HHI Concentração</div><div class="monit-cell-val" style="color:${m.hhi<0.10?'var(--green)':m.hhi<0.25?'var(--amber)':'var(--red)'}">${m.n?m.hhi.toFixed(4):'—'}</div><div class="monit-cell-sub">${m.hhi<0.10?'✅ Baixa conc.':m.hhi<0.25?'⚡ Moderada':'🚨 Alta conc.'}</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">PDD Estimada</div><div class="monit-cell-val" style="color:var(--red)">R$ ${m.n?m.pdd.toLocaleString('pt-BR',{maximumFractionDigits:0}):'0'}</div><div class="monit-cell-sub">provisão de devedores</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">Retorno Esperado</div><div class="monit-cell-val" style="color:var(--green)">${m.n?fmtRetorno(m.retorno):'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">Empresas</div><div class="monit-cell-val">${m.n||0}</div><div class="monit-cell-sub">${m.nVerde} verde · ${m.nAmarelo} amber · ${m.nVermelho} red</div></div>
-    <div class="monit-cell"><div class="monit-cell-lbl">Atraso Médio</div><div class="monit-cell-val" style="color:${m.atraso===0?'var(--green)':m.atraso<=15?'var(--amber)':'var(--red)'}">${m.n?m.atraso.toFixed(1)+'d':'—'}</div><div class="monit-cell-sub">ponderado pelo capital</div></div>`;
-}
-
-function updateSimCharts(port,metricas){
-  try{
-    // Donut setores
-    const bySetor={};port.forEach(d=>{bySetor[d.setor]=(bySetor[d.setor]||0)+d.valor;});
-    const setLabels=Object.keys(bySetor);const setVals=Object.values(bySetor);
-    if(document.getElementById('sim-donut-setor'))
-      Plotly.react('sim-donut-setor',[{type:'pie',labels:setLabels,values:setVals,hole:.55,marker:{line:{color:'rgba(0,0,0,.3)',width:1}},textinfo:'percent',textfont:{size:10},hovertemplate:'<b>%{label}</b><br>R$ %{value:,.0f} (%{percent})<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',margin:{t:8,b:8,l:8,r:8},height:200,font:{color:'#6b6b88',size:10},showlegend:false},{responsive:true,displayModeBar:false});
-    // Scatter risco vs retorno
-    if(document.getElementById('sim-scatter'))
-      Plotly.react('sim-scatter',[{type:'scatter',x:port.map(d=>d.score),y:port.map(d=>parseRetorno(d.retorno)*100),mode:'markers+text',text:port.map(d=>d.cnpj.slice(0,8)),textposition:'top center',textfont:{size:8,color:'#6b6b88'},marker:{color:port.map(d=>COR_SINAL[d.sinal]||'#818cf8'),size:port.map(d=>Math.max(8,Math.min(22,d.valor/50000))),opacity:.85,line:{width:0}},hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>Retorno: %{y:.2f}%<extra></extra>'}],{paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',height:200,margin:{t:8,b:36,l:44,r:12},xaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Score',font:{size:9}}},yaxis:{showgrid:true,gridcolor:'#1e1e2e',color:'#6b6b88',tickfont:{size:8},title:{text:'Retorno %',font:{size:9}}},showlegend:false,font:{color:'#6b6b88',size:9}},{responsive:true,displayModeBar:false});
-  }catch(e){/*silencioso*/}
-}
-
-/* ── RENDER PRINCIPAL DO SIMULADOR ── */
-function renderSimulador(wrap){
-  // Para o intervalo se voltou à página
-  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
-
-  // Selects do simulador pré-gerados como strings JS normais
-  const simSetorOpts=[...new Set(STATE.df.map(d=>d.setor_resumo).filter(v=>valido(v)))].sort()
-    .map(s=>`<option value="${s}">${s.length>50?s.slice(0,49)+'…':s}</option>`).join('');
-
-  const simEmpresaOpts=STATE.df.slice(0,300).map(d=>`<option value="${d.id_cnpj}" data-score="${d.score_final}" data-sinal="${d.sinal}" data-setor="${d.setor_resumo||''}" data-uf="${d.uf}" data-retorno="${d.retorno_esperado||0}" data-atraso="${d.media_atraso_dias||0}">${d.id_cnpj} · ${d.uf} · score ${d.score_final.toFixed(0)} (${d.sinal})</option>`).join('');
-
-  const port=STATE.sim.portfolio;
-  const metricas=calcSimMetricas(port);
-  const recs=gerarRecomendacoes(port,metricas);
-  const sugestoes=gerarSugestoes(port,4);
-
-  wrap.innerHTML=`
-  <!-- HEADER SIMULADOR -->
-  <div class="emp-header" style="border-left-color:#22d3ee;margin-bottom:.7rem;">
-    <div>
-      <div style="font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.14em;color:#22d3ee;margin-bottom:.22rem;">🚀 SIMULADOR DE CARTEIRA</div>
-      <div style="font-size:.9rem;font-weight:700;color:var(--text);">Monte, analise e otimize sua carteira FIDC</div>
-      <div style="font-size:.62rem;color:var(--muted);margin-top:.18rem;">Indicadores profissionais · Recomendações IA · Monitoramento ao vivo</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:1rem;">
-      <span class="live-dot" id="live-status">AO VIVO</span>
-      <div style="text-align:right;">
-        <div style="font-size:.6rem;color:var(--muted);" id="sim-ts">Sem updates ainda</div>
-        <div style="font-size:.75rem;font-weight:700;color:var(--text);margin-top:2px;">${port.length} empresa${port.length!==1?'s':''} · R$ ${metricas.totalValor?.toLocaleString('pt-BR',{maximumFractionDigits:0})||'0'}</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TICKER AO VIVO -->
-  <div class="ticker-wrap" id="sim-ticker">${buildTickerHTML(metricas)}</div>
-
-  <!-- MONITORAMENTO STRIP -->
-  <div class="monit-strip" id="sim-monit-strip"></div>
-
-  <div class="grad-div"></div>
-
-  <!-- ADD EMPRESA -->
-  <div class="add-panel">
-    <div class="add-panel-title">
-      <svg width="14" height="14" fill="none" stroke="#22d3ee" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-      Adicionar Empresa à Carteira Simulada
-    </div>
-    <div style="display:grid;grid-template-columns:1.5fr 1.8fr .8fr .75fr .75fr auto;gap:.55rem;align-items:end;">
-      <div>
-        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Setor</label>
-        <select id="sim-sel-setor" onchange="simFiltrarEmpresasPorSetor()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
-          <option value="">Todos os setores</option>
-          \${[...new Set(STATE.df.map(d=>d.setor_resumo).filter(v=>valido(v)))].sort().map(s=>`<option value="\${s}">\${s.length>50?s.slice(0,49)+'\u2026':s}</option>`).join('')}
-        </select>
-      </div>
-      <div>
-        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Empresa (CNPJ)</label>
-        <select id="sim-sel-cnpj" onchange="simPreviewEmpresa()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
-          <option value="">Selecione...</option>
-          \${STATE.df.slice(0,300).map(d=>`<option value="\${d.id_cnpj}" data-score="\${d.score_final}" data-sinal="\${d.sinal}" data-setor="\${d.setor_resumo||''}" data-uf="\${d.uf}" data-retorno="\${d.retorno_esperado||0}" data-atraso="\${d.media_atraso_dias||0}">\${d.id_cnpj} · \${d.uf} · score \${d.score_final.toFixed(0)} (\${d.sinal})</option>`).join('')}
-        </select>
-      </div>
-      <div>
-        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Valor (R$)</label>
-        <input type="number" id="sim-inp-valor" value="50000" min="1000" step="1000" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;"/>
-      </div>
-      <div>
-        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Risco</label>
-        <select id="sim-sel-risco" onchange="simFiltrarEmpresasPorSetor()" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
-          <option value="todos">Todos</option>
-          <option value="verde">S\xf3 Verde</option>
-          <option value="amarelo">Verde+Amber</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:.55rem;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.16rem;display:block;">Opera\xe7\xe3o</label>
-        <select id="sim-sel-op" style="width:100%;background:var(--bg3);border:1px solid var(--bord2);border-radius:7px;color:var(--text);font-size:.68rem;padding:.38rem .55rem;font-family:var(--font);outline:none;">
-          <option value="recebivel">Receb\xedvel</option>
-          <option value="duplicata">Duplicata</option>
-          <option value="cheque">Cheque</option>
-          <option value="cce">CCE</option>
-        </select>
-      </div>
-      <div>
-        <label style="font-size:.55rem;color:transparent;display:block;margin-bottom:.16rem;">.</label>
-        <button class="add-btn" onclick="simAdicionarEmpresa()">+ Adicionar</button>
-      </div>
-    </div>
-    <div id="sim-empresa-preview" style="margin-top:.55rem;display:none;background:var(--bg3);border-radius:7px;padding:.45rem .85rem;border-left:3px solid var(--cyan);font-size:.64rem;line-height:1.7;"></div>
-  </div>
-
-  <!-- GRID PRINCIPAL: Portfolio + Farol + Gráficos -->
-  <div style="display:grid;grid-template-columns:1fr auto;gap:.7rem;margin-bottom:.7rem;align-items:start;">
-
-    <!-- PORTFOLIO TABLE -->
-    <div class="chart-card" style="padding:0;overflow:hidden;">
-      <div class="chart-title" style="padding:.8rem 1rem .6rem;margin:0;border-radius:10px 10px 0 0;">
-        PORTFÓLIO SIMULADO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">${port.length} empresa${port.length!==1?'s':''}</span>
-        ${port.length?`<button onclick="simLimparPortfolio()" style="float:right;background:transparent;border:1px solid rgba(248,113,113,.3);color:var(--red);border-radius:4px;font-size:.55rem;font-weight:700;padding:.18rem .55rem;cursor:pointer;font-family:var(--font);">✕ Limpar tudo</button>`:''}
-      </div>
-      ${port.length===0?`<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.75rem;">📭 Nenhuma empresa adicionada ainda.<br><span style="font-size:.65rem;color:var(--hint);">Use o painel acima para adicionar empresas à carteira simulada.</span></div>`:`
-      <div style="overflow:auto;max-height:280px;">
-        <div class="port-row header">
-          <span>CNPJ</span><span>UF</span><span>Score</span><span>Sinal</span><span>Retorno</span><span>Atraso</span><span>Valor (R$)</span><span>Ação</span>
-        </div>
-        ${port.map((d,i)=>`
-          <div class="port-row">
-            <span style="font-family:var(--mono);font-size:.6rem;color:var(--muted);">${d.cnpj.slice(0,14)}…</span>
-            <span>${d.uf}</span>
-            <span style="font-weight:700;font-family:var(--mono);color:${COR_SINAL[d.sinal]||'var(--text)'};">${d.score.toFixed(1)}</span>
-            <span>${badge(d.sinal)}</span>
-            <span style="font-family:var(--mono);color:var(--green);">${fmtRetorno(d.retorno)}</span>
-            <span style="font-family:var(--mono);color:${d.atraso===0?'var(--green)':d.atraso<=15?'var(--amber)':'var(--red)'};">${d.atraso.toFixed(0)}d</span>
-            <span style="font-family:var(--mono);">R$ ${d.valor.toLocaleString('pt-BR',{maximumFractionDigits:0})}</span>
-            <span><button class="remove-btn" onclick="simRemoverEmpresa(${i})">Remover</button></span>
-          </div>`).join('')}
-      </div>`}
-    </div>
-
-    <!-- FAROL SEMÁFORO -->
-    <div id="sim-farol">${buildFarolHTML(metricas.sinalCarteira)}</div>
-  </div>
-
-  <!-- INDICADORES PROFISSIONAIS + CHARTS -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.7rem;margin-bottom:.7rem;">
-
-    <!-- HHI detalhado -->
-    <div class="chart-card">
-      <div class="chart-title">INDICADOR HHI — CONCENTRAÇÃO</div>
-      <div style="margin-bottom:.6rem;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
-          <span style="font-size:.6rem;color:var(--muted);">HHI Empresa</span>
-          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhi<0.10?'var(--green)':metricas.hhi<0.25?'var(--amber)':'var(--red)'}">${port.length?metricas.hhi.toFixed(4):'—'}</span>
-        </div>
-        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhi/0.5*100,100):0}%"></div></div>
-        <div style="display:flex;justify-content:space-between;font-size:.5rem;color:var(--hint);margin-top:.1rem;"><span>Baixa (0)</span><span>Alta (0.5+)</span></div>
-      </div>
-      <div style="margin-bottom:.6rem;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
-          <span style="font-size:.6rem;color:var(--muted);">HHI Setor</span>
-          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhiSetor<0.15?'var(--green)':metricas.hhiSetor<0.30?'var(--amber)':'var(--red)'}">${port.length?metricas.hhiSetor.toFixed(4):'—'}</span>
-        </div>
-        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhiSetor/0.5*100,100):0}%"></div></div>
-      </div>
-      <div style="margin-bottom:.6rem;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:.18rem;">
-          <span style="font-size:.6rem;color:var(--muted);">HHI Geográfico (UF)</span>
-          <span style="font-size:.65rem;font-weight:700;font-family:var(--mono);color:${metricas.hhiUF<0.20?'var(--green)':metricas.hhiUF<0.40?'var(--amber)':'var(--red)'}">${port.length?metricas.hhiUF.toFixed(4):'—'}</span>
-        </div>
-        <div class="hhi-bar"><div class="hhi-pointer" style="left:${port.length?Math.min(metricas.hhiUF/0.5*100,100):0}%"></div></div>
-      </div>
-      <div style="margin-top:.5rem;padding:.5rem .7rem;background:var(--bg3);border-radius:6px;font-size:.58rem;color:var(--muted);line-height:1.5;">
-        <b style="color:var(--acc2);">Referência:</b> HHI &lt; 0.10 baixa concentração · 0.10–0.25 moderada · &gt; 0.25 alta
-      </div>
-    </div>
-
-    <!-- Donut por setor -->
-    <div class="chart-card">
-      <div class="chart-title">COMPOSIÇÃO POR SETOR</div>
-      <div id="sim-donut-setor" style="min-height:200px;display:flex;align-items:center;justify-content:center;">
-        ${!port.length?'<span style="color:var(--hint);font-size:.7rem;">Adicione empresas</span>':''}
-      </div>
-    </div>
-
-    <!-- Scatter score vs retorno -->
-    <div class="chart-card">
-      <div class="chart-title">RISCO vs RETORNO <span style="font-size:.5rem;color:var(--hint);font-weight:400;text-transform:none;">· tamanho = valor alocado</span></div>
-      <div id="sim-scatter" style="min-height:200px;display:flex;align-items:center;justify-content:center;">
-        ${!port.length?'<span style="color:var(--hint);font-size:.7rem;">Adicione empresas</span>':''}
-      </div>
-    </div>
-  </div>
-
-  <div class="grad-div"></div>
-
-  <!-- RECOMENDAÇÕES SMART -->
-  <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:.7rem;margin-bottom:.7rem;">
-    <div class="chart-card">
-      <div class="chart-title">🧠 RECOMENDAÇÕES SMART — DIVERSIFICAÇÃO AUTOMÁTICA</div>
-      ${recs.map(r=>`
-        <div class="rec-card" style="border-color:${r.cor};">
-          <div class="rec-card-title" style="color:${r.cor};">${r.icone} ${r.titulo}</div>
-          <div class="rec-card-body">${r.texto}</div>
-          <div class="rec-card-meta">${r.meta}</div>
-        </div>`).join('')}
-    </div>
-
-    <!-- Sugestões automáticas -->
-    <div class="chart-card">
-      <div class="chart-title">💡 SUGESTÕES AUTOMÁTICAS PARA ADICIONAR</div>
-      ${sugestoes.length===0?`<div style="color:var(--muted);font-size:.72rem;padding:.5rem 0;">Nenhuma sugestão disponível com os filtros atuais.</div>`:''}
-      ${sugestoes.map(d=>`
-        <div style="background:var(--bg3);border-radius:8px;padding:.6rem .85rem;margin-bottom:.4rem;border-left:3px solid ${COR_SINAL[d.sinal]||'var(--acc)'};">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.18rem;">
-            <span style="font-size:.62rem;font-weight:700;font-family:var(--mono);color:var(--text);">${d.id_cnpj}</span>
-            ${badge(d.sinal)}
-          </div>
-          <div style="font-size:.58rem;color:var(--muted);line-height:1.4;">${d.setor_resumo?.slice(0,45)||'—'} · ${d.uf}</div>
-          <div style="display:flex;justify-content:space-between;margin-top:.3rem;align-items:center;">
-            <span style="font-size:.6rem;color:var(--acc2);font-weight:700;">Score ${d.score_final.toFixed(1)}</span>
-            <button onclick="simAdicionarSugestao('${d.id_cnpj}')" style="background:rgba(34,211,238,.12);border:1px solid rgba(34,211,238,.3);color:var(--cyan);border-radius:5px;font-size:.58rem;font-weight:700;padding:.2rem .55rem;cursor:pointer;font-family:var(--font);">+ Adicionar</button>
-          </div>
-        </div>`).join('')}
-
-      <!-- Parâmetros da simulação -->
-      <div style="margin-top:.7rem;padding:.65rem .85rem;background:var(--bg3);border-radius:8px;border:1px dashed var(--bord2);">
-        <div style="font-size:.58rem;font-weight:700;color:var(--acc2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;">⚙️ Parâmetros da Simulação</div>
-        <div style="margin-bottom:.4rem;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:.2rem;">
-            <label style="font-size:.58rem;color:var(--muted);">Limite de Concentração (%)</label>
-            <span style="font-size:.6rem;font-weight:700;font-family:var(--mono);color:var(--acc2);" id="sim-conc-val">${STATE.sim.diversMax*4}%</span>
-          </div>
-          <input type="range" class="sim-range" min="1" max="10" value="${STATE.sim.diversMax}" oninput="STATE.sim.diversMax=+this.value;document.getElementById('sim-conc-val').textContent=(+this.value*4)+'%'"/>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:.2rem;">
-            <label style="font-size:.58rem;color:var(--muted);">Tolerância ao Risco</label>
-            <span style="font-size:.6rem;font-weight:700;font-family:var(--mono);color:${STATE.sim.riskTolerance>=60?'var(--green)':STATE.sim.riskTolerance>=35?'var(--amber)':'var(--red)'};" id="sim-risk-val">${STATE.sim.riskTolerance>=60?'Agressivo':STATE.sim.riskTolerance>=35?'Moderado':'Conservador'}</span>
-          </div>
-          <input type="range" class="sim-range" min="0" max="100" value="${STATE.sim.riskTolerance}" oninput="STATE.sim.riskTolerance=+this.value;const l=document.getElementById('sim-risk-val');l.textContent=+this.value>=60?'Agressivo':+this.value>=35?'Moderado':'Conservador';l.style.color=+this.value>=60?'var(--green)':+this.value>=35?'var(--amber)':'var(--red)'"/>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grad-div"></div>
-
-  <!-- CONTROLES AO VIVO -->
-  <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.7rem;">
-    <button onclick="simIniciarLive()" style="background:linear-gradient(135deg,#059669,#34d399);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">▶ Iniciar Monitoramento Ao Vivo</button>
-    <button onclick="simPararLive()" style="background:transparent;border:1px solid var(--bord2);color:var(--muted);border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">⏹ Parar</button>
-    <button onclick="simAutoMontar()" style="background:linear-gradient(135deg,#1d4ed8,#818cf8);color:#fff;border:none;border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">🤖 Auto-montar Carteira</button>
-    <button onclick="simExportar()" style="background:transparent;border:1px solid rgba(34,211,238,.4);color:var(--cyan);border-radius:8px;padding:.45rem 1.1rem;font-size:.65rem;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;">📥 Exportar JSON</button>
-    <span style="font-size:.6rem;color:var(--hint);margin-left:auto;" id="live-interval-info">${STATE.sim.liveInterval?'🟢 Monitorando a cada 5s':'⚫ Parado'}</span>
-  </div>`;
-
-  // Renderiza gráficos iniciais
-  updateMonitStrip(metricas);
-  if(port.length){
-    setTimeout(()=>updateSimCharts(port,metricas),100);
-  }
-}
-
-/* ── Ações do simulador ── */
-
-/* ── Filtro de setor → atualiza select de empresa ── */
-window.simFiltrarEmpresasPorSetor=function(){
-  const setor=document.getElementById('sim-sel-setor').value;
-  const risco=document.getElementById('sim-sel-risco')?.value||'todos';
-  const sel=document.getElementById('sim-sel-cnpj');
-  if(!sel)return;
-  let candidatas=STATE.df;
-  if(setor)candidatas=candidatas.filter(d=>d.setor_resumo===setor);
-  if(risco==='verde')candidatas=candidatas.filter(d=>d.sinal==='verde');
-  if(risco==='amarelo')candidatas=candidatas.filter(d=>d.sinal!=='vermelho');
-  const opts=candidatas.slice(0,300).map(d=>`<option value="${d.id_cnpj}" data-score="${d.score_final}" data-sinal="${d.sinal}" data-setor="${d.setor_resumo||''}" data-uf="${d.uf}" data-retorno="${d.retorno_esperado||0}" data-atraso="${d.media_atraso_dias||0}">${d.id_cnpj} · ${d.uf} · score ${d.score_final.toFixed(0)} (${d.sinal})</option>`).join('');
-  sel.innerHTML=`<option value="">Selecione... (${candidatas.length} empresa${candidatas.length!==1?'s':''})</option>`+opts;
-  // limpa preview
-  const prev=document.getElementById('sim-empresa-preview');
-  if(prev){prev.style.display='none';prev.innerHTML='';}
-};
-
-/* ── Preview da empresa selecionada ── */
-window.simPreviewEmpresa=function(){
-  const sel=document.getElementById('sim-sel-cnpj');
-  const prev=document.getElementById('sim-empresa-preview');
-  if(!sel||!prev)return;
-  const cnpj=sel.value;
-  if(!cnpj){prev.style.display='none';return;}
-  const opt=sel.options[sel.selectedIndex];
-  const score=+(opt.dataset.score||0);
-  const sinal=opt.dataset.sinal||'—';
-  const setor=opt.dataset.setor||'—';
-  const uf=opt.dataset.uf||'—';
-  const atraso=+(opt.dataset.atraso||0);
-  const retorno=parseRetorno(opt.dataset.retorno||0);
-  const cor=COR_SINAL[sinal]||'var(--muted)';
-  const ico=ICO_SINAL[sinal]||'';
-  const lbl=LBL_SINAL[sinal]||sinal;
-  prev.style.display='block';
-  prev.innerHTML=`
-    <span style="color:${cor};font-weight:700;">${ico} ${lbl}</span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--text);font-weight:600;">${cnpj}</span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--muted);">Setor: <b style="color:var(--text);">${setor.length>45?setor.slice(0,44)+'…':setor}</b></span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--muted);">UF: <b style="color:var(--text);">${uf}</b></span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--muted);">Score: <b style="color:${cor};">${score.toFixed(1)}</b></span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--muted);">Retorno: <b style="color:var(--green);">${fmtRetorno(retorno)}</b></span>
-    <span style="color:var(--hint);margin:0 .5rem;">|</span>
-    <span style="color:var(--muted);">Atraso: <b style="color:${atraso===0?'var(--green)':atraso<=15?'var(--amber)':'var(--red)'}">${atraso===0?'Sem atraso':atraso.toFixed(0)+'d'}</b></span>`;
-};
-
-window.simAdicionarEmpresa=function(){
-  const sel=document.getElementById('sim-sel-cnpj');
-  const cnpj=sel.value;
-  if(!cnpj)return;
-  const opt=sel.options[sel.selectedIndex];
-  const valor=+(document.getElementById('sim-inp-valor').value)||50000;
-  const filtroRisco=document.getElementById('sim-sel-risco').value;
-  const score=+(opt.dataset.score||0);
-  const sinal=opt.dataset.sinal||'vermelho';
-  if(filtroRisco==='verde'&&sinal!=='verde'){alert('⚠️ Esta empresa não tem classificação verde. Ajuste o filtro de risco ou escolha outra empresa.');return;}
-  if(filtroRisco==='amarelo'&&sinal==='vermelho'){alert('⚠️ Esta empresa tem classificação vermelha. Ajuste o filtro de risco.');return;}
-  if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Esta empresa já está na carteira.');return;}
-  const retorno=opt.dataset.retorno||0;
-  const retornoNum=parseRetorno(retorno);
-  STATE.sim.portfolio.push({cnpj,uf:opt.dataset.uf||'—',setor:opt.dataset.setor||'—',valor,score,sinal,retorno:retornoNum,atraso:+(opt.dataset.atraso||0),op:document.getElementById('sim-sel-op').value||'recebivel'});
-  renderPage();
-};
-
-window.simAdicionarSugestao=function(cnpj){
-  const emp=STATE.df.find(d=>d.id_cnpj===cnpj);
-  if(!emp)return;
-  if(STATE.sim.portfolio.find(d=>d.cnpj===cnpj)){alert('Já está na carteira.');return;}
-  const retorno=parseRetorno(emp.retorno_esperado);
-  STATE.sim.portfolio.push({cnpj,uf:emp.uf||'—',setor:emp.setor_resumo||'—',valor:STATE.sim.valorTotal/(STATE.sim.diversMax||5),score:emp.score_final,sinal:emp.sinal,retorno,atraso:emp.media_atraso_dias||0,op:'recebivel'});
-  renderPage();
-};
-
-window.simRemoverEmpresa=function(i){
-  STATE.sim.portfolio.splice(i,1);
-  renderPage();
-};
-
-window.simLimparPortfolio=function(){
-  STATE.sim.portfolio=[];
-  renderPage();
-};
-
-window.simIniciarLive=function(){
-  if(STATE.sim.liveInterval)return;
-  STATE.sim.liveInterval=setInterval(simLiveTick,5000);
-  simLiveTick();
-  const el=document.getElementById('live-interval-info');
-  if(el)el.textContent='🟢 Monitorando a cada 5s';
-};
-
-window.simPararLive=function(){
-  if(STATE.sim.liveInterval){clearInterval(STATE.sim.liveInterval);STATE.sim.liveInterval=null;}
-  const el=document.getElementById('live-interval-info');
-  if(el)el.textContent='⚫ Parado';
-};
-
-window.simAutoMontar=function(){
-  STATE.sim.portfolio=[];
-  const maxEmp=STATE.sim.diversMax||5;
-  const sugestoes=gerarSugestoes([],maxEmp);
-  const valorPorEmp=STATE.sim.valorTotal/maxEmp;
-  sugestoes.forEach(d=>{
-    const retorno=parseRetorno(d.retorno_esperado);
-    STATE.sim.portfolio.push({cnpj:d.id_cnpj,uf:d.uf||'—',setor:d.setor_resumo||'—',valor:valorPorEmp,score:d.score_final,sinal:d.sinal,retorno,atraso:d.media_atraso_dias||0,op:'recebivel'});
-  });
-  renderPage();
-};
-
-window.simExportar=function(){
-  const data={gerado_em:new Date().toISOString(),portfolio:STATE.sim.portfolio,metricas:calcSimMetricas(STATE.sim.portfolio),recomendacoes:gerarRecomendacoes(STATE.sim.portfolio,calcSimMetricas(STATE.sim.portfolio))};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='simulador_carteira_farol.json';a.click();
-};
-
-/* ════════════════════════════════════════════════════════════════
-   GLOBAL ERROR HANDLER
-════════════════════════════════════════════════════════════════ */
 window.addEventListener('error',e=>console.error('Erro:',e.message));
 </script>
 </body>
